@@ -1,0 +1,92 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "iem_temp_precip_test_netcdf",
+    "paths": [
+      "ar5_tas_pr_decadal_seasonal_aggregated_encoded.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"period\"@OGC/0/Index1D?axis-label=\"season\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'This is a test coverage'"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "bands": [
+            {
+              "name": "tas",
+              "identifier": "tas"
+            },
+            {
+              "name": "pr",
+              "identifier": "pr"
+            }
+          ],
+          "axes": {
+            "period": {
+              "min": "${netcdf:variable:period:min}",
+              "max": "${netcdf:variable:period:max}",
+              "directPositions": "${netcdf:variable:period}",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "irregular": true
+            },
+            "season": {
+              "min": "${netcdf:variable:season:min}",
+              "max": "${netcdf:variable:season:max}",
+              "directPositions": "${netcdf:variable:season}",
+              "crsOrder": 1,
+              "gridOrder": 1,
+              "irregular": true
+            }, 
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "directPositions": "${netcdf:variable:model}",
+              "crsOrder": 2,
+              "gridOrder": 2,
+              "irregular": true
+            },   
+            "scenario": {
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "directPositions": "${netcdf:variable:scenario}",
+              "crsOrder": 3,
+              "gridOrder": 3,
+              "irregular": true
+            },    
+            "x": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max} + 1",
+              "pixelIsPoint": true,
+              "crsOrder": 4,
+              "gridOrder": 5
+            },
+            "y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max} + 1",
+              "pixelIsPoint": true,
+              "crsOrder": 5,
+              "gridOrder": 4
+            }
+          }
+        }
+      },
+      "tiling": "ALIGNED [0:0, 0:1023, 0:1023]"
+    }
+  }
+}
