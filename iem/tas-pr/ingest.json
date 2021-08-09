@@ -3,18 +3,21 @@
     "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": ["-9999"],
     "mock": false,
     "automated": true
   },
   "input": {
-    "coverage_id": "iem_temp_precip_test_netcdf",
+    "coverage_id": "iem_temp_precip_wms",
     "paths": [
-      "ar5_tas_pr_decadal_seasonal_aggregated_encoded.nc"
+      "data/ar5_tas_pr_decadal_seasonal_aggregated_encoded.nc"
     ]
   },
   "recipe": {
     "name": "general_coverage",
     "options": {
+      "wms_import": true,
       "import_order": "ascending",
       "coverage": {
         "crs": "OGC/0/Index1D?axis-label=\"period\"@OGC/0/Index1D?axis-label=\"season\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@EPSG/0/3338",
@@ -26,14 +29,17 @@
         },
         "slicer": {
           "type": "netcdf",
+          "pixelIsPoint": true,
           "bands": [
             {
               "name": "tas",
-              "identifier": "tas"
+              "identifier": "tas",
+              "nilValue": "-9999.0"
             },
             {
               "name": "pr",
-              "identifier": "pr"
+              "identifier": "pr",
+              "nilValue": "-9999.0"
             }
           ],
           "axes": {
@@ -69,24 +75,21 @@
               "gridOrder": 3,
               "irregular": true
             },    
-            "x": {
+            "X": {
               "min": "${netcdf:variable:x:min}",
-              "max": "${netcdf:variable:x:max} + 1",
-              "pixelIsPoint": true,
-              "crsOrder": 4,
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
               "gridOrder": 5
             },
-            "y": {
+            "Y": {
               "min": "${netcdf:variable:y:min}",
-              "max": "${netcdf:variable:y:max} + 1",
-              "pixelIsPoint": true,
-              "crsOrder": 5,
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
               "gridOrder": 4
             }
           }
         }
-      },
-      "tiling": "ALIGNED [0:0, 0:1023, 0:1023]"
+      }
     }
   }
 }
