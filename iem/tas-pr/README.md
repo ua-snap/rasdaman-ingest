@@ -6,10 +6,6 @@ Temperature data are taken from (HERE TBD).  We only are selecting NCAR-CCSM4 an
 
 
 ```
-Variable:
-0 = temperature
-1 = precipitation
-
 Season:
 0 = DJF (December January February)
 1 = MAM (March April May)
@@ -110,3 +106,47 @@ Two items to note:
 
    1. `"max": "${netcdf:variable:x:max} + 1"` is because the extent of the data weren't matching the calculated max range for the x/y axes, so we can manually instruct the coverage to be one cell bigger.
    2. `"crsOrder": 4` is backwards from the grid order; the grid here refers to the geospatial reference (EPSG:3338) but the source data come in an x/y.  TBD, not sure this is working right yet.
+
+
+### Style definitions
+
+(These are only baselines and not very good/useful):
+
+
+Temp:
+
+```
+{
+"type": "intervals",
+	"colorTable": {
+		"-37": [215, 48, 39, 0],
+		"-30": [69, 117, 180, 255],
+		"-25": [116, 173, 209, 255],
+		"-10": [171, 217, 233, 255],  
+		"-5": [224, 243, 248, 255], 
+		"5": [254, 224,144, 255],
+		"10": [253, 174, 97, 255],
+		"15": [244, 109, 67, 255],
+		"22": [215, 48, 39, 255]
+	}
+}
+```
+
+Precip:
+
+```
+{
+"type": "ramp",
+	"colorTable": {
+		"17":[255,247,251,0],
+		"18":[255,247,251,255],
+		"125":[236,231,242,255],
+		"250":[208,209,230,255],
+		"500":[166,189,219,255],
+		"1000":[116,169,207,255],
+		"2000":[54,144,192,255],
+		"4000":[5,112,176,255],
+		"6240":[3,78,123,255]
+	}
+}
+```
