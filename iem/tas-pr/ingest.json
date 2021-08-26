@@ -9,9 +9,9 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "iem_temp_precip_wms",
+    "coverage_id": "iem_ar5_cruts31_temp_precip_wms",
     "paths": [
-      "data/ar5_tas_pr_decadal_seasonal_aggregated_encoded.nc"
+      "data/ar5_cruts31_tas_pr_decadal_seasonal_aggregated.nc"
     ]
   },
   "recipe": {
@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'This is a test coverage'"
+            "Title": "'Test AR5 CRU TS31 771m tas precip'"
           }
         },
         "slicer": {
@@ -58,7 +58,7 @@
               "crsOrder": 1,
               "gridOrder": 1,
               "irregular": true
-            }, 
+            },
             "model": {
               "min": "${netcdf:variable:model:min}",
               "max": "${netcdf:variable:model:max}",
@@ -66,7 +66,7 @@
               "crsOrder": 2,
               "gridOrder": 2,
               "irregular": true
-            },   
+            },
             "scenario": {
               "min": "${netcdf:variable:scenario:min}",
               "max": "${netcdf:variable:scenario:max}",
@@ -74,7 +74,7 @@
               "crsOrder": 3,
               "gridOrder": 3,
               "irregular": true
-            },    
+            },
             "X": {
               "min": "${netcdf:variable:x:min}",
               "max": "${netcdf:variable:x:max}",
