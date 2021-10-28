@@ -1,0 +1,66 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": ["-9999"],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "test_gipl_magst",
+    "paths": [
+      "magst_gipl2.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Test GIPL2 MAGST'"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "magst",
+              "identifier": "magst",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "year": {
+              "min": "${netcdf:variable:year:min}",
+              "max": "${netcdf:variable:year:max}",
+              "directPositions": "${netcdf:variable:year}",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "irregular": true
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 2
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
