@@ -1,0 +1,56 @@
+{
+ "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3572",
+    "mock": false,
+    "automated": false
+  },
+  "input": {
+    "coverage_id": "hsia_arctic",
+    "paths": [
+      "/tmp/hsia/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "time_series_irregular",
+    "options": {
+      "time_parameter": {
+        "filename": {
+          "regex": "seaice_conc_sic_mean_pct_monthly_ak_(.*)",
+          "group": "1"
+        },
+        "datetime_format": "YYYY_MM"
+      },
+      "time_crs": "http://opengis.net/def/crs/OGC/0/AnsiDate",
+      "wms_import": true
+    }
+  },
+  "hooks": [
+    {
+      // Describe what this ingestion hook does
+      "description": "reproject input files.",
+      // Run bash command before importing file(s) to coverage
+      "when": "before_ingestion",
+      // Bash command which should be run for each input file
+      "cmd": "gdalwarp -t_srs EPSG:3572 -of GTiff -overwrite \"${file:path}\" \"${file:path}.projected.tif\"",
+      // If set to *true*, when a bash command line returns any error, wcst_import terminates immediately.
+      // **NOTE:** only valid for ``before`` hook.
+      "abort_on_error": true,
+      // wcst_import will consider the specified path(s) as the actual file(s)
+      // to be ingested after running the hook, rather than the original file.
+      // This is an array of paths where globbing is allowed (same as the "input":"paths" option).
+      // **NOTE:** only valid for ``before`` hook.
+      "replace_path": ["${file:path}.projected.tif"]
+      },
+      {
+      // Describe what this ingestion hook does
+      "description": "Remove projected files.",
+      // Run bash command after importing file(s) to coverage
+      "when": "after_ingestion",
+      // Bash command which should be run for each imported file(s)
+      "cmd": "rm -rf \"${file:path}.projected.tif\""
+      }
+   ]
+}
