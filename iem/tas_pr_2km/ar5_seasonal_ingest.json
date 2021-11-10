@@ -1,0 +1,71 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "iem_ar5_2km_taspr_seasonal",
+    "paths": [
+      "ar5_seasonal_data/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"decade\"@OGC/0/Index1D?axis-label=\"season\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"varname\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Seasonal-decadal summaries of AR5 temperature and precipitation projections over the 2km IEM domain'"
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "decade": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*?)_(.*)_(DJF|MAM|JJA|SON)_(.*)_(MRI-CGCM3|CCSM4|5modelAvg)_(rcp.*)_([0-9]{4}_[0-9]{4})'",
+              "min": "luts.decades[regex_extract('${file:name}', regex_str, 7)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "season": {
+              "min": "luts.seasons[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 5)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 6)]",
+              "irregular": true,
+              "dataBound": false
+            },
+              "varname": {
+              "min": "luts.varnames[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
