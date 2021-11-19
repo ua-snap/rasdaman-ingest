@@ -9,6 +9,10 @@ pandas = "*"
 rasterio = "*"
 xarray = "*"
 netcdf4 = "*"
+tqdm = "*"
+ipywidgets = "*"
+matplotlib = "*"
+geopandas = "*"
 
 [dev-packages]
 
