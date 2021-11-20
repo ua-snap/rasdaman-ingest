@@ -1,0 +1,87 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": ["-9999"],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "iem_gipl_magt_alt_4km_wms",
+    "paths": [
+      "data/gipl_alt_magt_4km.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'CMIP5 GIPL Model Output 4 km magt alt'"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "magt",
+              "identifier": "magt",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "alt",
+              "identifier": "alt",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "era": {
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "directPositions": "${netcdf:variable:era}",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "irregular": true
+            },
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "directPositions": "${netcdf:variable:model}",
+              "crsOrder": 1,
+              "gridOrder": 1,
+              "irregular": true
+            },
+            "scenario": {
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "directPositions": "${netcdf:variable:scenario}",
+              "crsOrder": 2,
+              "gridOrder": 2,
+              "irregular": true
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 3
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  }
+}
