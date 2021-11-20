@@ -43,3 +43,8 @@ seasons = {
     "MAM": 2,
     "SON": 3,
 }
+
+stats = {
+    "mean": 0,
+    "std": 1,
+}
