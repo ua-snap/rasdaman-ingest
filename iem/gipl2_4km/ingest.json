@@ -11,7 +11,7 @@
   "input": {
     "coverage_id": "iem_gipl_magt_alt_4km_wms",
     "paths": [
-      "data/gipl_alt_magt_4km.nc"
+      "gipl_alt_magt_4km.nc"
     ]
   },
   "recipe": {
@@ -71,13 +71,13 @@
               "min": "${netcdf:variable:x:min}",
               "max": "${netcdf:variable:x:max}",
               "resolution": "${netcdf:variable:x:resolution}",
-              "gridOrder": 3
+              "gridOrder": 4
             },
             "Y": {
               "min": "${netcdf:variable:y:min}",
               "max": "${netcdf:variable:y:max}",
               "resolution": "${netcdf:variable:y:resolution}",
-              "gridOrder": 4
+              "gridOrder": 3
             }
           }
         }
