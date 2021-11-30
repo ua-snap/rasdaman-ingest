@@ -51,3 +51,20 @@ stats = {
     "hi_std": 0,
     "max": 2,
 }
+
+# separate mappings for deltas 
+# because some levels not used
+d_models = {
+    "MRI-CGCM3": 0,
+    "NCAR-CCSM4": 1,
+}
+
+d_scenarios = {
+    "rcp45": 0,
+    "rcp85": 1,
+}
+
+d_periods = {
+    "2040-2069": 0,
+    "2070-2099": 1,
+}
