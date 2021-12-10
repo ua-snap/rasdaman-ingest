@@ -9,7 +9,7 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "iem_gipl_magt_alt_4km_wms",
+    "coverage_id": "test_iem_gipl_magt_alt_4km_wmt",
     "paths": [
       "gipl_alt_magt_4km.nc"
     ]
