@@ -28,7 +28,7 @@
           "type": "gdal",
           "axes": {
             "season": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(tas|pr)_(DJF|MAM|JJA|SON)_(mean|lo_std|hi_std|min|max)'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(tas|pr)_(DJF|MAM|JJA|SON)_(mean|lo_std|hi_std|min|max|q1|q3|median)'",
               "min": "luts.seasons[regex_extract('${file:name}', regex_str, 2)]",
               "irregular": true,
               "dataBound": false

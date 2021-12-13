@@ -45,9 +45,12 @@ seasons = {
 }
 
 stats = {
-    "min": 4,
+    "min": 5,
     "lo_std": 1,
+    "q1": 6,
     "mean": 3,
+    "median": 4,
+    "q3": 7,
     "hi_std": 0,
     "max": 2,
 }
