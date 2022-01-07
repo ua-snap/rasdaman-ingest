@@ -9,7 +9,7 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "test_iem_gipl_magt_alt_4km_wmt",
+    "coverage_id": "test_iem_gipl_magt_alt_4km",
     "paths": [
       "gipl_alt_magt_4km.nc"
     ]
@@ -24,9 +24,29 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP5 GIPL Model Output 4 km magt alt'"
-          }
-        },
+            "Title": "'CMIP5 GIPL Model Output 4 km magt alt'",
+            "Encoding": {"'magt'": "'°C'",
+ 			 "'alt'": "'m'",
+			 "eras": {"'1995'": 0,
+ 			          "'2025'": 1,
+ 			          "'2050'": 2,
+                                  "'2075'": 3,
+                                  "'2095'": 4
+                                 },
+                         "models": {"'cruts31'": 0,
+                                    "'gfdlcm3'": 1,
+                                    "'gisse2r'": 2,
+                                    "'ipslcm5alr'": 3,
+                                    "'mricgcm3'": 4,
+                                    "'ncarccsm4'": 5
+                                   },
+                         "scenarios": {"'historical'": 0,
+	                               "'rcp45'": 1,
+	                               "'rcp85'": 2
+                                      }
+                        }
+                    }
+                    },
         "slicer": {
           "type": "netcdf",
           "pixelIsPoint": true,
