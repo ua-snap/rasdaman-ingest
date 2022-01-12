@@ -1,4 +1,5 @@
 .ipynb_checkpoints
 iem/gipl2_4km/input_data/
-# scripts for setting commonly used env vars
-*set_vars
+
+# pycache files from project imports
+**/__pycache__/
