@@ -21,7 +21,40 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Seasonal-decadal summaries of AR5 temperature and precipitation projections over the 2km IEM domain'"
+            "Title": "'Seasonal-decadal summaries of AR5 temperature and precipitation projections over the 2km IEM domain'",
+            "Encoding": {
+              "decade": {
+                "0": "2010_2019",
+                "1": "2020_2029",
+                "2": "2030_2039",
+                "3": "2040_2049",
+                "4": "2050_2059",
+                "5": "2060_2069",
+                "6": "2070_2079",
+                "7": "2080_2089",
+                "8": "2090_2099"
+              },
+              "season": {
+                "0": "DJF",
+                "1": "JJA",
+                "2": "MAM",
+                "3": "SON"
+              },
+              "model": {
+                "0": "5modelAvg",
+                "1": "CCSM4",
+                "2": "MRI-CGCM3"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp60",
+                "2": "rcp85"
+              },
+              "varname": {
+                "0": "pr",
+                "1": "tas"
+              }
+            }
           }
         },
         "slicer": {
