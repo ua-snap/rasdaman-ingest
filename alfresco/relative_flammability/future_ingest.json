@@ -1,0 +1,89 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "relative_flammability_future",
+    "paths": [
+      "future_relative_flammability/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "era": {
+                "0": "2010-2019",
+                "1": "2020-2029",
+                "2": "2030-2039",
+                "3": "2040-2049",
+                "4": "2040-2069",
+                "5": "2050-2059",
+                "6": "2060-2069",
+                "7": "2070-2079",
+                "8": "2070-2099",
+                "9": "2080-2089",
+                "10": "2090-2099"
+              },
+              "model": {
+                "0": "5modelAvg",
+                "1": "CCSM4",
+                "2": "GFDL-CM3",
+                "3": "GISS-E2-R",
+                "4": "IPSL-CM5A-LR",
+                "5": "MRI-CGCM3"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp60",
+                "2": "rcp85"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "era": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(rcp.*)_'",
+              "min": "luts.future_eras[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
