@@ -28,21 +28,19 @@
                 "1": "2020-2029",
                 "2": "2030-2039",
                 "3": "2040-2049",
-                "4": "2040-2069",
-                "5": "2050-2059",
-                "6": "2060-2069",
-                "7": "2070-2079",
-                "8": "2070-2099",
-                "9": "2080-2089",
-                "10": "2090-2099"
+                "4": "2050-2059",
+                "5": "2060-2069",
+                "6": "2070-2079",
+                "7": "2080-2089",
+                "8": "2090-2099"
               },
               "model": {
                 "0": "5modelAvg",
-                "1": "CCSM4",
-                "2": "GFDL-CM3",
-                "3": "GISS-E2-R",
-                "4": "IPSL-CM5A-LR",
-                "5": "MRI-CGCM3"
+                "1": "GFDL-CM3",
+                "2": "GISS-E2-R",
+                "3": "IPSL-CM5A-LR",
+                "4": "MRI-CGCM3",
+                "5": "NCAR-CCSM4"
               },
               "scenario": {
                 "0": "rcp45",
@@ -56,7 +54,7 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(rcp.*)_'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(rcp.*).tif'",
               "min": "luts.future_eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
