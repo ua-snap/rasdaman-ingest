@@ -11,14 +11,14 @@ It's intended use is for the Climate Impact Reports webtool, a.k.a. the "IEM web
 Follow these steps to get the data from CKAN ready for ingest into rasdaman:
 
 1. Execute the `relative_vegetation_change.ipynb` notebook to create the relative vegetation change tifs for historical and future eras  
-2. Copy these files to folders on the Rasdaman server named as `<era group>_relative_flammability/`, i.e.:  
-- `future_relative_flammability`  
-- `historical_relative_flammability`  
+2. Copy these files to folders on the Rasdaman server named as `<era group>_relative_vegetation_change/`, i.e.:  
+- `future_relative_vegetation_change`  
+- `historical_relative_vegetation_change`  
 3. In the parent directory of the `*_relative_vegetation_change/` folders, copy the `*_ingest.json` files from this repo, and the place the `luts.py` there as well (for convenience, but can technically be anywhere on the system)  
 
 ### 2. Env vars
 
-Set the `LUTS_PATH` env var to the absolute path of the `luts.py` file via e.g. `export LUTS_PATH=/home/UA/kmredilla/rasdaman-fs/alfresco/relative_flammability/luts.py`.
+Set the `LUTS_PATH` env var to the absolute path of the `luts.py` file via e.g. `export LUTS_PATH=/home/UA/kmredilla/rasdaman-fs/alfresco/vegetation_change/luts.py`.
 
 ### 3. Running the import
 
