@@ -6,14 +6,22 @@ Below are some useful bits of info for performing the ingests on our Rasdaman se
 
 ### Rasdaman servers
 
-**Apollo**: dev server! Try new things here.  
-**Zeus**: production server. 
+**Apollo**: dev server! Try new things here.
+
+You can check the existing coverages and services for Apollo at:
+https://apollo.snap.uaf.edu/rasdaman/ows#/services
+ 
+**Zeus**: production server.
+
+https://zeus.snap.uaf.edu/rasdaman/ows
+
+Note that Apollo and Zeus may run slightly different versions of Rasdaman.
 
 ### Running an ingest
 
 Assumes logged in to server!
 
-#### 1. Delete the existing coverage
+#### 1. Delete the existing coverage if one already exists with the same `coverage_id`
 
 This can be done with an http request using `curl` or `wget` to `"http://localhost:8080/rasdaman/ows?SERVICE=WCS&VERSION=2.0.1&REQUEST=DeleteCoverage&COVERAGEID=<coverage_id>"`, e.g.
 
@@ -21,7 +29,8 @@ This can be done with an http request using `curl` or `wget` to `"http://localho
 wget "http://localhost:8080/rasdaman/ows?SERVICE=WCS&VERSION=2.0.1&REQUEST=DeleteCoverage&COVERAGEID=relative_vegetation_change_future"
 ```
 
-This can also be done using `rasql`, e.g. 
+You may also need to delete a `collection` that was left behind by a failed ingest. If your ingest is not working, try deleting the collection as well. If there is no collection found, that's OK.
+This is done using `rasql`, e.g. 
 
 ```
 sudo rasql -q "drop collection test_iem_gipl_magt_alt_4km" --user rasadmin --passwd <pw>
