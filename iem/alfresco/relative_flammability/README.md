@@ -11,7 +11,7 @@ It's intended use is for the Climate Impact Reports webtool, a.k.a. the "IEM web
 Follow these steps to get the data from CKAN ready for ingest into rasdaman:
 
 1. Follow the `relative_flammability.ipynb` notebook to create the relative flammability tifs for historical and future eras  
-2. Copy both the temperature and precipitation files to folders on the Rasdaman server named as `<era group>_relative_flammability/`, i.e.:  
+2. Copy the GeoTIFF outputs to a Rasdaman server to a ingest directory named >_rlammability/`, i.e.:  
 - `future_relative_flammability`  
 - `historical_relative_flammability`  
 3. In the parent directory of the `*_relative_flammability/` folders, copy the `*_ingest.json` files from this repo, and the place the `luts.py` there as well (for convenience, but can technically be anywhere on the system)  
