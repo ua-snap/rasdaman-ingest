@@ -1,6 +1,6 @@
 {
   "config": {
-    "service_url": "http://zeus.snap.uaf.edu:8080/rasdaman/ows",
+    "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "mock": false,
     "automated": true,
@@ -24,10 +24,11 @@
             "Title": "",
             "Encoding": {
               "era": {
-                "0": "1950-2008",
-                "1": "2010-2039",
-                "2": "2040-2069",
-                "3": "2070-2099"
+                "0": "1950-1979",
+                "1": "1980-2008",
+                "2": "2010-2039",
+                "3": "2040-2069",
+                "4": "2070-2099"
               },
               "model": {
                 "0": "MODEL-SPINUP",
