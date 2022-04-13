@@ -7,7 +7,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "TESTmode_vegetation",
+    "coverage_id": "alfresco_vegetation_mode_statistic",
     "paths": [
       "mode_vegetation_geotiffs/*.tif"
     ]
@@ -30,7 +30,7 @@
                 "3": "2070-2099"
               },
               "model": {
-                "0": "CRU-TS",
+                "0": "MODEL-SPINUP",
                 "1": "NCAR-CCSM4",
                 "2": "GFDL-CM3",
                 "3": "GISS-E2-R",
@@ -50,7 +50,7 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|CRU-TS|NCAR-CCSM4|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?).tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|MODEL-SPINUP|NCAR-CCSM4|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?).tif'",
               "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false

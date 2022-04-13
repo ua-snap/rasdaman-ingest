@@ -1,5 +1,5 @@
 models = {
-    "CRU-TS": 0,
+    "MODEL-SPINUP": 0,
     "GFDL-CM3": 1,
     "GISS-E2-R": 2,
     "IPSL-CM5A-LR": 3,
