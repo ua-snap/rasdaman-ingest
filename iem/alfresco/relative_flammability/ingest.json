@@ -2,12 +2,21 @@
   "config": {
     "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
+    "blocking": true,
     "mock": false,
     "automated": true,
     "track_files": false
   },
+  "hooks": [
+    {
+      "description": "Create Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=foo&STYLEID=foo_style&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [255, 255, 255, 255], \\\"0.03\\\": [255, 0, 0, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
-    "coverage_id": "alfresco_relative_flammability_30yr",
+    "coverage_id": "foo",
     "paths": [
       "geotiffs/*.tif"
     ]
