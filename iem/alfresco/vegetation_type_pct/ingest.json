@@ -31,11 +31,11 @@
               },
               "model": {
                 "0": "MODEL-SPINUP",
-                "1": "NCAR-CCSM4",
-                "2": "GFDL-CM3",
-                "3": "GISS-E2-R",
-                "4": "IPSL-CM5A-LR",
-                "5": "MRI-CGCM3"
+                "1": "GFDL-CM3",
+                "2": "GISS-E2-R",
+                "3": "IPSL-CM5A-LR",
+                "4": "MRI-CGCM3",
+                "5": "NCAR-CCSM4"
               },
               "scenario": {
                 "0": "historical",
