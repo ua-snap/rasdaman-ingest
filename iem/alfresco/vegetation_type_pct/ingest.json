@@ -7,9 +7,9 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "relative_flammability_future",
+    "coverage_id": "alfresco_vegetation_type_percentage",
     "paths": [
-      "future_relative_flammability/*.tif"
+      "veg_type_pct_geotiffs/*.tif"
     ]
   },
   "recipe": {
@@ -17,25 +17,20 @@
     "options": {
       "wms_import": true,
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@EPSG/0/3338",
+        "crs": "OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"veg_type\"@EPSG/0/3338",
         "metadata": {
           "type": "xml",
           "global": {
             "Title": "",
             "Encoding": {
               "era": {
-                "0": "2010-2019",
-                "1": "2020-2029",
-                "2": "2030-2039",
-                "3": "2040-2049",
-                "4": "2050-2059",
-                "5": "2060-2069",
-                "6": "2070-2079",
-                "7": "2080-2089",
-                "8": "2090-2099"
+                "0": "1950-2008",
+                "1": "2010-2039",
+                "2": "2040-2069",
+                "3": "2070-2099"
               },
               "model": {
-                "0": "5modelAvg",
+                "0": "MODEL-SPINUP",
                 "1": "GFDL-CM3",
                 "2": "GISS-E2-R",
                 "3": "IPSL-CM5A-LR",
@@ -43,9 +38,21 @@
                 "5": "NCAR-CCSM4"
               },
               "scenario": {
-                "0": "rcp45",
-                "1": "rcp60",
-                "2": "rcp85"
+                "0": "historical",
+                "1": "rcp45",
+                "2": "rcp60",
+                "3": "rcp85"
+              },
+              "veg_type" : {
+                "0": "not_modeled",
+                "1": "black_spruce",
+                "2": "white_spruce",
+                "3": "deciduous_forest",
+                "4": "shrub_tundra",
+                "5": "graminoid_tundra",
+                "6": "wetland_tundra",
+                "7": "barren_lichen_moss",
+                "8": "temperate_rainforest"
               }
             }
           }
@@ -54,8 +61,8 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(rcp.*).tif'",
-              "min": "luts.future_eras[regex_extract('${file:name}', regex_str, 1)]",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|MODEL-SPINUP|NCAR-CCSM4|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?)_(.*?).tif'",
+              "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
             },
@@ -66,6 +73,11 @@
             },
             "scenario": {
               "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "veg_type": {
+              "min": "regex_extract('${file:name}', regex_str, 4)",
               "irregular": true,
               "dataBound": false
             },
