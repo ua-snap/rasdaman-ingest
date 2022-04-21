@@ -74,3 +74,26 @@ Example:
 cd $INGEST_DIR
 wcst_import.sh future_ingest.json
 ```
+
+#### 5. Set a Style (optional)
+
+Your `ingest.json` may have included a post-import hook that created the WMS style for the layer via a `curl` command executed after the coverage was created successfully. If it didn't, or if you want to add another style, you can do this from the terminal like so:
+
+For styles where a ColorMap is used:
+
+`curl "http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=foo&STYLEID=foo_colormap&COLORTABLETYPE=ColorMap&" --data-urlencode "COLORTABLEDEFINITION={\"type\": \"ramp\", \"colorTable\": {  \"-9999\": [0, 0, 0, 0], \"0\": [255, 255, 255, 255], \"0.03\": [255, 0, 0, 255] } }"`
+
+The above command will add the style `foo_colormap` to the coverage called `foo` and this style is of the ramp type and defined by the ColorMap JSON object. The nested ColorArrays are interpreted as RGBA by default.
+
+For styles where a StyleLayerDescription (SLD) XML document is used (this type of styling may be necessary to include labels):
+
+`curl "http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=foo&STYLEID=foo_xml&COLORTABLETYPE=SLD&COLORTABLEDEFINITION=%3CStyledLayerDescriptor%20xmlns%3D%22http%3A%2F%2Fwww.opengis.net%2Fsld%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%22%20xmlns%3Aogc%3D%22http%3A%2F%2Fwww.opengis.net%2Fogc%22%20xmlns%3Asld%3D%22http%3A%2F%2Fwww.opengis.net%2Fsld%22%20version%3D%221.0.0%22%3E%0A%20%20%3CUserLayer%3E%0A%20%20%20%20%3Csld%3ALayerFeatureConstraints%3E%0A%20%20%20%20%20%20%3Csld%3AFeatureTypeConstraint%20%2F%3E%0A%20%20%20%20%3C%2Fsld%3ALayerFeatureConstraints%3E%0A%20%20%20%20%3Csld%3AUserStyle%3E%0A%20%20%20%20%20%20%3Csld%3AName%3Epermafrost_beta%3Amagt_cruts31_historical_era1995_1986to2005%3C%2Fsld%3AName%3E%0A%20%20%20%20%20%20%3Csld%3AFeatureTypeStyle%3E%0A%20%20%20%20%20%20%20%20%3Csld%3ARule%3E%0A%20%20%20%20%20%20%20%20%20%20%3Csld%3ARasterSymbolizer%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AChannelSelection%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AGrayChannel%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3ASourceChannelName%3E1%3C%2Fsld%3ASourceChannelName%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fsld%3AGrayChannel%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fsld%3AChannelSelection%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMap%20type%3D%22intervals%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMapEntry%20quantity%3D%22-9999%22%20color%3D%22%23ffffff%22%20label%3D%22-9999%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMapEntry%20quantity%3D%220.000%22%20color%3D%22%23fef0d9%22%20label%3D%220.000%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMapEntry%20quantity%3D%220.002%22%20color%3D%22%23fdcc8a%22%20label%3D%220.002%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMapEntry%20quantity%3D%220.005%22%20color%3D%22%23fc8d59%22%20label%3D%220.005%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMapEntry%20quantity%3D%220.010%22%20color%3D%22%23e34a33%22%20label%3D%220.010%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Csld%3AColorMapEntry%20quantity%3D%220.020%22%20color%3D%22%23b30000%22%20label%3D%220.020%22%20%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fsld%3AColorMap%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2Fsld%3ARasterSymbolizer%3E%0A%20%20%20%20%20%20%20%20%3C%2Fsld%3ARule%3E%0A%20%20%20%20%20%20%3C%2Fsld%3AFeatureTypeStyle%3E%0A%20%20%20%20%3C%2Fsld%3AUserStyle%3E%0A%20%20%3C%2FUserLayer%3E%0A%3C%2FStyledLayerDescriptor%3E"`
+
+That lengthy URL will add the style `foo_xml` to the coverage called `foo`.
+
+See the [Rasdaman Style Management Docs](https://doc.rasdaman.org/05_geo-services-guide.html#style-management) for details.
+
+If you get misfire these requests it is possible to get the coverage into a state where it seems stuck - in that case just delete the coverage and re-ingest.
+
+
+
