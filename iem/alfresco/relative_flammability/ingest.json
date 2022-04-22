@@ -2,14 +2,23 @@
   "config": {
     "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
+    "blocking": true,
     "mock": false,
     "automated": true,
     "track_files": false
   },
+  "hooks": [
+    {
+      "description": "Create Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_relative_flammability_30yr&STYLEID=climate_impact_reports_alfresco_relative_flammability_30yr&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [255, 255, 255, 255], \\\"0.03\\\": [255, 0, 0, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
-    "coverage_id": "relative_vegetation_change_future",
+    "coverage_id": "alfresco_relative_flammability_30yr",
     "paths": [
-      "future_relative_vegetation_change/*.tif"
+      "geotiffs/*.tif"
     ]
   },
   "recipe": {
@@ -24,28 +33,26 @@
             "Title": "",
             "Encoding": {
               "era": {
-                "0": "2010-2019",
-                "1": "2020-2029",
-                "2": "2030-2039",
-                "3": "2040-2049",
-                "4": "2050-2059",
-                "5": "2060-2069",
-                "6": "2070-2079",
-                "7": "2080-2089",
-                "8": "2090-2099"
+                "0": "1950-1979",
+                "1": "1980-2008",
+                "2": "2010-2039",
+                "3": "2040-2069",
+                "4": "2070-2099"
               },
               "model": {
-                "0": "5modelAvg",
-                "1": "NCAR-CCSM4",
+                "0": "MODEL-SPINUP",
                 "2": "GFDL-CM3",
                 "3": "GISS-E2-R",
                 "4": "IPSL-CM5A-LR",
-                "5": "MRI-CGCM3"
+                "1": "5modelAvg",
+                "5": "MRI-CGCM3",
+                "6": "NCAR-CCSM4"
               },
               "scenario": {
-                "0": "rcp45",
-                "1": "rcp60",
-                "2": "rcp85"
+                "0": "historical",
+                "1": "rcp45",
+                "2": "rcp60",
+                "3": "rcp85"
               }
             }
           }
@@ -54,8 +61,8 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(rcp.*).tif'",
-              "min": "luts.future_eras[regex_extract('${file:name}', regex_str, 1)]",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|MODEL-SPINUP|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?).tif'",
+              "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
             },
