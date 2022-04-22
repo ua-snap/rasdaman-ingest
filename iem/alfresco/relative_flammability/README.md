@@ -1,6 +1,6 @@
 # CMIP5 ALFRESCO relative flammability
 
-This subfolder contains the processing notebook and ingest recipes for a relative flammability dataset. These data are created from outputs of the ALFRESCO runs done with CMIP5 outputs for the SERDP Fish and Fire project, and can be found at `/workspace/Shared/Tech_Projects/SERDP_Fish_Fire/project_files/Calibration/HighCalib/FMO_Calibrated`.
+This subfolder contains the processing notebook and ingest recipes for a relative flammability dataset. These data are created from outputs of the ALFRESCO runs done with CMIP5 outputs for the IEM project, and can be found at `/workspace/Shared/Tech_Projects/Alaska_IEM/project_data/Final_runs/IEM_AR5`.
 
 It's intended use is for the Climate Impact Reports webtool, a.k.a. the "IEM webapp."
 ## Importing
