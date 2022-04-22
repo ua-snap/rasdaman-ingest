@@ -17,6 +17,6 @@ Follow these steps to get the data from CKAN ready for ingest into rasdaman:
 
 Set the `LUTS_PATH` env var to the absolute path of the `luts.py` file via e.g. `export LUTS_PATH=/home/UA/kmredilla/rasdaman-fs/alfresco/relative_flammability/luts.py`.
 
-### 3. Running the importt
+### 3. Running the import
 
 Run `wcst_import.sh ingest.json`
