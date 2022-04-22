@@ -16,7 +16,7 @@
     }
   ],
   "input": {
-    "coverage_id": "foo",
+    "coverage_id": "alfresco_relative_flammability_30yr",
     "paths": [
       "geotiffs/*.tif"
     ]
