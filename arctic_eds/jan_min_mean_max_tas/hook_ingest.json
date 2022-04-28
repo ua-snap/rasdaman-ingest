@@ -1,0 +1,91 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "jan_min_max_mean_temp",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"tempstat\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "tempstat": {
+                "0": "tasmax",
+                "1": "tasmean",
+                "2": "tasmin"
+              },
+              "model": {
+                "1": "GFDL-CM3",
+                "2": "GISS-E2-R",
+                "3": "IPSL-CM5A-LR",
+                "0": "5modelAvg",
+                "4": "MRI-CGCM3",
+                "5": "NCAR-CCSM4"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp60",
+                "2": "rcp85"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "tempstat": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*?)_(MRI-CGCM3|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?)_([0-9]{4}).tif'",
+              "min": "luts.tempstats[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "year": {
+              "min": "datetime(regex_extract('${file:name}', regex_str ,4), 'YYYY')",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true,
+              "sliceGroupSize": 1,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
