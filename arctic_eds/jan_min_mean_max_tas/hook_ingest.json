@@ -30,17 +30,19 @@
                 "2": "tasmin"
               },
               "model": {
-                "1": "GFDL-CM3",
-                "2": "GISS-E2-R",
-                "3": "IPSL-CM5A-LR",
+                "1": "CRU-TS",
+                "2": "GFDL-CM3",
+                "3": "GISS-E2-R",
+                "4": "IPSL-CM5A-LR",
                 "0": "5modelAvg",
-                "4": "MRI-CGCM3",
-                "5": "NCAR-CCSM4"
+                "5": "MRI-CGCM3",
+                "6": "NCAR-CCSM4"
               },
               "scenario": {
-                "0": "rcp45",
-                "1": "rcp60",
-                "2": "rcp85"
+                "0": "historical",
+                "1": "rcp45",
+                "2": "rcp60",
+                "3": "rcp85"
               }
             }
           }
@@ -49,7 +51,7 @@
           "type": "gdal",
           "axes": {
             "tempstat": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*?)_(MRI-CGCM3|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?)_([0-9]{4}).tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*?)_(MRI-CGCM3|CRU-TS|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?)_([0-9]{4}).tif'",
               "min": "luts.tempstats[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
