@@ -1,7 +1,7 @@
 # Arctic-EDS Temperature - Flavored Ingests
 
 ## Mean Annual Temperature
-In Progress
+5 models, 3 scenarios, combined historical and projected. 1825 files at 4.1 GB pre-ingest.
 
 ## January Min / Max / Mean Temperature
 This is 5 model, 3 scenario, combined historical and projected mega-coverage.
