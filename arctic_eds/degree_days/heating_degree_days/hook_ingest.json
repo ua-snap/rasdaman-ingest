@@ -1,0 +1,68 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "heating_degree_days",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "model": {
+                "1": "GFDL-CM3",
+                "0": "ERA-Interim",
+                "2": "NCAR-CCSM4"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'heating_degree_days_(NCAR-CCSM4|ERA-Interim|GFDL-CM3)_([0-9]{4}).tif'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "year": {
+              "min": "datetime(regex_extract('${file:name}', regex_str , 2), 'YYYY')",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true,
+              "sliceGroupSize": 1,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
