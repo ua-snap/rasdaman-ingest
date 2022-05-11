@@ -36,7 +36,7 @@
           "type": "gdal",
           "axes": {
             "model": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'degree_days_below_zero_(NCAR-CCSM4|ERA-Interim|GFDL-CM3)_([0-9]{4}).tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'freezing_index_(NCAR-CCSM4|ERA-Interim|GFDL-CM3)_([0-9]{4}).tif'",
               "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
