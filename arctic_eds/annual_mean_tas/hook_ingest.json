@@ -8,7 +8,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "mean_annual_temp",
+    "coverage_id": "annual_mean_temp",
     "paths": [
       "geotiffs/*.tif"
     ]
@@ -25,11 +25,11 @@
             "Title": "",
             "Encoding": {
               "model": {
-                "1": "CRU-TS",
+                "0": "CRU-TS",
                 "2": "GFDL-CM3",
                 "3": "GISS-E2-R",
                 "4": "IPSL-CM5A-LR",
-                "0": "5modelAvg",
+                "1m": "5modelAvg",
                 "5": "MRI-CGCM3",
                 "6": "NCAR-CCSM4"
               },
