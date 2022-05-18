@@ -29,7 +29,7 @@
                 "2": "GFDL-CM3",
                 "3": "GISS-E2-R",
                 "4": "IPSL-CM5A-LR",
-                "1m": "5modelAvg",
+                "1": "5modelAvg",
                 "5": "MRI-CGCM3",
                 "6": "NCAR-CCSM4"
               },
