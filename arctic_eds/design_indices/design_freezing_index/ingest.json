@@ -1,0 +1,69 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "design_freezing_index",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "model": {
+                "1": "GFDL-CM3",
+                "0": "ERA-Interim",
+                "2": "NCAR-CCSM4"
+              },
+              "era": {
+                "0": "1980-2009",
+                "1": "2040-2069",
+                "2": "2070-2099"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'design_freezing_index_(NCAR-CCSM4|ERA-Interim|GFDL-CM3)_([0-9]{4}-[0-9]{4}).tif'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "era": {
+              "min": "luts.eras[regex_extract('${file:name}', regex_str , 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
