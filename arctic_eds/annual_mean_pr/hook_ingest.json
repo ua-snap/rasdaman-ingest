@@ -7,6 +7,14 @@
     "automated": true,
     "track_files": false
   },
+  "hooks": [
+    {
+      "description": "Create Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals&STYLEID=precip&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-1\\\": [140,81,10, 0], \\\"1\\\": [140,81,10, 255], \\\"10\\\": [216,179,101, 255], \\\"25\\\": [246,232,195, 255], \\\"50\\\": [245,245,245, 255], \\\"100\\\": [199,234,229, 255], \\\"200\\\": [90,180,172, 255], \\\"400\\\": [1,102,94, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "annual_precip_totals",
     "paths": [
@@ -25,11 +33,11 @@
             "Title": "",
             "Encoding": {
               "model": {
-                "1": "CRU-TS",
+                "0": "CRU-TS",
                 "2": "GFDL-CM3",
                 "3": "GISS-E2-R",
                 "4": "IPSL-CM5A-LR",
-                "0": "5modelAvg",
+                "1": "5modelAvg",
                 "5": "MRI-CGCM3",
                 "6": "NCAR-CCSM4"
               },

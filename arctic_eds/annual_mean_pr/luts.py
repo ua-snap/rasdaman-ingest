@@ -1,6 +1,6 @@
 models = {
-    "5modelAvg": 0,
-    "CRU-TS": 1,
+    "5modelAvg": 1,
+    "CRU-TS": 0,
     "GFDL-CM3": 2,
     "GISS-E2-R": 3,
     "IPSL-CM5A-LR": 4,
