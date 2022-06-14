@@ -11,7 +11,7 @@
     {
       "description": "Create Style for WMS Layer",
       "when": "after_import",
-      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals_mm&STYLEID=precip_mm&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0], \\\"0\\\": [140,81,10, 255], \\\"250\\\": [216,179,101, 255], \\\"500\\\": [246,232,195, 255], \\\"1200\\\": [245,245,245, 255], \\\"2500\\\": [199,234,229, 255], \\\"5000\\\": [90,180,172, 255], \\\"10000\\\": [1,102,94, 255] } }\"",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals_mm&STYLEID=precip_mm&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [140,81,10, 255], \\\"250\\\": [216,179,101, 255], \\\"500\\\": [246,232,195, 255], \\\"1200\\\": [245,245,245, 255], \\\"2500\\\": [199,234,229, 255], \\\"5000\\\": [90,180,172, 255], \\\"10000\\\": [1,102,94, 255] } }\"",
       "abort_on_error": true
     }
   ],
