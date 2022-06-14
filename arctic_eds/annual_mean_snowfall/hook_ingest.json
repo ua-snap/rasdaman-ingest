@@ -8,7 +8,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "mean_annual_snowfall",
+    "coverage_id": "mean_annual_snowfall_mm",
     "paths": [
       "geotiffs/*.tif"
     ]
