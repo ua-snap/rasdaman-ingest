@@ -8,12 +8,13 @@
     "track_files": false
   },
   "hooks": [
-  {
-    "description": "Create WMS Style for Layer",
-    "when": "after_import",
-    "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_snowfall_mm&STYLEID=snowfall_mm&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [237, 248, 251, 255], \\\"50\\\": [191, 211, 230, 255], \\\"100\\\": [158, 188, 218, 255], \\\"500\\\": [140, 150, 198, 255], \\\"1000\\\": [140, 107, 177, 167], \\\"2000\\\": [136, 65, 167, 255], \\\"3000\\\": [110, 1, 107, 255] } }\"",
-    "abort_on_error": true
-  },
+    {
+      "description": "Create WMS Style for Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_snowfall_mm&STYLEID=snowfall_mm&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [237, 248, 251, 255], \\\"50\\\": [191, 211, 230, 255], \\\"100\\\": [158, 188, 218, 255], \\\"500\\\": [140, 150, 198, 255], \\\"1000\\\": [140, 107, 177, 167], \\\"2000\\\": [136, 65, 167, 255], \\\"3000\\\": [110, 1, 107, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "mean_annual_snowfall_mm",
     "paths": [
