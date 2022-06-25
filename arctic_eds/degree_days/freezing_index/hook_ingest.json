@@ -7,6 +7,38 @@
     "automated": true,
     "track_files": false
   },
+  "hooks": [
+    {
+      "description": "Create future freezing index Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=freezing_index&STYLEID=arctic_eds_freezing_index_future_condensed&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-1\\\": [0, 0, 0, 0],
+        \\\"0\\\": [255,247,251,255],
+        \\\"1000\\\": [236,231,242,255],
+        \\\"2000\\\": [208,209,230,255],
+        \\\"3000\\\": [166,189,219,255],
+        \\\"4000\\\": [116,169,207,255],
+        \\\"5000\\\": [54,144,192,255],
+        \\\"6000\\\": [5,112,176,255],
+        \\\"7000\\\": [3,78,123,255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create historical freezing index Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=freezing_index&STYLEID=arctic_eds_freezing_index_historical_condensed&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      \\\"-1\\\": [0, 0, 0, 0],
+      \\\"0\\\": [255,247,251,255],
+      \\\"1000\\\": [236,231,242,255],
+      \\\"2000\\\": [208,209,230,255],
+      \\\"3000\\\": [166,189,219,255],
+      \\\"4000\\\": [116,169,207,255],
+      \\\"5000\\\": [54,144,192,255],
+      \\\"6000\\\": [5,112,176,255],
+      \\\"7000\\\": [3,78,123,255] } }\"",
+      "abort_on_error": true
+    },
+  ],
   "input": {
     "coverage_id": "freezing_index",
     "paths": [
