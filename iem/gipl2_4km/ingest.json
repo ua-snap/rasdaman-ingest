@@ -8,6 +8,36 @@
     "mock": false,
     "automated": true
   },
+  "hooks": [
+    {
+      "description": "Create Arctic-EDS Mean Annual Ground Temperature Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=iem_gipl_magt_alt_4km&STYLEID=arctic_eds_MAGT&ABSTRACT=style%20for%20Arctic-EDS%20mean%20annual%20ground%20temperature&WCPSQUERYFRAGMENT=%24c.magt&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+       \\\"-20\\\": [33, 102, 172, 255],
+       \\\"-6.7\\\": [67, 147, 195, 255],
+       \\\"-4.4\\\": [146, 197, 222, 255],
+       \\\"-2.2\\\": [209, 229, 240, 255],
+       \\\"-1.1\\\": [247, 247, 247, 255],
+       \\\"-0\\\": [253, 219, 199, 255],
+       \\\"1.1\\\": [244, 165, 130, 255],
+       \\\"2.2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create NCR Mean Annual Ground Temperature Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=iem_gipl_magt_alt_4km&STYLEID=climate_impact_reports&ABSTRACT=ColorMapStyle%20for%20Climate%20Impact%20Reports%20web%20app%20MAGT%20mini-maps&WCPSQUERYFRAGMENT=%24c.magt&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+       \\\"-20\\\": [33, 102, 172, 255],
+       \\\"-6\\\": [67, 147, 195, 255],
+       \\\"-4\\\": [146, 197, 222, 255],
+       \\\"-2\\\": [209, 229, 240, 255],
+       \\\"-1\\\": [247, 247, 247, 255],
+       \\\"-0\\\": [253, 219, 199, 255],
+       \\\"1\\\": [244, 165, 130, 255],
+       \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "iem_gipl_magt_alt_4km",
     "paths": [
