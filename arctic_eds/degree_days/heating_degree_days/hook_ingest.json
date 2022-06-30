@@ -37,7 +37,7 @@
         \\\"15000\\\": [5,112,176,255],
         \\\"17500\\\": [3,78,123,255] } }\"",
       "abort_on_error": true
-    },
+    }
   ],
   "input": {
     "coverage_id": "heating_degree_days",
