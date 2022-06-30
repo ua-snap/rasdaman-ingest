@@ -59,7 +59,7 @@
        \\\"15\\\": [239, 138, 98, 255],
        \\\"30\\\": [178, 24, 43, 255] } }\"",
       "abort_on_error": true
-    },
+    }
   ],
   "input": {
     "coverage_id": "jan_min_max_mean_temp",
