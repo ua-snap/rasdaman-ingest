@@ -1,0 +1,86 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "hooks": [
+    {
+      "description": "Create design freezing index Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=design_thawing_index&STYLEID=arctic_eds&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-1\\\": [0, 0, 0, 0],
+        \\\"0\\\": [255,247,251,255],
+        \\\"1000\\\": [255,247,188,255],
+        \\\"2000\\\": [254,227,145,255],
+        \\\"3000\\\": [254,196,79,255],
+        \\\"4000\\\": [254,153,41,255],
+        \\\"5000\\\": [236,112,20,255],
+        \\\"6000\\\": [204,76,2,255],
+        \\\"7000\\\": [140,45,4,255] } }\"",
+      "abort_on_error": true
+    }
+  ],
+  "input": {
+    "coverage_id": "design_thawing_index",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "model": {
+                "1": "GFDL-CM3",
+                "0": "ERA-Interim",
+                "2": "NCAR-CCSM4"
+              },
+              "era": {
+                "0": "1980-2009",
+                "1": "2040-2069",
+                "2": "2070-2099"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'design_thawing_index_(NCAR-CCSM4|ERA-Interim|GFDL-CM3)_([0-9]{4}-[0-9]{4}).tif'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "era": {
+              "min": "luts.eras[regex_extract('${file:name}', regex_str , 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
