@@ -26,7 +26,7 @@
     {
       "description": "Create NCR Mean Annual Ground Temperature Style for WMS Layer",
       "when": "after_import",
-      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=iem_gipl_magt_alt_4km&STYLEID=climate_impact_reports&ABSTRACT=ColorMapStyle%20for%20Climate%20Impact%20Reports%20web%20app%20MAGT%20mini-maps&WCPSQUERYFRAGMENT=%24c.magt&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=iem_gipl_magt_alt_4km&STYLEID=climate_impact_reports&ABSTRACT=ColorMapStyle%20for%20Climate%20Impact%20Reports%20web%20app%20MAGT%20mini-maps&WCPSQUERYFRAGMENT=%24c.magt&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-20\\\": [33, 102, 172, 255],
        \\\"-6\\\": [67, 147, 195, 255],
        \\\"-4\\\": [146, 197, 222, 255],
