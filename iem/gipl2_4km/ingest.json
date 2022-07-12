@@ -8,6 +8,36 @@
     "mock": false,
     "automated": true
   },
+  "hooks": [
+    {
+      "description": "Create Arctic-EDS Mean Annual Ground Temperature Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=iem_gipl_magt_alt_4km&STYLEID=arctic_eds_MAGT&ABSTRACT=style%20for%20Arctic-EDS%20mean%20annual%20ground%20temperature&WCPSQUERYFRAGMENT=%24c.magt&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+       \\\"-20\\\": [33, 102, 172, 255],
+       \\\"-6.7\\\": [67, 147, 195, 255],
+       \\\"-4.4\\\": [146, 197, 222, 255],
+       \\\"-2.2\\\": [209, 229, 240, 255],
+       \\\"-1.1\\\": [247, 247, 247, 255],
+       \\\"-0\\\": [253, 219, 199, 255],
+       \\\"1.1\\\": [244, 165, 130, 255],
+       \\\"2.2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create NCR Mean Annual Ground Temperature Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=iem_gipl_magt_alt_4km&STYLEID=climate_impact_reports&ABSTRACT=ColorMapStyle%20for%20Climate%20Impact%20Reports%20web%20app%20MAGT%20mini-maps&WCPSQUERYFRAGMENT=%24c.magt&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+       \\\"-20\\\": [33, 102, 172, 255],
+       \\\"-6\\\": [67, 147, 195, 255],
+       \\\"-4\\\": [146, 197, 222, 255],
+       \\\"-2\\\": [209, 229, 240, 255],
+       \\\"-1\\\": [247, 247, 247, 255],
+       \\\"-0\\\": [253, 219, 199, 255],
+       \\\"1\\\": [244, 165, 130, 255],
+       \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "iem_gipl_magt_alt_4km",
     "paths": [
@@ -25,28 +55,32 @@
           "type": "xml",
           "global": {
             "Title": "'CMIP5 GIPL Model Output 4 km magt alt'",
-            "Encoding": {"'magt'": "'°C'",
- 			 "'alt'": "'m'",
-			 "eras": {"'1995'": 0,
- 			          "'2025'": 1,
- 			          "'2050'": 2,
-                                  "'2075'": 3,
-                                  "'2095'": 4
-                                 },
-                         "models": {"'cruts31'": 0,
-                                    "'gfdlcm3'": 1,
-                                    "'gisse2r'": 2,
-                                    "'ipslcm5alr'": 3,
-                                    "'mricgcm3'": 4,
-                                    "'ncarccsm4'": 5
-                                   },
-                         "scenarios": {"'historical'": 0,
-	                               "'rcp45'": 1,
-	                               "'rcp85'": 2
-                                      }
-                        }
-                    }
-                    },
+	    "Encoding": {
+              "magt": "°C",
+              "alt": "m",
+              "eras": {
+                "1995": 0,
+                "2025": 1,
+                "2050": 2,
+                "2075": 3,
+                "2095": 4
+              },
+              "models": {
+                "cruts31": 0,
+                "gfdlcm3": 1,
+                "gisse2r": 2,
+                "ipslcm5alr": 3,
+                "mricgcm3": 4,
+                "ncarccsm4": 5
+              },
+              "scenarios": {
+                "historical": 0,
+                "rcp45": 1,
+                "rcp85": 2
+              }
+            }
+          }
+        },
         "slicer": {
           "type": "netcdf",
           "pixelIsPoint": true,

@@ -7,6 +7,34 @@
     "automated": true,
     "track_files": false
   },
+  "hooks": [
+    {
+      "description": "Create future thawing index Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=thawing_index&STYLEID=arctic_eds_thawing_index_future_condensed_compressed&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-1\\\": [0, 0, 0, 0],
+        \\\"0\\\": [255,255,212,255],
+        \\\"1000\\\": [254,227,145,255],
+        \\\"2000\\\": [254,196,79,255],
+        \\\"3000\\\": [254,153,41,255],
+        \\\"4000\\\": [217,95,14,255],
+        \\\"5000\\\": [153,52,4,255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create historical thawing index Style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=thawing_index&STYLEID=arctic_eds_thawing_index_historical_condensed_compressed&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-1\\\": [0, 0, 0, 0],
+        \\\"0\\\": [255,255,212,255],
+        \\\"1000\\\": [254,227,145,255],
+        \\\"2000\\\": [254,196,79,255],
+        \\\"3000\\\": [254,153,41,255],
+        \\\"4000\\\": [217,95,14,255],
+        \\\"5000\\\": [153,52,4,255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "thawing_index",
     "paths": [
