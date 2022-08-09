@@ -2,15 +2,15 @@
  "config": {
     "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
-    "crs_resolver": "http://localhost:8080/def/",
-    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3572",
+    "crs_resolver": "http://localhost:8080/rasdaman/def/",
+    "default_crs": "http://localhost:8080/rasdaman/def/crs/EPSG/0/3572",
     "mock": false,
     "automated": false
   },
   "input": {
-    "coverage_id": "hsia_arctic",
+    "coverage_id": "hsia_arctic_production",
     "paths": [
-      "/tmp/hsia/*.tif"
+      "/tmp/hsia_updates_2021/rasdaman_hsia_arctic_production_tifs/*.tif"
     ]
   },
   "recipe": {
@@ -18,7 +18,7 @@
     "options": {
       "time_parameter": {
         "filename": {
-          "regex": "seaice_conc_sic_mean_pct_monthly_ak_(.*)",
+          "regex": "seaice_conc_sic_mean_pct_monthly_panarctic_(.*)",
           "group": "1"
         },
         "datetime_format": "YYYY_MM"
@@ -29,28 +29,19 @@
   },
   "hooks": [
     {
-      // Describe what this ingestion hook does
-      "description": "reproject input files.",
-      // Run bash command before importing file(s) to coverage
-      "when": "before_ingestion",
-      // Bash command which should be run for each input file
-      "cmd": "gdalwarp -t_srs EPSG:3572 -of GTiff -overwrite \"${file:path}\" \"${file:path}.projected.tif\"",
-      // If set to *true*, when a bash command line returns any error, wcst_import terminates immediately.
-      // **NOTE:** only valid for ``before`` hook.
-      "abort_on_error": true,
-      // wcst_import will consider the specified path(s) as the actual file(s)
-      // to be ingested after running the hook, rather than the original file.
-      // This is an array of paths where globbing is allowed (same as the "input":"paths" option).
-      // **NOTE:** only valid for ``before`` hook.
-      "replace_path": ["${file:path}.projected.tif"]
-      },
-      {
-      // Describe what this ingestion hook does
-      "description": "Remove projected files.",
-      // Run bash command after importing file(s) to coverage
-      "when": "after_ingestion",
-      // Bash command which should be run for each imported file(s)
-      "cmd": "rm -rf \"${file:path}.projected.tif\""
-      }
-   ]
+      "description": "Create hsia style for WMS",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=hsia_arctic_production&STYLEID=hsia&ABSTRACT=Style%20for%20the%20historical%20sea%20ice%20atlas&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [8, 29, 88, 255],
+        \\\"10\\\": [37, 52, 148, 255],
+        \\\"20\\\": [34, 94, 168, 255],
+        \\\"30\\\": [29, 145, 192, 255],
+        \\\"40\\\": [65, 182, 196, 255],
+        \\\"50\\\": [127, 205, 187, 255],
+        \\\"60\\\": [199, 233, 180 ,255],
+        \\\"75\\\": [237, 248, 217, 255],
+        \\\"90\\\": [255, 255, 217, 255],
+        \\\"120\\\": [0, 0, 0, 128] } }\"",
+      "abort_on_error": true
+    }
+  ]
 }
