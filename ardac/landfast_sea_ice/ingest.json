@@ -27,7 +27,7 @@
       "options": {
         "wms_import": true,
         "coverage": {
-          "crs": "OGC/0/Index1D?axis-label=\"tempstat\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+          "crs": "@OGC/0/AnsiDate?axis-label=\"time\"@EPSG/0/3338",
           "metadata": {
             "type": "xml",
             "global": {
@@ -43,7 +43,7 @@
           "slicer": {
             "type": "gdal",
             "axes": {
-              "year": {
+              "time": {
                 "statements": "regex_str = '_([0-9]{4}_[0-9]{2}_[0-9]{2}).tif'",
                 "min": "datetime(regex_extract('${file:name}', regex_str ,1), 'YYYY_MM_DD')",
                 "crsOrder": 0,
