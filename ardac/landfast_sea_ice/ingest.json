@@ -1,0 +1,72 @@
+{
+    "config": {
+      "service_url": "http://localhost:8080/rasdaman/ows",
+      "tmp_directory": "/tmp/",
+      "blocking": true,
+      "mock": false,
+      "automated": true,
+      "track_files": false
+    },
+    "hooks": [
+      {
+        "description": "Create Landfast Sea Ice WMS Style for ARDAC",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=landfast_sea_ice_extent_ardac&ABSTRACT=landfast_ice&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"values\\\", \\\"colorTable\\\": {  \\\"0\\\": [0, 0, 0, 0],
+         \\\"1\\\": [214, 242, 238, 255] } }\"",
+        "abort_on_error": true
+      }
+    ],
+    "input": {
+      "coverage_id": "landfast_sea_ice_extent",
+      "paths": [
+        "geotiffs/*.tif"
+      ]
+    },
+    "recipe": {
+      "name": "general_coverage",
+      "options": {
+        "wms_import": true,
+        "coverage": {
+          "crs": "OGC/0/Index1D?axis-label=\"tempstat\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+          "metadata": {
+            "type": "xml",
+            "global": {
+              "Title": "",
+              "Encoding": {
+                "ice_status": {
+                  "0": "absent",
+                  "1": "present"
+                }
+              }
+            }
+          },
+          "slicer": {
+            "type": "gdal",
+            "axes": {
+              "year": {
+                "statements": "regex_str = '_([0-9]{4}_[0-9]{2}_[0-9]{2}).tif'",
+                "min": "datetime(regex_extract('${file:name}', regex_str ,1), 'YYYY_MM_DD')",
+                "crsOrder": 0,
+                "gridOrder": 0,
+                "type": "ansidate",
+                "irregular": true,
+                "sliceGroupSize": 1,
+                "dataBound": false
+              },
+              "X": {
+                "min": "${gdal:minX}",
+                "max": "${gdal:maxX}",
+                "resolution": "${gdal:resolutionX}"
+              },
+              "Y": {
+                "min": "${gdal:minY}",
+                "max": "${gdal:maxY}",
+                "resolution": "${gdal:resolutionY}"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
