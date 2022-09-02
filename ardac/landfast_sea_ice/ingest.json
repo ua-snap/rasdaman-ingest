@@ -27,7 +27,7 @@
       "options": {
         "wms_import": true,
         "coverage": {
-          "crs": "@OGC/0/AnsiDate?axis-label=\"time\"@EPSG/0/3338",
+          "crs": "OGC/0/AnsiDate?axis-label=\"time\"@EPSG/0/3338",
           "metadata": {
             "type": "xml",
             "global": {
