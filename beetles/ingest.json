@@ -1,0 +1,94 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "template_beetle_risk",
+    "paths": [
+      "beetle_risk/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"snowpack\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "era": {
+                "1": "2010-2039",
+                "2": "2040-2069",
+                "3": "2070-2099"
+              },
+              "model": {
+                "0": "GFDL-ESM2M",
+                "1": "HadGEM2-ES",
+                "2": "MRI-CGCM3",
+                "3": "NCAR-CCSM4"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp85"
+              },
+              "snowpack": {
+                "0": "low",
+                "1": "medium",
+                "3": "high"
+              },
+              "risk" : {
+                "1": "low",
+                "2": "medium",
+                "3": "high"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "era": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|HadGEM2-ES|GFDL-ESM2M)_(rcp45|rcp85)_(low|medium|high).tif'",
+              "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "snowpack": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 4)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
