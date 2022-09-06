@@ -71,7 +71,7 @@
               "dataBound": false
             },
             "snowpack": {
-              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 4)]",
+              "min": "luts.snowpack[regex_extract('${file:name}', regex_str, 4)]",
               "irregular": true,
               "dataBound": false
             },
