@@ -1,23 +1,25 @@
 models = {
-    "GFDL-ESM2M": 0,
-    "HadGEM2-ES":1,
-    "MRI-CGCM3": 2,
-    "NCAR-CCSM4": 3,
+    "daymet": 0,
+    "GFDL-ESM2M": 1,
+    "HadGEM2-ES":2,
+    "MRI-CGCM3": 3,
+    "NCAR-CCSM4": 4,
 }
 
 scenarios = {
-    "rcp45": 0,
-    "rcp85": 1,
+    "hist": 0,
+    "rcp45": 1,
+    "rcp85": 2,
 }
 
 eras = {
-    "2010-2039": 0,
-    "2040-2069": 1,
-    "2070-2099": 2,
+    "1982-2017": 0,
+    "2010-2039": 1,
+    "2040-2069": 2,
+    "2070-2099": 3,
 }
 
 snowpack = {
-    "low": 1,
-    "medium": 2,
-    "high": 0,
+    "low": 0,
+    "medium": 1,
 }

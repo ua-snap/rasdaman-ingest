@@ -24,24 +24,26 @@
             "Title": "",
             "Encoding": {
               "era": {
+		"0": "1982-2017",
                 "1": "2010-2039",
                 "2": "2040-2069",
                 "3": "2070-2099"
               },
               "model": {
-                "0": "GFDL-ESM2M",
-                "1": "HadGEM2-ES",
-                "2": "MRI-CGCM3",
-                "3": "NCAR-CCSM4"
+		"0": "daymet",
+                "1": "GFDL-ESM2M",
+                "2": "HadGEM2-ES",
+                "3": "MRI-CGCM3",
+                "4": "NCAR-CCSM4"
               },
               "scenario": {
-                "0": "rcp45",
-                "1": "rcp85"
+                "0": "hist",
+		"1": "rcp45",
+                "2": "rcp85"
               },
               "snowpack": {
                 "0": "low",
-                "1": "medium",
-                "3": "high"
+                "1": "medium"
               },
               "risk" : {
                 "1": "low",
@@ -55,7 +57,7 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|HadGEM2-ES|GFDL-ESM2M)_(rcp45|rcp85)_(low|medium|high).tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|HadGEM2-ES|GFDL-ESM2M|daymet)_(rcp45|rcp85|hist)_(low|medium).tif'",
               "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
