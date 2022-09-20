@@ -7,9 +7,9 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "template_beetle_risk",
+    "coverage_id": "beetle_risk",
     "paths": [
-      "beetle_risk/*.tif"
+      "risk_class/*.tif"
     ]
   },
   "recipe": {
@@ -31,10 +31,10 @@
               },
               "model": {
 		"0": "daymet",
-                "1": "GFDL-ESM2M",
-                "2": "HadGEM2-ES",
-                "3": "MRI-CGCM3",
-                "4": "NCAR-CCSM4"
+                "2": "GFDL-ESM2M",
+                "3": "HadGEM2-ES",
+                "4": "MRI-CGCM3",
+                "1": "NCAR-CCSM4"
               },
               "scenario": {
                 "0": "hist",
@@ -57,7 +57,7 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|NCAR-CCSM4|HadGEM2-ES|GFDL-ESM2M|daymet)_(rcp45|rcp85|hist)_(low|medium).tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'risk_class_([0-9]{4}-[0-9]{4})_(MRI-CGCM3|CCSM4|HadGEM2-ES|GFDL-ESM2M|daymet)_(rcp45|rcp85|hist)_(low|med).tif'",
               "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false

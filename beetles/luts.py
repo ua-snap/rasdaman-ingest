@@ -1,9 +1,9 @@
 models = {
     "daymet": 0,
-    "GFDL-ESM2M": 1,
-    "HadGEM2-ES":2,
-    "MRI-CGCM3": 3,
-    "NCAR-CCSM4": 4,
+    "GFDL-ESM2M": 2,
+    "HadGEM2-ES":3,
+    "MRI-CGCM3": 4,
+    "CCSM4": 1,
 }
 
 scenarios = {
@@ -21,5 +21,5 @@ eras = {
 
 snowpack = {
     "low": 0,
-    "medium": 1,
+    "med": 1,
 }
