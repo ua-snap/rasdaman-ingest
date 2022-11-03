@@ -1,0 +1,96 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "hooks": [
+    {
+      "description": "Create projected wet days per year style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_dtr&STYLEID=arctic_eds_projected_mean_annual_dtr&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-1\\\": [0, 0, 0, 0],
+        \\\"0\\\": [237,248,251,255],
+        \\\"60\\\": [204,236,230,255],
+        \\\"120\\\": [153,216,201,255],
+        \\\"180\\\": [102,194,164,255],
+        \\\"240\\\": [44,162,95,255],
+        \\\"300\\\": [0,109,44,255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create historical wet days per year style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_dtr&STYLEID=arctic_eds_historical_mean_annual_dtr&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-1\\\": [0, 0, 0, 0],
+        \\\"0\\\": [237,248,251,255],
+        \\\"60\\\": [204,236,230,255],
+        \\\"120\\\": [153,216,201,255],
+        \\\"180\\\": [102,194,164,255],
+        \\\"240\\\": [44,162,95,255],
+        \\\"300\\\": [0,109,44,255] } }\"",
+      "abort_on_error": true
+    }
+  ],
+  "input": {
+    "coverage_id": "mean_annual_dtr",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "model": {
+                "1": "GFDL-CM3",
+                "0": "ERA-Interim",
+                "2": "NCAR-CCSM4"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'mean_dtr_(NCAR-CCSM4|ERA-Interim|GFDL-CM3)_([0-9]{4}).tif'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "year": {
+              "min": "datetime(regex_extract('${file:name}', regex_str , 2), 'YYYY')",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true,
+              "sliceGroupSize": 1,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
