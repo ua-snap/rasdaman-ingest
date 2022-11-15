@@ -75,6 +75,16 @@ cd $INGEST_DIR
 wcst_import.sh future_ingest.json
 ```
 
+Or if `wcst_import.sh` is not on path, it should be usable like so:
+
+```
+/opt/rasdaman/bin/wcst_import.sh ingest.json
+```
+
+**Note** - it may be the case that not all python packages made it in for certain utilities such as `wcst_import.sh`. The `environment.yml` file provided here contains the packages for an environment that should have everything needed to carry out a `wcst_import.sh` ingest. 
+
+Create a new env with `conda env create -f environment.yml` and activate with `conda activate rasdaman` prior to attempting the ingest.
+
 #### 5. Set a Style (optional)
 
 Your `ingest.json` may have included a post-import hook that created the WMS style for the layer via a `curl` command executed after the coverage was created successfully. If it didn't, or if you want to add another style, you can do this from the terminal like so:
