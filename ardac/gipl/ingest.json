@@ -1,0 +1,110 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "hooks": [
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style for the Arctic-EDS.",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=arctic_eds_gipl_ground_temp&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c.magt1m%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-20\\\": [33, 102, 172, 255],
+        \\\"-6\\\": [67, 147, 195, 255],
+        \\\"-4\\\": [146, 197, 222, 255],
+        \\\"-2\\\": [209, 229, 240, 255],
+        \\\"-1\\\": [247, 247, 247, 255],
+        \\\"-0\\\": [253, 219, 199, 255],
+        \\\"1\\\": [244, 165, 130, 255],
+        \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+   }
+  ],
+  "input": {
+    "coverage_id": "crrel_gipl_outputs",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"variable\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "model": {
+                "0": "5ModelAvg",
+                "1": "GFDL-CM3",
+                "2": "NCAR-CCSM4"
+              },
+              "scenario": {
+                "0": "RCP 4.5",
+                "1": "RCP 8.5"
+              },
+              "variable": {
+                "0": "magt0.5m",
+                "1": "magt1m",
+                "2": "magt2m",
+                "3": "magt3m",
+                "4": "magt4m",
+                "5": "magt5m",
+                "6": "magtsurface",
+                "7": "permafrostbase",
+                "8": "permafrosttop",
+                "9": "talikthickness"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'gipl_(5ModelAvg|NCAR-CCSM4|GFDL-CM3)_(rcp45|rcp85)_(magt1m|magt3m|talikthickness|magt5m|magtsurface|permafrostbase|magt4m|magt2m|permafrosttop|magt0.5m)_(degC|m)_([0-9]{4}).tif'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "variable": {
+              "min": "luts.pf_variables[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "year": {
+              "min": "datetime(regex_extract('${file:name}', regex_str , 5), 'YYYY')",
+              "crsOrder": 0,
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true,
+              "sliceGroupSize": 1,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
