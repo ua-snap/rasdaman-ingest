@@ -4,6 +4,10 @@ This repo tracks ingest scripts and pre-processing code for rasdaman coverages. 
 
 Below are some useful bits of info for performing the ingests on our Rasdaman servers. More details can be found in SNAP's internal documents for working with Rasdaman. 
 
+### Pre-processing environment
+
+The pre-processing scripts and notebooks in this repo are being tested to ensure they work with a shared conda environment being designed for geo data processing at SNAP. That environment spec can be found [here (update after further testing)](https://github.com/ua-snap/snap-geo/blob/add_conda_env/environment.yml).
+
 ### Rasdaman servers
 
 **Apollo**: dev server! Try new things here.
