@@ -12,6 +12,18 @@
       "risk_class/*.tif"
     ]
   },
+  "hooks": [
+    {
+      "description": "Create beetle risk class style for WMS Layer",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=beetle_risk&STYLEID=beetle_risk&ABSTRACT=Beetle%20risk&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"values\\\", \\\"colorTable\\\": {  \\\"0\\\": [0, 0, 0, 0],
+       \\\"0\\\": [0, 0, 0, 0],
+       \\\"1\\\": [0, 128, 0, 255],
+       \\\"2\\\": [247, 189, 0, 255],
+       \\\"3\\\": [121, 92, 52, 55] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "recipe": {
     "name": "general_coverage",
     "options": {
