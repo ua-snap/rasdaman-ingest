@@ -14,7 +14,7 @@
   },
   "hooks": [
     {
-      "description": "Create beetlke risk class style for WMS Layer",
+      "description": "Create beetle risk class style for WMS Layer",
       "when": "after_import",
       "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=beetle_risk&STYLEID=beetle_risk&ABSTRACT=Beetle%20risk&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"values\\\", \\\"colorTable\\\": {  \\\"0\\\": [0, 0, 0, 0],
        \\\"0\\\": [0, 0, 0, 0],
