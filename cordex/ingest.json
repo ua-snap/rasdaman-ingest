@@ -1,0 +1,117 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "cordex_indicators_climatologies",
+    "paths": [
+      "geotiffs/*.tif"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"varname\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"stat\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "",
+            "Encoding": {
+              "varname": {
+                "0": "cd",
+                "1": "cdd",
+                "2": "csdi",
+                "3": "cwd",
+                "4": "dw",
+                "5": "hd",
+                "6": "hsd",
+                "7": "r10mm",
+                "8": "rx1day",
+                "9": "rx5day",
+                "10": "su",
+                "11": "wndd",
+                "12": "wsdi"
+              },
+              "model": {
+                "0": "CCCma-CanESM2_CCCma-CanRCM4",
+                "1": "CCCma-CanESM2_SMHI-RCA4",
+                "2": "CCCma-CanESM2_UQAM-CRCM5",
+                "3": "ICHEC-EC-EARTH_DMI-HIRHAM5",
+                "4": "ICHEC-EC-EARTH_SMHI-RCA4",
+                "5": "ICHEC-EC-EARTH_SMHI-RCA4-SN",
+                "6": "MPI-M-MPI-ESM-LR_MGO-RRCM",
+                "7": "MPI-M-MPI-ESM-LR_SMHI-RCA4",
+                "8": "MPI-M-MPI-ESM-LR_SMHI-RCA4-SN",
+                "9": "MPI-M-MPI-ESM-MR_UQAM-CRCM5",
+                "10": "NCC-NorESM1-M_SMHI-RCA4"
+              },
+              "era": {
+                "0": "historical",
+                "1": "longterm",
+                "2": "midcentury"
+              },
+              "scenario": {
+                "0": "hist",
+                "1": "rcp45",
+                "2": "rcp85"
+              },
+              "stat": {
+                "0": "max",
+                "1": "mean",
+                "2": "min"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "gdal",
+          "axes": {
+            "varname": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'cordex_indicators_(hsd|wndd|rx1day|rx5day|r10mm|cwd|cdd|hd|su|wsdi|cd|dw|csdi)_(historical|midcentury|longterm)_(.*)_(.*)_(.*).tif'",
+              "min": "luts.varnames[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "era": {
+              "min": "luts.eras[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 4)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "stat": {
+              "min": "luts.stats[regex_extract('${file:name}', regex_str, 5)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "X": {
+              "min": "${gdal:minX}",
+              "max": "${gdal:maxX}",
+              "resolution": "${gdal:resolutionX}"
+            },
+            "Y": {
+              "min": "${gdal:minY}",
+              "max": "${gdal:maxY}",
+              "resolution": "${gdal:resolutionY}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
