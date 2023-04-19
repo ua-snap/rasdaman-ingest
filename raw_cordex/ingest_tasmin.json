@@ -1,0 +1,111 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/4326",
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "cordex_tasmin",
+    "paths": [
+      "data/tasmin/ARC44*_tasmin_*ERA5bc.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": false,
+      "import_order": "none",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/AnsiDate@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'AK CORDEX air temperature'",
+            "Encoding": {
+              "model": {
+                "0": "CCCma-CanESM2_CCCma-CanRCM4",
+                "1": "CCCma-CanESM2_SMHI-RCA4",
+                "6": "CCCma-CanESM2_UQAM-CRCM5",
+                "2": "ICHEC-EC-EARTH_DMI-HIRHAM5",
+                "3": "ICHEC-EC-EARTH_SMHI-RCA4",
+                "7": "ICHEC-EC-EARTH_SMHI-RCA4-SN",
+                "8": "MPI-M-MPI-ESM-LR_MGO-RRCM",
+                "4": "MPI-M-MPI-ESM-LR_SMHI-RCA4",
+                "9": "MPI-M-MPI-ESM-LR_SMHI-RCA4-SN",
+                "10": "MPI-M-MPI-ESM-MR_UQAM-CRCM5",
+                "5": "NCC-NorESM1-M_SMHI-RCA4"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp85"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "tasmin",
+              "identifier": "tasmin"
+            }
+          ],
+          "axes": {
+            "scenario": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'ARC44_(rcp45|rcp85)_tasmin_(CCCma-CanESM2_CCCma-CanRCM4|CCCma-CanESM2_SMHI-RCA4|CCCma-CanESM2_UQAM-CRCM5|ICHEC-EC-EARTH_DMI-HIRHAM5|ICHEC-EC-EARTH_SMHI-RCA4|ICHEC-EC-EARTH_SMHI-RCA4-SN|MPI-M-MPI-ESM-LR_MGO-RRCM|MPI-M-MPI-ESM-LR_SMHI-RCA4|MPI-M-MPI-ESM-LR_SMHI-RCA4-SN|MPI-M-MPI-ESM-MR_UQAM-CRCM5|NCC-NorESM1-M_SMHI-RCA4)_ERA5bc.nc'",
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 0
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 1
+            },
+            "ansi": {
+              "statements": "from datetime import datetime, timedelta",
+              "min": "(datetime(2006,1,1,12,0,0) + timedelta(days=${netcdf:variable:time:min})).strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "(datetime(2006,1,1,12,0,0) + timedelta(days=${netcdf:variable:time:max})).strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[(datetime(2006,1,1,12,0,0) + timedelta(days=x)).strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "gridOrder": 3,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "lon": {
+              "min": "${netcdf:variable:lon:min}",
+              "max": "${netcdf:variable:lon:max}",
+              "resolution": "${netcdf:variable:lon:resolution}",
+              "gridOrder": 2
+            },
+            "lat": {
+              "min": "${netcdf:variable:lat:min}",
+              "max": "${netcdf:variable:lat:max}",
+              "resolution": "${netcdf:variable:lat:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  },
+  "hooks": [
+    {
+      "description": "Run utils.check_dims on input files.",
+      "when": "before_ingestion",
+      "python_cmd": "import imp; utils = imp.load_source('utils', os.getenv('UTILS_PATH')); utils.check_dims('tasmin', '${file:path}', '${file:path}.checked')",
+      "abort_on_error": true,
+      "replace_path": ["${file:path}.checked"]
+    },
+    {
+      "description": "remove new files / symlinks",
+      "when": "after_ingestion",
+      "cmd": "rm -f ${file:path}"
+    }
+  ]
+}
