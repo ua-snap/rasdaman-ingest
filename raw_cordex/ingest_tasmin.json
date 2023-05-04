@@ -69,10 +69,10 @@
               "gridOrder": 1
             },
             "ansi": {
-              "statements": "from datetime import datetime, timedelta",
-              "min": "(datetime(2006,1,1,12,0,0) + timedelta(days=${netcdf:variable:time:min})).strftime(\"%Y-%m-%dT%H:%M\")",
-              "max": "(datetime(2006,1,1,12,0,0) + timedelta(days=${netcdf:variable:time:max})).strftime(\"%Y-%m-%dT%H:%M\")",
-              "directPositions": "[(datetime(2006,1,1,12,0,0) + timedelta(days=x)).strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "statements": "from datetime import datetime; import netCDF4",
+              "min": "netCDF4.num2date(${netcdf:variable:time:min}, 'days since 2006-01-01T12:00:00', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "netCDF4.num2date(${netcdf:variable:time:max}, 'days since 2006-01-01T12:00:00', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[netCDF4.num2date(x, 'days since 2006-01-01T12:00:00', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
               "gridOrder": 3,
               "type": "ansidate",
               "irregular": true
