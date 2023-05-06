@@ -12,4 +12,3 @@ def check_dims(varname, fp, checked_fp):
             os.symlink(fp, checked_fp)
             
     return
-
