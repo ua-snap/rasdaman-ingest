@@ -17,7 +17,7 @@
     "name": "general_coverage",
     "options": {
       "wms_import": false,
-      "import_order": "none",
+      "import_order": "ascending",
       "coverage": {
         "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/AnsiDate@EPSG/0/4326",
         "metadata": {
@@ -28,15 +28,15 @@
               "model": {
                 "0": "CCCma-CanESM2_CCCma-CanRCM4",
                 "1": "CCCma-CanESM2_SMHI-RCA4",
-                "6": "CCCma-CanESM2_UQAM-CRCM5",
-                "2": "ICHEC-EC-EARTH_DMI-HIRHAM5",
-                "3": "ICHEC-EC-EARTH_SMHI-RCA4",
-                "7": "ICHEC-EC-EARTH_SMHI-RCA4-SN",
-                "8": "MPI-M-MPI-ESM-LR_MGO-RRCM",
-                "4": "MPI-M-MPI-ESM-LR_SMHI-RCA4",
-                "9": "MPI-M-MPI-ESM-LR_SMHI-RCA4-SN",
-                "10": "MPI-M-MPI-ESM-MR_UQAM-CRCM5",
-                "5": "NCC-NorESM1-M_SMHI-RCA4"
+                "2": "CCCma-CanESM2_UQAM-CRCM5",
+                "3": "ICHEC-EC-EARTH_DMI-HIRHAM5",
+                "5": "ICHEC-EC-EARTH_SMHI-RCA4",
+                "4": "ICHEC-EC-EARTH_SMHI-RCA4-SN",
+                "6": "MPI-M-MPI-ESM-LR_MGO-RRCM",
+                "8": "MPI-M-MPI-ESM-LR_SMHI-RCA4",
+                "7": "MPI-M-MPI-ESM-LR_SMHI-RCA4-SN",
+                "9": "MPI-M-MPI-ESM-MR_UQAM-CRCM5",
+                "10": "NCC-NorESM1-M_SMHI-RCA4"
               },
               "scenario": {
                 "0": "rcp45",
