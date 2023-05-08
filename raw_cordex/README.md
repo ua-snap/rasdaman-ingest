@@ -23,3 +23,6 @@ export UTILS_PATH=`pwd`/utils.py
 
 Then, run the import for a single coverage, e.g. `wcst_import.sh ingest_tasmax.json`. This can take a fairly long time to complete.
 
+### `create_missing_data.py`
+
+This is experimental for the time being. It is used (i.e. run once before any import attempts) to create all "missing" files, whicha are files that are not present because there was no data included for this particular combination of model / scenario. It was made for testing ways of getting Rasdaman to return null values instead of 0, which seems to be an current issue with Rasdaman or just a major inconvenience. 
