@@ -61,7 +61,7 @@
           "type": "gdal",
           "axes": {
             "era": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '([0-9]{4}-[0-9]{4})_(MRI-CGCM3|MODEL-SPINUP|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?).tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'alfresco_relative_flammability_([0-9]{4}-[0-9]{4})_(MRI-CGCM3|MODEL-SPINUP|NCAR-CCSM4|5modelAvg|GISS-E2-R|IPSL-CM5A-LR|GFDL-CM3)_(.*?).tif'",
               "min": "luts.eras[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
