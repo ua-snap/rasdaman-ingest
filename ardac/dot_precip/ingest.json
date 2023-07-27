@@ -1,0 +1,124 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": [
+      "-9999"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "dot_precip",
+    "paths": [
+      "undiff/pcpt_*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"duration\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"interval\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'DOT Precipitation data'",
+            "Encoding": {
+              "pf": "1/1000 inches",
+              "pf_upper": "1/1000 inches",
+              "pf_lower": "1/1000 inches",
+              "models": {
+                "0": "gfdlcm3",
+                "1": "ncarccsm4"
+              },
+              "durations": {
+                "0": "60m",
+                "1": "2h",
+                "2": "3h",
+                "3": "6h",
+                "4": "12h",
+                "5": "24h",
+                "6": "2d",
+                "7": "3d",
+                "8": "4d",
+                "9": "7d",
+                "10": "10d",
+                "11": "20d",
+                "12": "30d",
+                "13": "45d",
+                "14": "60d"
+              },
+              "eras": {
+                "0": "2020-2049",
+                "1": "2050-2079",
+                "2": "2080-2099"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "pf",
+              "identifier": "pf",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "pf_upper",
+              "identifier": "pf_upper",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "pf_lower",
+              "identifier": "pf_lower",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'pcpt_(GFDL-CM3|NCAR-CCSM4)_sum_wrf_(60m|2h|3h|6h|12h|24h|2d|3d|4d|7d|10d|20d|30d|45d|60d)_(2020-2049|2050-2079|2080-2099)_undiff.nc'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "duration": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'pcpt_(GFDL-CM3|NCAR-CCSM4)_sum_wrf_(60m|2h|3h|6h|12h|24h|2d|3d|4d|7d|10d|20d|30d|45d|60d)_(2020-2049|2050-2079|2080-2099)_undiff.nc'",
+              "min": "luts.durations[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "era": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'pcpt_(GFDL-CM3|NCAR-CCSM4)_sum_wrf_(60m|2h|3h|6h|12h|24h|2d|3d|4d|7d|10d|20d|30d|45d|60d)_(2020-2049|2050-2079|2080-2099)_undiff.nc'",
+              "min": "luts.eras[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false
+            },
+            "interval": {
+              "min": "${netcdf:variable:interval:min}",
+              "max": "${netcdf:variable:interval:max}",
+              "gridOrder": 0
+            },
+            "X": {
+              "min": "${netcdf:variable:xc:min}",
+              "max": "${netcdf:variable:xc:max}",
+              "resolution": "${netcdf:variable:xc:resolution}",
+              "gridOrder": 1
+            },
+            "Y": {
+              "min": "${netcdf:variable:yc:min}",
+              "max": "${netcdf:variable:yc:max}",
+              "resolution": "${netcdf:variable:yc:resolution}",
+              "gridOrder": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}
