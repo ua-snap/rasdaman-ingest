@@ -22,13 +22,13 @@
       "wms_import": true,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"variable\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"option\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"month\"@EPSG/0/3338",
+        "crs": "OGC/0/Index1D?axis-label=\"variable\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"option\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
         "metadata": {
           "type": "xml",
           "global": {
             "Title": "'DOT Precipitation data'",
             "Encoding": {
-              "variables": {
+              "variable": {
                 "0": "evap",
                 "1": "glacier_melt",
                 "2": "iwe",
@@ -42,7 +42,7 @@
                 "10": "tmax",
                 "11": "tmin"
               },
-              "models": {
+              "model": {
                 "0": "ACCESS1-3",
                 "1": "CanESM2",
                 "2": "CCSM4",
@@ -53,11 +53,11 @@
                 "7": "MPI-ESM-MR",
                 "8": "MRI-CGCM3"
               },
-              "scenarios": {
+              "scenario": {
                 "0": "rcp45",
                 "1": "rcp85"
               },
-              "months": {
+              "month": {
                 "0": "apr",
                 "1": "aug",
                 "2": "dec",
@@ -71,12 +71,12 @@
                 "10": "oct",
                 "11": "sep"
               },
-              "options": {
+              "option": {
                 "0": "max",
                 "1": "mean",
                 "2": "total"
               },
-              "eras": {
+              "era": {
                 "0": "1950-1959",
                 "1": "1960-1969",
                 "2": "1970-1979",
