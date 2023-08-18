@@ -1,13 +1,14 @@
 models = {
     "ACCESS1-3": 0,
-    "CanESM2": 1,
-    "CCSM4": 2,
-    "CSIRO-Mk3": 3,
+    "CCSM4": 1,
+    "CSIRO-Mk3-6-0": 2,
+    "CanESM2": 3,
     "GFDL-ESM2M": 4,
-    "inmcm4": 5,
+    "HadGEM2-ES": 5,
     "MIROC5": 6,
     "MPI-ESM-MR": 7,
     "MRI-CGCM3": 8,
+    "inmcm4": 9,
 }
 
 scenarios = {
@@ -48,19 +49,19 @@ months = {
     "sep": 11,
 }
 
-options = {"max": 0, "mean": 1, "total": 2}
+options = {"mean": 0, "max": 1, "total": 2}
 
 variables = {
-    "evap": 0,
-    "glacier_melt": 1,
-    "iwe": 2,
-    "pcp": 3,
-    "runoff": 4,
-    "sm1": 5,
-    "sm2": 6,
-    "sm3": 7,
-    "snow_melt": 8,
-    "swe": 9,
-    "tmax": 10,
-    "tmin": 11,
+    "sm1": 0,
+    "sm2": 1,
+    "sm3": 2,
+    "tmax": 3,
+    "tmin": 4,
+    "iwe": 5,
+    "swe": 6,
+    "evap": 7,
+    "glacier_melt": 8,
+    "pcp": 9,
+    "runoff": 10,
+    "snow_melt": 11,
 }

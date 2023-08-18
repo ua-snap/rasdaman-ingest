@@ -26,32 +26,33 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'DOT Precipitation data'",
+            "Title": "'Hydrology data'",
             "Encoding": {
               "variable": {
-                "0": "evap",
-                "1": "glacier_melt",
-                "2": "iwe",
-                "3": "pcp",
-                "4": "runoff",
-                "5": "sm1",
-                "6": "sm2",
-                "7": "sm3",
-                "8": "snow_melt",
-                "9": "swe",
-                "10": "tmax",
-                "11": "tmin"
+                "0": "sm1",
+                "1": "sm2",
+                "2": "sm3",
+                "3": "tmax",
+                "4": "tmin",
+                "5": "iwe",
+                "6": "swe",
+                "7": "evap",
+                "8": "glacier_melt",
+                "9": "pcp",
+                "10": "runoff",
+                "11": "snow_melt"
               },
               "model": {
                 "0": "ACCESS1-3",
-                "1": "CanESM2",
-                "2": "CCSM4",
-                "3": "CSIRO-Mk3",
+                "1": "CCSM4",
+                "2": "CSIRO-Mk3-6-0",
+                "3": "CanESM2",
                 "4": "GFDL-ESM2M",
-                "5": "inmcm4",
+                "5": "HadGEM2-ES",
                 "6": "MIROC5",
                 "7": "MPI-ESM-MR",
-                "8": "MRI-CGCM3"
+                "8": "MRI-CGCM3",
+                "9": "inmcm4"
               },
               "scenario": {
                 "0": "rcp45",
@@ -72,8 +73,8 @@
                 "11": "sep"
               },
               "option": {
-                "0": "max",
-                "1": "mean",
+                "0": "mean",
+                "1": "max",
                 "2": "total"
               },
               "era": {
@@ -100,7 +101,7 @@
           "type": "gdal",
           "axes": {
             "variable": {
-              "statements": "import imp, os; luts = imp.loavd_source('luts', os.getenv('LUTS_PATH')); regex_str = '(evap|glacier_melt|iwe|pcp|runoff|sm1|sm2|sm3|snow_melt|sw3|tmax|tmin)_(ACCESS1-3|CanESM2|CCSM4|CSIRO-Mk3|GFDL-ESM2M|inmcm4|MIROC5|MPI-ESM-MR|MRI-CGCM3)_(rcp45|rcp85)_(apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)_(max|mean|total)_([0-9]{4}-[0-9]{4})_mean.tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(?:a|b|c)_(evap|glacier_melt|iwe|pcp|runoff|sm1|sm2|sm3|snow_melt|swe|tmax|tmin)_(?:mm|degC)_(ACCESS1-3|CanESM2|CCSM4|CSIRO-Mk3-6-0|GFDL-ESM2M|HadGEM2-ES|inmcm4|MIROC5|MPI-ESM-MR|MRI-CGCM3)_(rcp45|rcp85)_(apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)_(max|mean|total)_([0-9]{4}-[0-9]{4})_mean.tif'",
               "min": "luts.variables[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
