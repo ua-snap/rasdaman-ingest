@@ -50,16 +50,16 @@ months = {
 }
 
 variables = {
-    "sm1": 0,
-    "sm2": 1,
-    "sm3": 2,
-    "tmax": 3,
-    "tmin": 4,
-    "iwe": 5,
-    "swe": 6,
-    "evap": 7,
-    "glacier_melt": 8,
-    "pcp": 9,
-    "runoff": 10,
-    "snow_melt": 11,
+    "evap": 0,
+    "glacier_melt": 1,
+    "iwe": 2,
+    "pcp": 3,
+    "runoff": 4,
+    "sm1": 5,
+    "sm2": 6,
+    "sm3": 7,
+    "snow_melt": 8,
+    "swe": 9,
+    "tmax": 10,
+    "tmin": 11,
 }
