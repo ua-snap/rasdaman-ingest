@@ -72,11 +72,6 @@
                 "10": "oct",
                 "11": "sep"
               },
-              "option": {
-                "0": "mean",
-                "1": "max",
-                "2": "total"
-              },
               "era": {
                 "0": "1950-1959",
                 "1": "1960-1969",
@@ -101,7 +96,7 @@
           "type": "gdal",
           "axes": {
             "variable": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(?:a|b|c)_(evap|glacier_melt|iwe|pcp|runoff|sm1|sm2|sm3|snow_melt|swe|tmax|tmin)_(?:mm|degC)_(ACCESS1-3|CanESM2|CCSM4|CSIRO-Mk3-6-0|GFDL-ESM2M|HadGEM2-ES|inmcm4|MIROC5|MPI-ESM-MR|MRI-CGCM3)_(rcp45|rcp85)_(apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)_(max|mean|total)_([0-9]{4}-[0-9]{4})_mean.tif'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(evap|glacier_melt|iwe|pcp|runoff|sm1|sm2|sm3|snow_melt|swe|tmax|tmin)_(?:mm|degC)_(ACCESS1-3|CanESM2|CCSM4|CSIRO-Mk3-6-0|GFDL-ESM2M|HadGEM2-ES|inmcm4|MIROC5|MPI-ESM-MR|MRI-CGCM3)_(rcp45|rcp85)_(apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)_(?:max|mean|total)_([0-9]{4}-[0-9]{4})_mean.tif'",
               "min": "luts.variables[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false
@@ -121,13 +116,8 @@
               "irregular": true,
               "dataBound": false
             },
-            "option": {
-              "min": "luts.options[regex_extract('${file:name}', regex_str, 5)]",
-              "irregular": true,
-              "dataBound": false
-            },
             "era": {
-              "min": "luts.eras[regex_extract('${file:name}', regex_str, 6)]",
+              "min": "luts.eras[regex_extract('${file:name}', regex_str, 5)]",
               "irregular": true,
               "dataBound": false
             },

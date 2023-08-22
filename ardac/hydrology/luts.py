@@ -49,8 +49,6 @@ months = {
     "sep": 11,
 }
 
-options = {"mean": 0, "max": 1, "total": 2}
-
 variables = {
     "sm1": 0,
     "sm2": 1,
