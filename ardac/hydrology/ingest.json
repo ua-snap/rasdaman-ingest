@@ -22,7 +22,7 @@
       "wms_import": true,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"variable\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"option\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
+        "crs": "OGC/0/Index1D?axis-label=\"variable\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
         "metadata": {
           "type": "xml",
           "global": {

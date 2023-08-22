@@ -1,16 +1,6 @@
 # Hydrology Rasdaman coverage ingests
 
-To successfully run this data ingest process, it's necessary to adjust the file naming scheme. This adjustment is essential for Rasdaman to accurately process the files. Failure to update the files to have an alphabetical ordering will result in encountering an error with code number 7 during the ingest. This error occurs because the distribution of "mean," "max," and "total" components is uneven within the dataset when the file names are not properly ordered.
+To run this ingest without the need to restart it over again, you will want to run this ingest using the BASH script included in this directory. It will run the ingest and restart the ingest if it does not get a good exit code from the command to allow for a single command to ensure the ingest process finishes.
 
-## Rename files to allow for Rasdaman ingest
-
-```bash
-# Add "a_" to filenames containing "mean_"
-find . -type f -name "*mean_*" -exec bash -c 'mv "$1" "$(dirname "$1")/a_$(basename "$1")"' _ {} \;
-
-### Add "b_" to filenames containing "max_" but not starting with "tmax_"
-find . -type f -name "*max_*" ! -name "tmax_*" -exec bash -c 'mv "$1" "$(dirname "$1")/b_$(basename "$1")"' _ {} \;
-
-### Add "c_" to filenames containing "total_"
-find . -type f -name "*total_*" -exec bash -c 'mv "$1" "$(dirname "$1")/c_$(basename "$1")"' _ {} \;
-```
+Run the following command:
+`./run_ingest.sh`
