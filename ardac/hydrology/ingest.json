@@ -11,9 +11,9 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "hydrology",
+    "coverage_id": "hydrology_netcdf",
     "paths": [
-      "zipped/*.tif"
+      "zipped/total/hydrology.nc"
     ]
   },
   "recipe": {
@@ -22,26 +22,17 @@
       "wms_import": true,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"variable\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
         "metadata": {
           "type": "xml",
           "global": {
             "Title": "'Hydrology data'",
             "Encoding": {
-              "variable": {
-                "0": "evap",
-                "1": "glacier_melt",
-                "2": "iwe",
-                "3": "pcp",
-                "4": "runoff",
-                "5": "sm1",
-                "6": "sm2",
-                "7": "sm3",
-                "8": "snow_melt",
-                "9": "swe",
-                "10": "tmax",
-                "11": "tmin"
-              },
+              "evap": "mm",
+              "glacier_melt": "mm",
+              "pcp": "mm",
+              "runoff": "mm",
+              "snow_melt": "mm",
               "model": {
                 "0": "ACCESS1-3",
                 "1": "CCSM4",
@@ -93,43 +84,75 @@
           }
         },
         "slicer": {
-          "type": "gdal",
-          "axes": {
-            "variable": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(evap|glacier_melt|iwe|pcp|runoff|sm1|sm2|sm3|snow_melt|swe|tmax|tmin)_.*_(ACCESS1-3|CanESM2|CCSM4|CSIRO-Mk3-6-0|GFDL-ESM2M|HadGEM2-ES|inmcm4|MIROC5|MPI-ESM-MR|MRI-CGCM3)_(rcp45|rcp85)_(apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)_.*_([0-9]{4}-[0-9]{4})_mean.tif'",
-              "min": "luts.variables[regex_extract('${file:name}', regex_str, 1)]",
-              "irregular": true,
-              "dataBound": false
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "evap",
+              "identifier": "evap",
+              "nilValue": "-9999"
             },
+            {
+              "name": "glacier_melt",
+              "identifier": "glacier_melt",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "pcp",
+              "identifier": "pcp",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "runoff",
+              "identifier": "runoff",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "snow_melt",
+              "identifier": "snow_melt",
+              "nilValue": "-9999"
+            }
+          ],
+          "axes": {
             "model": {
-              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "directPositions": "${netcdf:variable:model}",
               "irregular": true,
-              "dataBound": false
+              "gridOrder": 0
             },
             "scenario": {
-              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "directPositions": "${netcdf:variable:scenario}",
               "irregular": true,
-              "dataBound": false
+              "gridOrder": 1
             },
             "month": {
-              "min": "luts.months[regex_extract('${file:name}', regex_str, 4)]",
+              "min": "${netcdf:variable:month:min}",
+              "max": "${netcdf:variable:month:max}",
+              "directPositions": "${netcdf:variable:month}",
               "irregular": true,
-              "dataBound": false
+              "gridOrder": 2
             },
             "era": {
-              "min": "luts.eras[regex_extract('${file:name}', regex_str, 5)]",
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "directPositions": "${netcdf:variable:era}",
               "irregular": true,
-              "dataBound": false
+              "gridOrder": 3
             },
             "X": {
-              "min": "${gdal:minX}",
-              "max": "${gdal:maxX}",
-              "resolution": "${gdal:resolutionX}"
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 5
             },
             "Y": {
-              "min": "${gdal:minY}",
-              "max": "${gdal:maxY}",
-              "resolution": "${gdal:resolutionY}"
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 4
             }
           }
         }
