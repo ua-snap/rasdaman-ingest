@@ -11,9 +11,9 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "hydrology_netcdf",
+    "coverage_id": "hydrology",
     "paths": [
-      "zipped/total/hydrology.nc"
+      "/usr/local/data/torgerso/zipped/total/hydrology.nc"
     ]
   },
   "recipe": {
@@ -90,56 +90,48 @@
             {
               "name": "evap",
               "identifier": "evap",
-              "nilValue": "-9999"
+              "nilValue": "-9999.0"
             },
             {
               "name": "glacier_melt",
               "identifier": "glacier_melt",
-              "nilValue": "-9999"
+              "nilValue": "-9999.0"
             },
             {
               "name": "pcp",
               "identifier": "pcp",
-              "nilValue": "-9999"
+              "nilValue": "-9999.0"
             },
             {
               "name": "runoff",
               "identifier": "runoff",
-              "nilValue": "-9999"
+              "nilValue": "-9999.0"
             },
             {
               "name": "snow_melt",
               "identifier": "snow_melt",
-              "nilValue": "-9999"
+              "nilValue": "-9999.0"
             }
           ],
           "axes": {
             "model": {
-              "min": "${netcdf:variable:model:min}",
-              "max": "${netcdf:variable:model:max}",
-              "directPositions": "${netcdf:variable:model}",
-              "irregular": true,
+              "min": "0",
+              "max": "9",
               "gridOrder": 0
             },
             "scenario": {
-              "min": "${netcdf:variable:scenario:min}",
-              "max": "${netcdf:variable:scenario:max}",
-              "directPositions": "${netcdf:variable:scenario}",
-              "irregular": true,
+              "min": "0",
+              "max": "1",
               "gridOrder": 1
             },
             "month": {
-              "min": "${netcdf:variable:month:min}",
-              "max": "${netcdf:variable:month:max}",
-              "directPositions": "${netcdf:variable:month}",
-              "irregular": true,
+              "min": "0",
+              "max": "11",
               "gridOrder": 2
             },
             "era": {
-              "min": "${netcdf:variable:era:min}",
-              "max": "${netcdf:variable:era:max}",
-              "directPositions": "${netcdf:variable:era}",
-              "irregular": true,
+              "min": "0",
+              "max": "14",
               "gridOrder": 3
             },
             "X": {
