@@ -13,7 +13,7 @@
   "input": {
     "coverage_id": "hydrology",
     "paths": [
-      "/usr/local/data/torgerso/zipped/total/hydrology.nc"
+      "/usr/local/data/torgerso/zipped/hydrology.nc"
     ]
   },
   "recipe": {
@@ -30,9 +30,16 @@
             "Encoding": {
               "evap": "mm",
               "glacier_melt": "mm",
+              "iwe": "mm",
               "pcp": "mm",
               "runoff": "mm",
+              "sm1": "mm",
+              "sm2": "mm",
+              "sm3": "mm",
               "snow_melt": "mm",
+              "swe": "mm",
+              "tmax": "C",
+              "tmin": "C",
               "model": {
                 "0": "ACCESS1-3",
                 "1": "CCSM4",
@@ -98,6 +105,11 @@
               "nilValue": "-9999.0"
             },
             {
+              "name": "iwe",
+              "identifier": "iwe",
+              "nilValue": "-9999.0"
+            },
+            {
               "name": "pcp",
               "identifier": "pcp",
               "nilValue": "-9999.0"
@@ -108,8 +120,38 @@
               "nilValue": "-9999.0"
             },
             {
+              "name": "sm1",
+              "identifier": "sm1",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "sm2",
+              "identifier": "sm2",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "sm3",
+              "identifier": "sm3",
+              "nilValue": "-9999.0"
+            },
+            {
               "name": "snow_melt",
               "identifier": "snow_melt",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "swe",
+              "identifier": "swe",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tmax",
+              "identifier": "tmax",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tmin",
+              "identifier": "tmin",
               "nilValue": "-9999.0"
             }
           ],
