@@ -1,0 +1,218 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": [
+      "-9999"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "tas_projected_2km",
+    "paths": [
+      "/usr/local/data/torgerso/temperature/tas/*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/4269",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Projected 2km Temperature'",
+            "Encoding": {
+              "tas": "C",
+              "tasmax": "C",
+              "tasmin": "C",
+              "model": {
+                "0": "GFDL-CM3",
+                "1": "GISS-E2-R",
+                "2": "IPSL-CM5A-LR",
+                "3": "MRI-CGCM3",
+                "4": "NCAR-CCSM4"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp60",
+                "2": "rcp85"
+              },
+              "month": {
+                "0": "01",
+                "1": "02",
+                "2": "03",
+                "3": "04",
+                "4": "05",
+                "5": "06",
+                "6": "07",
+                "7": "08",
+                "8": "09",
+                "9": "10",
+                "10": "11",
+                "11": "12"
+              },
+              "year": {
+                "0": "2006",
+                "1": "2007",
+                "2": "2008",
+                "3": "2009",
+                "4": "2010",
+                "5": "2011",
+                "6": "2012",
+                "7": "2013",
+                "8": "2014",
+                "9": "2015",
+                "10": "2016",
+                "11": "2017",
+                "12": "2018",
+                "13": "2019",
+                "14": "2020",
+                "15": "2021",
+                "16": "2022",
+                "17": "2023",
+                "18": "2024",
+                "19": "2025",
+                "20": "2026",
+                "21": "2027",
+                "22": "2028",
+                "23": "2029",
+                "24": "2030",
+                "25": "2031",
+                "26": "2032",
+                "27": "2033",
+                "28": "2034",
+                "29": "2035",
+                "30": "2036",
+                "31": "2037",
+                "32": "2038",
+                "33": "2039",
+                "34": "2040",
+                "35": "2041",
+                "36": "2042",
+                "37": "2043",
+                "38": "2044",
+                "39": "2045",
+                "40": "2046",
+                "41": "2047",
+                "42": "2048",
+                "43": "2049",
+                "44": "2050",
+                "45": "2051",
+                "46": "2052",
+                "47": "2053",
+                "48": "2054",
+                "49": "2055",
+                "50": "2056",
+                "51": "2057",
+                "52": "2058",
+                "53": "2059",
+                "54": "2060",
+                "55": "2061",
+                "56": "2062",
+                "57": "2063",
+                "58": "2064",
+                "59": "2065",
+                "60": "2066",
+                "61": "2067",
+                "62": "2068",
+                "63": "2069",
+                "64": "2070",
+                "65": "2071",
+                "66": "2072",
+                "67": "2073",
+                "68": "2074",
+                "69": "2075",
+                "70": "2076",
+                "71": "2077",
+                "72": "2078",
+                "73": "2079",
+                "74": "2080",
+                "75": "2081",
+                "76": "2082",
+                "77": "2083",
+                "78": "2084",
+                "79": "2085",
+                "80": "2086",
+                "81": "2087",
+                "82": "2088",
+                "83": "2089",
+                "84": "2090",
+                "85": "2091",
+                "86": "2092",
+                "87": "2093",
+                "88": "2094",
+                "89": "2095",
+                "90": "2096",
+                "91": "2097",
+                "92": "2098",
+                "93": "2099",
+                "94": "2100"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "tas",
+              "identifier": "tas",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tasmax",
+              "identifier": "tasmax",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tasmin",
+              "identifier": "tasmin",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "min": "0",
+              "max": "4",
+              "gridOrder": 0
+            },
+            "scenario": {
+              "min": "0",
+              "max": "2",
+              "gridOrder": 1
+            },
+            "month": {
+              "min": "0",
+              "max": "11",
+              "gridOrder": 2
+            },
+            "year": {
+              "min": "0",
+              "max": "94",
+              "gridOrder": 3
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 5
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  }
+}
