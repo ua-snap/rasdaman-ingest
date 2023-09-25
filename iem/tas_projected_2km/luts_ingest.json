@@ -179,8 +179,8 @@
           ],
           "axes": {
             "model": {
-              "min": "0",
-              "max": "5",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'combined_(GFDL-CM3|GISS-E2-R|IPSL-CM5A-LR|MRI-CGCM3|NCAR-CCSM4)_(01|02|03|04|05|06|07|08|09|10|11|12)_temperature.nc'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "gridOrder": 0
             },
@@ -191,8 +191,7 @@
               "gridOrder": 1
             },
             "month": {
-              "min": "0",
-              "max": "11",
+              "min": "luts.months[regex_extract('${file:name}', regex_str, 2)]",
               "irregular": true,
               "gridOrder": 2
             },

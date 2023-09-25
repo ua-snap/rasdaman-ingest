@@ -29,7 +29,7 @@ for var_name in ["tas", "tasmax", "tasmin"]:
             )
 
             # No data value
-            nodata_value = -3.4e38
+            nodata_value = -9999
 
             # Get the projected x and y coordinates from a single geotiff
             with rio.open(files[0]) as src:
@@ -47,7 +47,7 @@ for var_name in ["tas", "tasmax", "tasmin"]:
 
                     with rio.open(file) as src:
                         data = src.read(1, masked=True)
-                        data = np.where(data.mask, -3.4e38, data)
+                        data = np.where(data.mask, -9999, data)
 
                     data_array = xr.DataArray(
                         data=np.expand_dims(data, axis=(0, 1, 2, 3)),
@@ -77,7 +77,7 @@ for var_name in ["tas", "tasmax", "tasmin"]:
             ds = xr.merge(var_datasets)
 
             # Define the CRS as EPSG:4269 or NAD83
-            crs_dict = {"crs": "EPSG:4269"}
+            crs_dict = {"crs": "EPSG:3338"}
 
             # Add the CRS as an attribute to the dataset
             ds.attrs.update(crs_dict)
