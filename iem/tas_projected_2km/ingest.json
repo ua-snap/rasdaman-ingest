@@ -179,26 +179,31 @@
           ],
           "axes": {
             "model": {
-              "min": "0",
-              "max": "5",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['GFDL-CM3']",
+              "max": "luts.models['NCAR-CCSM4']",
+              "directPositions": "[luts.models[x] for x in ${netcdf:variable:model}]",
               "irregular": true,
               "gridOrder": 0
             },
             "scenario": {
-              "min": "0",
-              "max": "2",
+              "min": "luts.scenarios['rcp45']",
+              "max": "luts.scenarios['rcp85']",
+              "directPositions": "[luts.scenarios[x] for x in ${netcdf:variable:scenario}]",
               "irregular": true,
               "gridOrder": 1
             },
             "month": {
-              "min": "0",
-              "max": "11",
+              "min": "luts.months['01']",
+              "max": "luts.months['12']",
+              "directPositions": "[luts.months[x] for x in ${netcdf:variable:month}]",
               "irregular": true,
               "gridOrder": 2
             },
             "year": {
-              "min": "0",
-              "max": "94",
+              "min": "luts.years['2006']",
+              "max": "luts.years['2100']",
+              "directPositions": "[luts.years[x] for x in ${netcdf:variable:year}]",
               "irregular": true,
               "gridOrder": 3
             },
