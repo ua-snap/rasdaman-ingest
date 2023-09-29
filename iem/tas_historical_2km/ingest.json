@@ -1,0 +1,220 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": [
+      "-9999"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "tas_2km_historical",
+    "paths": [
+      "/usr/local/data/torgerso/historicaltemperature/tas/attempt/*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Historical 2km Temperature'",
+            "Encoding": {
+              "tas": "C",
+              "tasmax": "C",
+              "tasmin": "C",
+              "month": {
+                "0": "01",
+                "1": "02",
+                "2": "03",
+                "3": "04",
+                "4": "05",
+                "5": "06",
+                "6": "07",
+                "7": "08",
+                "8": "09",
+                "9": "10",
+                "10": "11",
+                "11": "12"
+              },
+              "year": {
+                "0": "1901",
+                "1": "1902",
+                "2": "1903",
+                "3": "1904",
+                "4": "1905",
+                "5": "1906",
+                "6": "1907",
+                "7": "1908",
+                "8": "1909",
+                "9": "1910",
+                "10": "1911",
+                "11": "1912",
+                "12": "1913",
+                "13": "1914",
+                "14": "1915",
+                "15": "1916",
+                "16": "1917",
+                "17": "1918",
+                "18": "1919",
+                "19": "1920",
+                "20": "1921",
+                "21": "1922",
+                "22": "1923",
+                "23": "1924",
+                "24": "1925",
+                "25": "1926",
+                "26": "1927",
+                "27": "1928",
+                "28": "1929",
+                "29": "1930",
+                "30": "1931",
+                "31": "1932",
+                "32": "1933",
+                "33": "1934",
+                "34": "1935",
+                "35": "1936",
+                "36": "1937",
+                "37": "1938",
+                "38": "1939",
+                "39": "1940",
+                "40": "1941",
+                "41": "1942",
+                "42": "1943",
+                "43": "1944",
+                "44": "1945",
+                "45": "1946",
+                "46": "1947",
+                "47": "1948",
+                "48": "1949",
+                "49": "1950",
+                "50": "1951",
+                "51": "1952",
+                "52": "1953",
+                "53": "1954",
+                "54": "1955",
+                "55": "1956",
+                "56": "1957",
+                "57": "1958",
+                "58": "1959",
+                "59": "1960",
+                "60": "1961",
+                "61": "1962",
+                "62": "1963",
+                "63": "1964",
+                "64": "1965",
+                "65": "1966",
+                "66": "1967",
+                "67": "1968",
+                "68": "1969",
+                "69": "1970",
+                "70": "1971",
+                "71": "1972",
+                "72": "1973",
+                "73": "1974",
+                "74": "1975",
+                "75": "1976",
+                "76": "1977",
+                "77": "1978",
+                "78": "1979",
+                "79": "1980",
+                "80": "1981",
+                "81": "1982",
+                "82": "1983",
+                "83": "1984",
+                "84": "1985",
+                "85": "1986",
+                "86": "1987",
+                "87": "1988",
+                "88": "1989",
+                "89": "1990",
+                "90": "1991",
+                "91": "1992",
+                "92": "1993",
+                "93": "1994",
+                "94": "1995",
+                "95": "1996",
+                "96": "1997",
+                "97": "1998",
+                "98": "1999",
+                "99": "2000",
+                "100": "2001",
+                "101": "2002",
+                "102": "2003",
+                "103": "2004",
+                "104": "2005",
+                "105": "2006",
+                "106": "2007",
+                "107": "2008",
+                "108": "2009",
+                "109": "2010",
+                "110": "2011",
+                "111": "2012",
+                "112": "2013",
+                "113": "2014",
+                "114": "2015"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "tas",
+              "identifier": "tas",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tasmax",
+              "identifier": "tasmax",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tasmin",
+              "identifier": "tasmin",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "month": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'combined_(01|02|03|04|05|06|07|08|09|10|11|12)_temperature.nc'",
+              "min": "luts.months[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 0
+            },
+            "year": {
+              "min": "luts.years['1901']",
+              "max": "luts.years['2015']",
+              "directPositions": "[luts.years[x] for x in ${netcdf:variable:year}]",
+              "irregular": true,
+              "gridOrder": 1
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 3
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}

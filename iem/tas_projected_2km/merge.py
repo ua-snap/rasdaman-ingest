@@ -50,12 +50,10 @@ for var_name in ["tas", "tasmax", "tasmin"]:
                         data = np.where(data.mask, -9999, data)
 
                     data_array = xr.DataArray(
-                        data=np.expand_dims(data, axis=(0, 1, 2, 3)),
-                        dims=["model", "scenario", "month", "year", "y", "x"],
+                        data=np.expand_dims(data, axis=(0, 1)),
+                        dims=["scenario", "year", "y", "x"],
                         coords=dict(
-                            model=(["model"], [model_name]),
                             scenario=(["scenario"], [match.group(2)]),
-                            month=(["month"], [formatted_month]),
                             year=(["year"], [match.group(3)]),
                             y=(["y"], ycoords),
                             x=(["x"], xcoords),

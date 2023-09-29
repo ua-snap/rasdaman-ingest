@@ -32,16 +32,13 @@
               "tasmax": "C",
               "tasmin": "C",
               "model": {
-                "0": "GFDL-CM3",
-                "1": "GISS-E2-R",
-                "2": "IPSL-CM5A-LR",
-                "3": "MRI-CGCM3",
-                "4": "NCAR-CCSM4"
+                "0": "5ModelAvg",
+                "1": "GFDL-CM3",
+                "2": "NCAR-CCSM4"
               },
               "scenario": {
                 "0": "rcp45",
-                "1": "rcp60",
-                "2": "rcp85"
+                "1": "rcp85"
               },
               "month": {
                 "0": "01",
@@ -179,11 +176,10 @@
           ],
           "axes": {
             "model": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
-              "min": "luts.models['GFDL-CM3']",
-              "max": "luts.models['NCAR-CCSM4']",
-              "directPositions": "[luts.models[x] for x in ${netcdf:variable:model}]",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'combined_(5ModelAvg|GFDL-CM3|NCAR-CCSM4)_(01|02|03|04|05|06|07|08|09|10|11|12)_temperature.nc'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
+              "dataBound": false,
               "gridOrder": 0
             },
             "scenario": {
@@ -194,10 +190,9 @@
               "gridOrder": 1
             },
             "month": {
-              "min": "luts.months['01']",
-              "max": "luts.months['12']",
-              "directPositions": "[luts.months[x] for x in ${netcdf:variable:month}]",
+              "min": "luts.months[regex_extract('${file:name}', regex_str, 2)]",
               "irregular": true,
+              "dataBound": false,
               "gridOrder": 2
             },
             "year": {
