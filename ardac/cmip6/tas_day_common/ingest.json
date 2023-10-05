@@ -1,0 +1,100 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/4326",
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "cmip6_tas_kyle_test",
+    "paths": [
+      "data/tas_day*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": false,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'CMIP6 common grid air temperature'",
+            "Encoding": {
+              "model": {
+                "0": "",
+                "1": "",
+                "6": "",
+                "2": "",
+                "3": "",
+                "7": "",
+                "8": "",
+                "4": "",
+                "9": "",
+                "10": "",
+                "5": ""
+              },
+              "scenario": {
+                "0": "historical",
+                "1": "ssp126",
+                "2": "ssp245",
+                "3": "ssp370",
+                "4": "ssp585"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "tas",
+              "identifier": "tas"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'tas_day_(.*)_(.*)_regrid_([0-9]{8})-([0-9]{8}).nc'",
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 0
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 1
+            },
+            "ansi": {
+              "statements": "from datetime import datetime; import netCDF4",
+              "min": "netCDF4.num2date(${netcdf:variable:time:min}, 'days since 1850-01-01', calendar='gregorian').strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "netCDF4.num2date(${netcdf:variable:time:max}, 'days since 1850-01-01', calendar='gregorian').strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[netCDF4.num2date(x, 'days since 1850-01-01', calendar='gregorian').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "gridOrder": 2,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "lon": {
+              "min": "${netcdf:variable:lon:min}",
+              "max": "${netcdf:variable:lon:max}",
+              "resolution": "${netcdf:variable:lon:resolution}",
+              "gridOrder": 4
+            },
+            "lat": {
+              "min": "${netcdf:variable:lat:min}",
+              "max": "${netcdf:variable:lat:max}",
+              "resolution": "${netcdf:variable:lat:resolution}",
+              "gridOrder": 3
+            }
+          }
+        }
+      }
+    }
+  }
+}
