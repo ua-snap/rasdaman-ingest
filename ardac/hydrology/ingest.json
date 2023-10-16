@@ -1,0 +1,205 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": [
+      "-9999"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "hydrology",
+    "paths": [
+      "/usr/local/data/torgerso/zipped/hydrology.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Hydrology data'",
+            "Encoding": {
+              "evap": "mm",
+              "glacier_melt": "mm",
+              "iwe": "mm",
+              "pcp": "mm",
+              "runoff": "mm",
+              "sm1": "mm",
+              "sm2": "mm",
+              "sm3": "mm",
+              "snow_melt": "mm",
+              "swe": "mm",
+              "tmax": "C",
+              "tmin": "C",
+              "model": {
+                "0": "ACCESS1-3",
+                "1": "CCSM4",
+                "2": "CSIRO-Mk3-6-0",
+                "3": "CanESM2",
+                "4": "GFDL-ESM2M",
+                "5": "HadGEM2-ES",
+                "6": "MIROC5",
+                "7": "MPI-ESM-MR",
+                "8": "MRI-CGCM3",
+                "9": "inmcm4"
+              },
+              "scenario": {
+                "0": "rcp45",
+                "1": "rcp85"
+              },
+              "month": {
+                "0": "apr",
+                "1": "aug",
+                "2": "dec",
+                "3": "feb",
+                "4": "jan",
+                "5": "jul",
+                "6": "jun",
+                "7": "mar",
+                "8": "may",
+                "9": "nov",
+                "10": "oct",
+                "11": "sep"
+              },
+              "era": {
+                "0": "1950-1959",
+                "1": "1960-1969",
+                "2": "1970-1979",
+                "3": "1980-1989",
+                "4": "1990-1999",
+                "5": "2000-2009",
+                "6": "2010-2019",
+                "7": "2020-2029",
+                "8": "2030-2039",
+                "9": "2040-2049",
+                "10": "2050-2059",
+                "11": "2060-2069",
+                "12": "2070-2079",
+                "13": "2080-2089",
+                "14": "2090-2099"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "evap",
+              "identifier": "evap",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "glacier_melt",
+              "identifier": "glacier_melt",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "iwe",
+              "identifier": "iwe",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "pcp",
+              "identifier": "pcp",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "runoff",
+              "identifier": "runoff",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "sm1",
+              "identifier": "sm1",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "sm2",
+              "identifier": "sm2",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "sm3",
+              "identifier": "sm3",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "snow_melt",
+              "identifier": "snow_melt",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "swe",
+              "identifier": "swe",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tmax",
+              "identifier": "tmax",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "tmin",
+              "identifier": "tmin",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['ACCESS1-3']",
+              "max": "luts.models['inmcm4']",
+              "directPositions": "[luts.models[x] for x in ${netcdf:variable:model}]",
+              "irregular": true,
+              "gridOrder": 0
+            },
+            "scenario": {
+              "min": "luts.scenarios['rcp45']",
+              "max": "luts.scenarios['rcp85']",
+              "directPositions": "[luts.scenarios[x] for x in ${netcdf:variable:scenario}]",
+              "irregular": true,
+              "gridOrder": 1
+            },
+            "month": {
+              "min": "luts.months['apr']",
+              "max": "luts.months['sep']",
+              "directPositions": "[luts.months[x] for x in ${netcdf:variable:month}]",
+              "irregular": true,
+              "gridOrder": 2
+            },
+            "era": {
+              "min": "luts.eras['1950-1959']",
+              "max": "luts.eras['2090-2099']",
+              "directPositions": "[luts.eras[x] for x in ${netcdf:variable:era}]",
+              "irregular": true,
+              "gridOrder": 3
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 5
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  }
+}
