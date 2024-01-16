@@ -30,7 +30,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "Mean Annual Snowfall",
             "Encoding": {
               "model": {
                 "0": "CRU-TS",
