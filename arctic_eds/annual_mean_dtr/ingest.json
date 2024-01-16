@@ -50,7 +50,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "Mean Annual Diurnal Temperature Variation",
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",
