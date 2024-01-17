@@ -54,7 +54,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "Heating Degree Days",
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",
