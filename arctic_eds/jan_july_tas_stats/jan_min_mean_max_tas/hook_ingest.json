@@ -76,7 +76,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "January Min, Max, and Mean Temperature",
             "Encoding": {
               "tempstat": {
                 "0": "tasmax",
