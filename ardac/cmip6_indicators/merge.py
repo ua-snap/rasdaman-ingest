@@ -2,7 +2,7 @@ import os
 import xarray as xr
 
 # Specify the directory where the NetCDF files are stored
-data_dir = "path/to/data/"
+data_dir = "CMIP6_Indicators/"
 
 # Get a list of all NetCDF files in the directory that contain 'historical' in the file name (historical data)
 files = [f for f in os.listdir(data_dir) if f.endswith(".nc") and "historical" in f]
