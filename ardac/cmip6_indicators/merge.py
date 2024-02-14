@@ -61,8 +61,7 @@ hp_combined_ds = xr.merge(
     [
         xr.open_dataset("cmip6_indicators_historical.nc"),
         xr.open_dataset("cmip6_indicators_projected.nc"),
-    ],
-    compat="override",
+    ]
 )
 
 # Specify the output file name for the final combined NetCDF file
