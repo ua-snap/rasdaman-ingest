@@ -15,7 +15,7 @@ for file in files:
     datasets.append(ds)
 
 # Merge all the datasets
-historical_combined_ds = xr.merge(datasets, compat="override")
+historical_combined_ds = xr.merge(datasets)
 
 # Specify the output file name for the combined NetCDF file
 output_file = "cmip6_indicators_historical.nc"
@@ -41,7 +41,7 @@ for file in files:
     datasets.append(ds)
 
 # Merge all the datasets
-projected_combined_ds = xr.merge(datasets, compat="override")
+projected_combined_ds = xr.merge(datasets)
 
 # Specify the output file name for the combined NetCDF file
 output_file = "cmip6_indicators_projected.nc"
