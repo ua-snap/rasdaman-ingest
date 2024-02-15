@@ -26,7 +26,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP6 Indicators'",
+            "Title": "'CMIP6 Indicators'"
+          },
+          "local": {
             "Encoding": {
               "rx1day": "mm",
               "dw": "days",
@@ -52,6 +54,12 @@
                 "2": "ssp245",
                 "3": "ssp370",
                 "4": "ssp585"
+              },
+              "indicators": {
+                "0": "dw",
+                "1": "ftc",
+                "2": "rx1day",
+                "3": "su"
               }
             }
           }
