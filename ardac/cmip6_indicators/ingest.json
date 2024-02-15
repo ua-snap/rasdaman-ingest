@@ -30,10 +30,6 @@
           },
           "local": {
             "Encoding": {
-              "rx1day": "mm",
-              "dw": "days",
-              "su": "days",
-              "ftc": "days",
               "model": {
                 "0": "CESM2",
                 "1": "CESM2-WACCM",
@@ -55,7 +51,7 @@
                 "3": "ssp370",
                 "4": "ssp585"
               },
-              "indicators": {
+              "indicator": {
                 "0": "dw",
                 "1": "ftc",
                 "2": "rx1day",
