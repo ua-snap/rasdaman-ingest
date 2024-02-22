@@ -22,7 +22,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "NCAR 12km Indicators"
+          },
+          "local": {
             "Encoding": {
               "indicator": {
                 "0": "cd",
