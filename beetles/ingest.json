@@ -32,7 +32,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Spruce Beetle Risk",
+            "Title": "Spruce Beetle Risk"
+          },
+          "local": {
             "Encoding": {
               "era": {
                 "0": "1988-2017",

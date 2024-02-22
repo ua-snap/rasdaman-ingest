@@ -54,7 +54,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Freezing Index",
+            "Title": "Freezing Index"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",

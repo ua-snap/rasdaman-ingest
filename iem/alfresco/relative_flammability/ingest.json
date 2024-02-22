@@ -30,7 +30,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "ALFRESCO Relative Flammability 30 Year Eras"
+          },
+          "local": {
             "Encoding": {
               "era": {
                 "0": "1950-1979",

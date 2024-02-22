@@ -21,7 +21,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Seasonal summaries of CRU TS 4.0 historical temperature and precipitation over the 2km IEM domain over 1950-2009'",
+            "Title": "'Seasonal summaries of CRU TS 4.0 historical temperature and precipitation over the 2km IEM domain over 1950-2009'"
+          },
+          "local": {
             "Encoding": {
               "season": {
                 "0": "DJF",

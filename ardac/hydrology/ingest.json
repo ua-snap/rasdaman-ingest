@@ -429,7 +429,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Hydrology data'",
+            "Title": "'Hydrology data'"
+          },
+          "local": {
             "Encoding": {
               "evap": "mm",
               "glacier_melt": "mm",

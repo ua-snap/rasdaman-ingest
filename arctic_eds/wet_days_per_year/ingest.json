@@ -50,7 +50,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "Wet Days Per Year"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",

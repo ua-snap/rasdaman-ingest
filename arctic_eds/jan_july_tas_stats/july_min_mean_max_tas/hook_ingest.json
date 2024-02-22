@@ -76,7 +76,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "July Min, Max, and Mean Temperatures",
+            "Title": "July Min, Max, and Mean Temperatures"
+          },
+          "local": {
             "Encoding": {
               "tempstat": {
                 "0": "tasmax",

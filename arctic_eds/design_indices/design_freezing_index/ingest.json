@@ -39,7 +39,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Design Freezing Index",
+            "Title": "Design Freezing Index"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",

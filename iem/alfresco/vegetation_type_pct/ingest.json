@@ -21,7 +21,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "ALFRESCO Vegetation Type Percentage"
+          },
+          "local": {
             "Encoding": {
               "era": {
                 "0": "1950-2008",
@@ -43,7 +45,7 @@
                 "2": "rcp60",
                 "3": "rcp85"
               },
-              "veg_type" : {
+              "veg_type": {
                 "0": "not_modeled",
                 "1": "black_spruce",
                 "2": "white_spruce",

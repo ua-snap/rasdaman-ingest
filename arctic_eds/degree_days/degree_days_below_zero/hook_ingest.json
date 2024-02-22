@@ -22,7 +22,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Degree Days Below Zero",
+            "Title": "Degree Days Below Zero"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",

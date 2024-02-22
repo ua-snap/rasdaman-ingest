@@ -50,7 +50,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Annual Mean Precipitation Totals (mm)",
+            "Title": "Annual Mean Precipitation Totals (mm)"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "0": "CRU-TS",

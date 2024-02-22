@@ -50,7 +50,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Thawing Index",
+            "Title": "Thawing Index"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",
