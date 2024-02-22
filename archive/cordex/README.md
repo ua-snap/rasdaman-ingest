@@ -1,0 +1,3 @@
+# Deprecated CORDEX ingest files
+
+This folder contains ingredients files and python scripts for importing parts of the "AK CORDEX" dataset into Rasdaman. This includes both "preprocessed" and "raw" versions. The preprocessed version summarizes the CORDEX indicators dataset (derived by SNAP for a collaboration with John W on an NSF SBIR project) into climatological statistics, and writes to GeoTIFFs and follows our more common ingest methods. Those files are found in this folder. The raw version consists of ingest files and other utilities that represent progress for SNAP's rasdaman capabilities, as they manipulate the "raw" netCDF CORDEX data, which are grouped by model, variable, and year, and follow CF convetions. 
