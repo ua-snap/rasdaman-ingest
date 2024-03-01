@@ -12,6 +12,9 @@ datasets = list()
 # Loop over the files, open each one, and add it to the list of datasets
 for file in files:
     ds = xr.open_dataset(data_dir + file)
+    if "height" in ds:
+        ds = ds.drop_vars("height")
+
     datasets.append(ds)
 
 # Merge all the datasets
@@ -38,6 +41,9 @@ datasets = list()
 # Loop over the files, open each one, and add it to the list of datasets
 for file in files:
     ds = xr.open_dataset(data_dir + file)
+    if "height" in ds:
+        ds = ds.drop_vars("height")
+
     datasets.append(ds)
 
 # Merge all the datasets

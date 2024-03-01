@@ -13,7 +13,7 @@
   "input": {
     "coverage_id": "cmip6_indicators",
     "paths": [
-      "cmip6_indicators_updated.nc"
+      "cmip6_indicators.nc"
     ]
   },
   "recipe": {
