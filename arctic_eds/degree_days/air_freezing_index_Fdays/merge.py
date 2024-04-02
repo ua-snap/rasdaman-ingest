@@ -7,14 +7,16 @@ import rasterio as rio
 import re
 
 # Set the working directory to the new path
-os.chdir("/tmp/hydrology/zipped/total")
+# assume data were previously unzipped here by prefect
+os.chdir("/tmp/degree_days/air_freezing_index")
 
 # Create a list of all the files in the directory
 files = glob.glob("*.tif")
 
-# Regular expression pattern to match variable names followed by "degC" or "mm"
-variable_pattern = re.compile(
-    r"^(.*?)_(degC|mm)_(.*?)_(.*?)_(.*?)_(mean|max|total)_(.*?)_.*$"
+# Files named like: ncar_12km_MRI-CGCM3_rcp85_air_freezing_index_2091_Fdays.tif
+# Regular expression pattern to match model, scenario, and year
+model_scenario_year_pattern = re.compile(
+    r"ncar_12km_(.*?)_(.*?)_air_freezing_index_(.*?)_Fdays.*$"
 )
 
 # Get the projected x and y coordinates from a single geotiff
@@ -27,10 +29,8 @@ with rio.open(files[0]) as src:
 data_arrays = []
 for i, file in enumerate(tqdm.tqdm(files)):
     # Use regular expression to extract the variable name without units
-    match = variable_pattern.match(file)
-    if match:
-        variable_name = match.group(1)
-
+    match = model_scenario_year_pattern.match(file)
+  
     with rio.open(file) as src:
         data = src.read(1, masked=True)
         data = np.where(data.mask, -9999, data)
@@ -39,28 +39,19 @@ for i, file in enumerate(tqdm.tqdm(files)):
         data=np.expand_dims(data, axis=(0, 1, 2, 3)),
         dims=["model", "scenario", "year", "y", "x"],
         coords=dict(
-            model=(["model"], [match.group(3)]),
-            scenario=(["scenario"], [match.group(4)]),
-            era=(["year"], [match.group(7)]),
+            model=(["model"], [match.group(1)]),
+            scenario=(["scenario"], [match.group(2)]),
+            era=(["year"], [match.group(3)]),
             y=(["y"], ycoords),
             x=(["x"], xcoords),
         ),
-        name=variable_name,
+        name="air_freezing_index",
     )
 
     data_arrays.append(data_array)
 
-
-# first combine by coordinates to create a dataset for each variable. I think this saves time when the combining dataarrays with different names (variables).
-var_datasets = []
-varnames = np.unique([da.name for da in data_arrays])
-for name in tqdm.tqdm(varnames):
-    var_datasets.append(
-        xr.combine_by_coords([da for da in data_arrays if da.name == name])
-    )
-
 # then, merge the variable datasets into one single Dataset
-ds = xr.merge(var_datasets)
+ds = xr.merge(list(xr.combine_by_coords(data_arrays)))
 
 # Define the CRS as EPSG:3338
 crs_dict = {"crs": "EPSG:3338"}
@@ -68,4 +59,4 @@ crs_dict = {"crs": "EPSG:3338"}
 # Add the CRS as an attribute to the dataset
 ds.attrs.update(crs_dict)
 
-ds.to_netcdf("hydrology.nc")
+ds.to_netcdf("air_freezing_index.nc")
