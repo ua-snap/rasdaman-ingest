@@ -1,0 +1,134 @@
+{
+    "config": {
+        "service_url": "http://localhost:8080/rasdaman/ows",
+        "tmp_directory": "/tmp/",
+        "crs_resolver": "http://localhost:8080/def/",
+        "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+        "default_null_values": [
+            "-9999"
+        ],
+        "mock": false,
+        "automated": true
+    },
+    "hooks": [
+        {
+            "description": "Create future freezing index WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_freezing_index_Fdays&STYLEID=arctic_eds_freezing_index_future_condensed&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"-1\\\": [0, 0, 0, 0],
+              \\\"0\\\": [255,247,251,255],
+              \\\"1000\\\": [236,231,242,255],
+              \\\"2000\\\": [208,209,230,255],
+              \\\"3000\\\": [166,189,219,255],
+              \\\"4000\\\": [116,169,207,255],
+              \\\"5000\\\": [54,144,192,255],
+              \\\"6000\\\": [5,112,176,255],
+              \\\"7000\\\": [3,78,123,255] } }\"",
+            "abort_on_error": true
+        },
+        {
+            "description": "Create historical freezing index WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_freezing_index_Fdays&STYLEID=arctic_eds_freezing_index_historical_condensed&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"-1\\\": [0, 0, 0, 0],
+              \\\"0\\\": [255,247,251,255],
+              \\\"1000\\\": [236,231,242,255],
+              \\\"2000\\\": [208,209,230,255],
+              \\\"3000\\\": [166,189,219,255],
+              \\\"4000\\\": [116,169,207,255],
+              \\\"5000\\\": [54,144,192,255],
+              \\\"6000\\\": [5,112,176,255],
+              \\\"7000\\\": [3,78,123,255] } }\"",
+            "abort_on_error": true
+        }
+    ],
+    "input": {
+        "coverage_id": "air_freezing_index_Fdays",
+        "paths": [
+            "/usr/local/data/cparr4/zipped/air_freezing_index_Fdays.nc"
+        ]
+    },
+    "recipe": {
+        "name": "general_coverage",
+        "options": {
+            "wms_import": true,
+            "import_order": "ascending",
+            "coverage": {
+                "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
+                "metadata": {
+                    "type": "xml",
+                    "global": {
+                        "Title": "'Air Freezing Index (°F⋅days)'"
+                    },
+                    "local": {
+                        "Encoding": {
+                            "model": {
+                                "0": "ACCESS1-3",
+                                "1": "CCSM4",
+                                "2": "CSIRO-Mk3-6-0",
+                                "3": "CanESM2",
+                                "4": "GFDL-ESM2M",
+                                "5": "MIROC5",
+                                "6": "MPI-ESM-MR",
+                                "7": "MRI-CGCM3",
+                                "8": "inmcm4"
+                            },
+                            "scenario": {
+                                "0": "historical",
+                                "1": "rcp45",
+                                "2": "rcp85"
+                            }
+                        }
+                    }
+                },
+                "slicer": {
+                    "type": "netcdf",
+                    "pixelIsPoint": true,
+                    "bands": [
+                        {
+                            "name": "air_freezing_index_Fdays",
+                            "identifier": "air_freezing_index_Fdays",
+                            "nilValue": "-9999.0"
+                        }
+                    ],
+                    "axes": {
+                        "model": {
+                            "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+                            "min": "luts.models['ACCESS1-3']",
+                            "max": "luts.models['inmcm4']",
+                            "directPositions": "[luts.models[x] for x in ${netcdf:variable:model}]",
+                            "irregular": true,
+                            "gridOrder": 0
+                        },
+                        "scenario": {
+                            "min": "luts.scenarios['historical']",
+                            "max": "luts.scenarios['rcp85']",
+                            "directPositions": "[luts.scenarios[x] for x in ${netcdf:variable:scenario}]",
+                            "irregular": true,
+                            "gridOrder": 1
+                        },
+                        "year": {
+                            "min": "luts.eras['1950']",
+                            "max": "luts.eras['2099']",
+                            "directPositions": "[luts.eras[x] for x in ${netcdf:variable:era}]",
+                            "irregular": true,
+                            "gridOrder": 2
+                        },
+                        "X": {
+                            "min": "${netcdf:variable:x:min}",
+                            "max": "${netcdf:variable:x:max}",
+                            "resolution": "${netcdf:variable:x:resolution}",
+                            "gridOrder": 4
+                        },
+                        "Y": {
+                            "min": "${netcdf:variable:y:min}",
+                            "max": "${netcdf:variable:y:max}",
+                            "resolution": "${netcdf:variable:y:resolution}",
+                            "gridOrder": 3
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
