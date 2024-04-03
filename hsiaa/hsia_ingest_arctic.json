@@ -5,7 +5,7 @@
     "crs_resolver": "http://localhost:8080/rasdaman/def/",
     "default_crs": "http://localhost:8080/rasdaman/def/crs/EPSG/0/3572",
     "mock": false,
-    "automated": false
+    "automated": true
   },
   "input": {
     "coverage_id": "hsia_arctic_production",
