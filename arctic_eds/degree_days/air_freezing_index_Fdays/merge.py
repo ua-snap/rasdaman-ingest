@@ -79,15 +79,15 @@ dim_names = ["model", "scenario", "year", "y", "x"]
 ds = xr.Dataset(data_vars={"air_freezing_index_Fdays": (dim_names, out_arr)},
                 coords={"model": [x[0] for x in enumerate(models)],
                         "scenario": [x[0] for x in enumerate(scenarios)],
-                        "year": [x[0] for x in enumerate(years)],
+                        "year": [int(x) for x in years],
                         "y": y,
                         "x": x},
                 attrs={"units": "Fahrenheit Degree Days"}
                )
 
 # test that data is the same in the xr.dataset and the raster
-test_slice = ds.sel(year=100, model=2, scenario=1).air_freezing_index_Fdays
-with rio.open(f"ncar_12km_{models[2]}_{scenarios[1]}_air_freezing_index_{years[100]}_Fdays.tif") as src:
+test_slice = ds.sel(year=2050, model=2, scenario=1).air_freezing_index_Fdays
+with rio.open(f"ncar_12km_{models[2]}_{scenarios[1]}_air_freezing_index_2050_Fdays.tif") as src:
     test_arr = src.read(1)
 assert (test_slice.data == test_arr).all()
 
