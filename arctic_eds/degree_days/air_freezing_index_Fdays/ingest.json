@@ -45,7 +45,7 @@
     "input": {
         "coverage_id": "air_freezing_index_Fdays",
         "paths": [
-            "/usr/local/data/cparr4/zipped/air_freezing_index_Fdays.nc"
+            "air_freezing_index_Fdays.nc"
         ]
     },
     "recipe": {
@@ -58,7 +58,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Air Freezing Index (°F⋅days)'"
+                        "Title": "'Air Freezing Index (F-days)'"
                     },
                     "local": {
                         "Encoding": {
@@ -71,7 +71,8 @@
                                 "5": "MIROC5",
                                 "6": "MPI-ESM-MR",
                                 "7": "MRI-CGCM3",
-                                "8": "inmcm4"
+				"8": "daymet",
+                                "9": "inmcm4"
                             },
                             "scenario": {
                                 "0": "historical",
@@ -95,22 +96,22 @@
                         "model": {
                             "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
                             "min": "luts.models['ACCESS1-3']",
-                            "max": "luts.models['inmcm4']",
-                            "directPositions": "[luts.models[x] for x in ${netcdf:variable:model}]",
+			    "max": "luts.models['inmcm4']",
+                            "directPositions": "list(luts.models.values())",
                             "irregular": true,
                             "gridOrder": 0
                         },
                         "scenario": {
                             "min": "luts.scenarios['historical']",
                             "max": "luts.scenarios['rcp85']",
-                            "directPositions": "[luts.scenarios[x] for x in ${netcdf:variable:scenario}]",
+			    "directPositions": "list(luts.scenarios.values())",
                             "irregular": true,
                             "gridOrder": 1
                         },
                         "year": {
-                            "min": "luts.eras['1950']",
-                            "max": "luts.eras['2099']",
-                            "directPositions": "[luts.eras[x] for x in ${netcdf:variable:era}]",
+                            "min": "${netcdf:variable:year:min}",
+                            "max": "${netcdf:variable:year:max}",
+                            "directPositions": "${netcdf:variable:year}",
                             "irregular": true,
                             "gridOrder": 2
                         },
