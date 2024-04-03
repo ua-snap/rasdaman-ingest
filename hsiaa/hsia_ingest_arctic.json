@@ -1,5 +1,5 @@
 {
- "config": {
+  "config": {
     "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "crs_resolver": "http://localhost:8080/rasdaman/def/",
@@ -10,7 +10,7 @@
   "input": {
     "coverage_id": "hsia_arctic_production",
     "paths": [
-      "/tmp/hsia_updates_2021/rasdaman_hsia_arctic_production_tifs/*.tif"
+      "/opt/rasdaman/user_data/snapdata/rasdaman-ingest/hsiaa/rasdaman_hsia_arctic_production_tifs/*.tif"
     ]
   },
   "recipe": {
