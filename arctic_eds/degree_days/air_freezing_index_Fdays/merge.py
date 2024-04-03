@@ -7,7 +7,7 @@ import xarray as xr
 import numpy as np
 import pandas as pd
 
-os.chdir("/tmp/degree_days/air_freezing_index")
+os.chdir("/opt/rasdaman/user_data/cparr4/zipped")
 
 # list all the files in the directory
 # assumption is they've been unzipped
@@ -40,9 +40,9 @@ with rio.open(data_fps[0]) as src:
 
 # set up a multidimensional array, fill it with nodata values
 # 150 years, 10 models, 3 scenarios (includes daymet 'model' and historical 'scenario'
-arr_shape = (150,
-             10,
+arr_shape = (10,
              3,
+             150,
              ny,
              nx)
 out_arr = np.full(arr_shape, -9999.0, dtype=np.int32)
@@ -54,15 +54,16 @@ null_arr = out_arr[0, 0, 0,].copy()
 df = pd.DataFrame.from_dict(data_di).sort_index().T
 
 # these will come alpha-sorted which should mimic what rasdaman wants
+# note that python sorts upper case, then lower so 'incm4' model would be the final item in the list
 years = list(np.unique(df["year"]))
 models = list(np.unique(df["model"]))
 scenarios = list(np.unique(df["scenario"]))
 
 # start layering actual data into the correct coordinates of the output array
 # we have to iterate year, then model, then scenario because that is out_arr's shape
-for year, year_coordinate in zip(years, range(out_arr.shape[0])):
-    for model, model_coordinate in zip(models, range(out_arr.shape[1])):
-        for scenario, scenario_coordinate in zip(scenarios, range(out_arr.shape[2])):
+for model, model_coordinate in zip(models, range(out_arr.shape[0])):
+    for scenario, scenario_coordinate in zip(scenarios, range(out_arr.shape[1])):
+        for year, year_coordinate in zip(years, range(out_arr.shape[2])):
             query = "year == @year & model == @model & scenario == @scenario"
             try:
                 # get the actual data for this year, model, and scenario
@@ -70,15 +71,15 @@ for year, year_coordinate in zip(years, range(out_arr.shape[0])):
             except IndexError:
                 # if the data doesn't exist, use the null array
                 sub_arr = null_arr.copy()
-            out_arr[year_coordinate, model_coordinate, scenario_coordinate] = sub_arr
+            out_arr[model_coordinate, scenario_coordinate, year_coordinate] = sub_arr
 
 # again just need to make sure order matches how we initialized the array
-dim_names = ["year", "model", "scenario", "y", "x"]
+dim_names = ["model", "scenario", "year", "y", "x"]
 
 ds = xr.Dataset(data_vars={"air_freezing_index_Fdays": (dim_names, out_arr)},
-                coords={"year": [x[0] for x in enumerate(years)],
-                        "model": [x[0] for x in enumerate(models)],
+                coords={"model": [x[0] for x in enumerate(models)],
                         "scenario": [x[0] for x in enumerate(scenarios)],
+                        "year": [x[0] for x in enumerate(years)],
                         "y": y,
                         "x": x},
                 attrs={"units": "Fahrenheit Degree Days"}
