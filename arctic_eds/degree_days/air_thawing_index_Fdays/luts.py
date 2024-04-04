@@ -1,5 +1,3 @@
-import numpy as np
-
 models = {
     "ACCESS1-3": 0,
     "CCSM4": 1,
