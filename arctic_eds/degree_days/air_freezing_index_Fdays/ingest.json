@@ -58,7 +58,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Air Freezing Index (F-days)'"
+                        "Title": "'Air Freezing Index (°F⋅days)'"
                     },
                     "local": {
                         "Encoding": {
