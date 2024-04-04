@@ -1,57 +1,96 @@
 import os
 import glob
-import numpy as np
 import tqdm
-import xarray as xr
+
 import rasterio as rio
-import re
+import xarray as xr
+import numpy as np
+import pandas as pd
 
-# Set the working directory to the new path
-# assume data were previously unzipped here by prefect
-os.chdir("/tmp/degree_days/air_thawing_index")
+os.chdir("/opt/rasdaman/user_data/cparr4/zipped")
 
-# Create a list of all the files in the directory
-files = glob.glob("*.tif")
+# list all the files in the directory
+# assumption is they've been unzipped
+data_fps = glob.glob("*.tif")
+data_di = {}
 
-# Files named like: ncar_12km_MRI-CGCM3_rcp85_air_freezing_index_2091_Fdays.tif
-# Regular expression pattern to match model, scenario, and year
-model_scenario_year_pattern = re.compile(
-    r"ncar_12km_(.*?)_(.*?)_air_thawing_index_(.*?)_Fdays.*$"
-)
+# read in the data, store it in a dictionary
+for fp in tqdm.tqdm(data_fps):
+    fn = fp.split(".tif")[0]
+    data_di[fn] = {}
+    fn_components = fn.split("_")
+    data_di[fn]["model"] = fn_components[2]
+    data_di[fn]["scenario"] = fn_components[3]
+    data_di[fn]["year"] = fn_components[-2]
+    
+    with rio.open(fp) as src:
+    
+        arr = src.read(1)
+        arr[np.isnan(arr)] = -9999.0
+        data_di[fn]["arr"] = arr
 
-# Get the projected x and y coordinates from a single geotiff
-with rio.open(files[0]) as src:
-    cols, rows = np.meshgrid(np.arange(src.width), np.arange(src.height))
-    xarr, yarr = rio.transform.xy(src.transform, rows, cols)
-    xcoords = xarr[0]
-    ycoords = np.array([a[0] for a in yarr])
+# get x and y dimensions from a single file
+with rio.open(data_fps[0]) as src:
+    src_meta = src.meta.copy()
+    # get x and y coordinates for axes
+    y = np.array([src.xy(i, 0)[1] for i in np.arange(src.height)])
+    x = np.array([src.xy(0, j)[0] for j in np.arange(src.width)])
+    # get the number of pixels
+    ny, nx = src.height, src.width 
 
-data_arrays = []
-for i, file in enumerate(tqdm.tqdm(files)):
-    # Use regular expression to extract the relevant info
-    match = model_scenario_year_pattern.match(file)
-  
-    with rio.open(file) as src:
-        data = src.read(1, masked=True)
-        data = np.where(data.mask, -9999, data)
+# set up a multidimensional array, fill it with nodata values
+# 150 years, 10 models, 3 scenarios (includes daymet 'model' and historical 'scenario')
+arr_shape = (10,
+             3,
+             150,
+             ny,
+             nx)
+out_arr = np.full(arr_shape, -9999.0, dtype=np.int32)
 
-    data_array = xr.DataArray(
-        data=np.expand_dims(data, axis=(0, 1, 2)),
-        dims=["model", "scenario", "year", "y", "x"],
-        coords=dict(
-            model=(["model"], [match.group(1)]),
-            scenario=(["scenario"], [match.group(2)]),
-            year=(["year"], [match.group(3)]),
-            y=(["y"], ycoords),
-            x=(["x"], xcoords),
-        ),
-        name="air_thawing_index_Fdays",
-    )
+# "null" array for invalid coordinates: a 2D slice of the nodata filled array
+null_arr = out_arr[0, 0, 0,].copy()
 
-    data_arrays.append(data_array)
+# convenience - easier to query this than a nested dict
+df = pd.DataFrame.from_dict(data_di).sort_index().T
 
-# merge into a single Dataset
-ds = xr.combine_by_coords(data_arrays)
+# these will come alpha-sorted which should mimic what rasdaman wants
+# note that python sorts upper case, then lower so 'incm4' model would be the final item in the list
+years = list(np.unique(df["year"]))
+models = list(np.unique(df["model"]))
+scenarios = list(np.unique(df["scenario"]))
+
+# start layering actual data into the correct coordinates of the output array
+# we have to iterate year, then model, then scenario because that is out_arr's shape
+for model, model_coordinate in zip(models, range(out_arr.shape[0])):
+    for scenario, scenario_coordinate in zip(scenarios, range(out_arr.shape[1])):
+        for year, year_coordinate in zip(years, range(out_arr.shape[2])):
+            query = "year == @year & model == @model & scenario == @scenario"
+            try:
+                # get the actual data for this year, model, and scenario
+                sub_arr = df.query(query)["arr"].values[0]
+            except IndexError:
+                # if the data doesn't exist, use the null array
+                sub_arr = null_arr.copy()
+            out_arr[model_coordinate, scenario_coordinate, year_coordinate] = sub_arr
+
+# again just need to make sure order matches how we initialized the array
+dim_names = ["model", "scenario", "year", "y", "x"]
+
+ds = xr.Dataset(data_vars={"air_thawing_index_Fdays": (dim_names, out_arr)},
+                coords={"model": [x[0] for x in enumerate(models)],
+                        "scenario": [x[0] for x in enumerate(scenarios)],
+                        "year": [int(x) for x in years],
+                        "y": y,
+                        "x": x},
+                attrs={"units": "Fahrenheit Degree Days"}
+               )
+
+# test that data is the same in the xr.dataset and the raster
+test_slice = ds.sel(year=2050, model=2, scenario=1).air_thawing_index_Fdays
+with rio.open(f"ncar_12km_{models[2]}_{scenarios[1]}_air_thawing_index_2050_Fdays.tif") as src:
+    test_arr = src.read(1)
+assert (test_slice.data == test_arr).all()
+
 # Define the CRS as EPSG:3338
 crs_dict = {"crs": "EPSG:3338"}
 
