@@ -1,13 +1,13 @@
 models = {
-    "ACCESS1-3": 0,
-    "CCSM4": 1,
-    "CSIRO-Mk3-6-0": 2,
-    "CanESM2": 3,
-    "GFDL-ESM2M": 4,
-    "MIROC5": 5,
-    "MPI-ESM-MR": 6,
-    "MRI-CGCM3": 7,
-    "daymet": 8,
+    "daymet": 0
+    "ACCESS1-3": 1,
+    "CCSM4": 2,
+    "CSIRO-Mk3-6-0": 3,
+    "CanESM2": 4,
+    "GFDL-ESM2M": 5,
+    "MIROC5": 6,
+    "MPI-ESM-MR": 7,
+    "MRI-CGCM3": 8,
     "inmcm4": 9,
 }
 
