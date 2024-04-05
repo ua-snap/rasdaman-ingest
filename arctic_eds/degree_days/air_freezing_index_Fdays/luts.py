@@ -1,5 +1,5 @@
 models = {
-    "daymet": 0
+    "daymet": 0,
     "ACCESS1-3": 1,
     "CCSM4": 2,
     "CSIRO-Mk3-6-0": 3,
