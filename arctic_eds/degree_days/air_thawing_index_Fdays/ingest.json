@@ -63,17 +63,17 @@
                     "local": {
                         "Encoding": {
                             "model": {
-                                "0": "ACCESS1-3",
-                                "1": "CCSM4",
-                                "2": "CSIRO-Mk3-6-0",
-                                "3": "CanESM2",
-                                "4": "GFDL-ESM2M",
-                                "5": "MIROC5",
-                                "6": "MPI-ESM-MR",
-                                "7": "MRI-CGCM3",
-				"8": "daymet",
+                                "0": "daymet",
+                                "1": "ACCESS1-3",
+                                "2": "CCSM4",
+                                "3": "CSIRO-Mk3-6-0",
+                                "4": "CanESM2",
+                                "5": "GFDL-ESM2M",
+                                "6": "MIROC5",
+                                "7": "MPI-ESM-MR",
+                                "8": "MRI-CGCM3",
                                 "9": "inmcm4"
-                            },
+			    },
                             "scenario": {
                                 "0": "historical",
                                 "1": "rcp45",
@@ -95,7 +95,7 @@
                     "axes": {
                         "model": {
                             "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
-                            "min": "luts.models['ACCESS1-3']",
+                            "min": "luts.models['daymet']",
 			    "max": "luts.models['inmcm4']",
                             "directPositions": "list(luts.models.values())",
                             "irregular": true,
