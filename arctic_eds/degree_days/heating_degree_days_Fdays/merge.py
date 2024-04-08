@@ -22,9 +22,9 @@ for fp in tqdm.tqdm(data_fps):
     data_di[fn]["model"] = fn_components[2]
     data_di[fn]["scenario"] = fn_components[3]
     data_di[fn]["year"] = fn_components[-2]
-    
+
     with rio.open(fp) as src:
-    
+
         arr = src.read(1)
         arr[np.isnan(arr)] = -9999.0
         data_di[fn]["arr"] = arr
@@ -36,31 +36,32 @@ with rio.open(data_fps[0]) as src:
     y = np.array([src.xy(i, 0)[1] for i in np.arange(src.height)])
     x = np.array([src.xy(0, j)[0] for j in np.arange(src.width)])
     # get the number of pixels
-    ny, nx = src.height, src.width 
+    ny, nx = src.height, src.width
 
 # set up a multidimensional array, fill it with nodata values
 # 150 years, 10 models, 3 scenarios (includes daymet 'model' and historical 'scenario'
-arr_shape = (10,
-             3,
-             150,
-             ny,
-             nx)
+arr_shape = (10, 3, 150, ny, nx)
 out_arr = np.full(arr_shape, -9999.0, dtype=np.int32)
 
 # "null" array for invalid coordinates: a 2D slice of the nodata filled array
-null_arr = out_arr[0, 0, 0,].copy()
+null_arr = out_arr[
+    0,
+    0,
+    0,
+].copy()
 
 # convenience - easier to query this than a nested dict
 df = pd.DataFrame.from_dict(data_di).sort_index().T
-
-# these will come alpha-sorted which should mimic what rasdaman wants
-# note that python sorts upper case, then lower so 'incm4' model would be the final item in the list
 years = list(np.unique(df["year"]))
-models = list(np.unique(df["model"]))
+# these come alphabetically sorted by case and this fine for scenarios
+# but we want the daymet 'model' to be the zeroth axis coordinate
 scenarios = list(np.unique(df["scenario"]))
+models = list(np.unique(df["model"]))
+models.remove("daymet")
+models.insert(0, "daymet")
 
 # start layering actual data into the correct coordinates of the output array
-# we have to iterate year, then model, then scenario because that is out_arr's shape
+# we have to iterate model, then scenario, then year to mimic out_arr's shape
 for model, model_coordinate in zip(models, range(out_arr.shape[0])):
     for scenario, scenario_coordinate in zip(scenarios, range(out_arr.shape[1])):
         for year, year_coordinate in zip(years, range(out_arr.shape[2])):
@@ -76,18 +77,23 @@ for model, model_coordinate in zip(models, range(out_arr.shape[0])):
 # again just need to make sure order matches how we initialized the array
 dim_names = ["model", "scenario", "year", "y", "x"]
 
-ds = xr.Dataset(data_vars={"heating_degree_days_Fdays": (dim_names, out_arr)},
-                coords={"model": [x[0] for x in enumerate(models)],
-                        "scenario": [x[0] for x in enumerate(scenarios)],
-                        "year": [int(x) for x in years],
-                        "y": y,
-                        "x": x},
-                attrs={"units": "Fahrenheit Degree Days"}
-               )
+ds = xr.Dataset(
+    data_vars={"heating_degree_days_Fdays": (dim_names, out_arr)},
+    coords={
+        "model": [x[0] for x in enumerate(models)],
+        "scenario": [x[0] for x in enumerate(scenarios)],
+        "year": [int(x) for x in years],
+        "y": y,
+        "x": x,
+    },
+    attrs={"units": "Fahrenheit Degree Days"},
+)
 
 # test that data is the same in the xr.dataset and the raster
 test_slice = ds.sel(year=2099, model=3, scenario=2).heating_degree_days_Fdays
-with rio.open(f"ncar_12km_{models[3]}_{scenarios[2]}_heating_degree_days_2099_Fdays.tif") as src:
+with rio.open(
+    f"ncar_12km_{models[3]}_{scenarios[2]}_heating_degree_days_2099_Fdays.tif"
+) as src:
     test_arr = src.read(1)
 assert (test_slice.data == test_arr).all()
 
