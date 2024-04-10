@@ -36,6 +36,39 @@
               \\\"4000\\\": [217,95,14,255],
               \\\"5000\\\": [153,52,4,255] } }\"",
             "abort_on_error": true
+        },
+	        {
+            "description": "Create ARDAC historical WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_historical_era&ABSTRACT=Historical%201980-2009%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"0\\\": [253,208,162,255],
+              \\\"1000\\\": [253,174,107,255],
+              \\\"2000\\\": [253,141,60,255],
+              \\\"3000\\\": [230,85,13,255],
+              \\\"4000\\\": [166,54,3,255] } }\"",
+            "abort_on_error": true
+        },
+        {
+            "description": "Create ARDAC mid-century WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_midcentury_era&ABSTRACT=Mid-Century%202040-2069%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"0\\\": [253,208,162,255],
+              \\\"1000\\\": [253,174,107,255],
+              \\\"2000\\\": [253,141,60,255],
+              \\\"3000\\\": [230,85,13,255],
+              \\\"4000\\\": [166,54,3,255] } }\"",
+            "abort_on_error": true
+        },
+                {
+            "description": "Create ARDAC late-century WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_latecentury_era&ABSTRACT=Late-Century%202070-2099%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28120%3A149%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"0\\\": [253,208,162,255],
+              \\\"1000\\\": [253,174,107,255],
+              \\\"2000\\\": [253,141,60,255],
+              \\\"3000\\\": [230,85,13,255],
+              \\\"4000\\\": [166,54,3,255] } }\"",
+            "abort_on_error": true
         }
     ],
     "input": {
