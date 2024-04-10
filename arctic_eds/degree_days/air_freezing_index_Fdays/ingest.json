@@ -40,6 +40,39 @@
               \\\"6000\\\": [5,112,176,255],
               \\\"7000\\\": [3,78,123,255] } }\"",
             "abort_on_error": true
+        },
+	        {
+            "description": "Create ARDAC historical WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_freezing_index_Fdays&STYLEID=ardac_freezing_index_historical_era&ABSTRACT=Historical%201980-2009%20Freezing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"0\\\": [198,219,239,255],
+              \\\"1000\\\": [158,202,225,255],
+              \\\"2000\\\": [107,174,214,255],
+              \\\"3000\\\": [49,130,189,255],
+              \\\"4000\\\": [8,81,156,255] } }\"",
+            "abort_on_error": true
+        },
+        {
+            "description": "Create ARDAC mid-century WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_freezing_index_Fdays&STYLEID=ardac_freezing_index_midcentury_era&ABSTRACT=Mid-Century%202040-2069%20Freezing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"0\\\": [198,219,239,255],
+              \\\"1000\\\": [158,202,225,255],
+              \\\"2000\\\": [107,174,214,255],
+              \\\"3000\\\": [49,130,189,255],
+              \\\"4000\\\": [8,81,156,255] } }\"",
+            "abort_on_error": true
+        },
+                {
+            "description": "Create ARDAC late-century WMS style",
+            "when": "after_import",
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_freezing_index_Fdays&STYLEID=ardac_freezing_index_latecentury_era&ABSTRACT=Late-Century%202070-2099%20Freezing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28120%3A149%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+              \\\"0\\\": [198,219,239,255],
+              \\\"1000\\\": [158,202,225,255],
+              \\\"2000\\\": [107,174,214,255],
+              \\\"3000\\\": [49,130,189,255],
+              \\\"4000\\\": [8,81,156,255] } }\"",
+            "abort_on_error": true
         }
     ],
     "input": {
