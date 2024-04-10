@@ -29,7 +29,7 @@
 	{
             "description": "Create EDS historical WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=arctic_eds_heating_degree_days_historical_condensed_compressed&ABSTRACT=Average%20of%20years%20from%201880-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=arctic_eds_heating_degree_days_historical_condensed_compressed&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"-1\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"2500\\\": [236,231,242,255],
