@@ -11,9 +11,9 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "cmip6_indicators",
+    "coverage_id": "cmip6_indicators_3338",
     "paths": [
-      "cmip6_indicators.nc"
+      "cmip6_indicators_3338.nc"
     ]
   },
   "recipe": {
@@ -22,7 +22,7 @@
       "wms_import": true,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/4326",
+        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
         "metadata": {
           "type": "xml",
           "global": {
@@ -64,7 +64,7 @@
           "type": "netcdf",
           "pixelIsPoint": true,
           "bands": [
-            {
+	      {
               "name": "dw",
               "identifier": "dw",
               "nilValue": "-9999.0"
@@ -95,7 +95,7 @@
               "gridOrder": 0
             },
             "model": {
-              "min": "luts.models['CESM2']",
+              "min": "luts.models['CNRM-CM6-1-HR']",
               "max": "luts.models['TaiESM1']",
               "directPositions": "list(luts.models.values())",
               "irregular": true,
@@ -108,16 +108,16 @@
               "irregular": true,
               "gridOrder": 2
             },
-            "lat": {
-              "min": "${netcdf:variable:lat:min}",
-              "max": "${netcdf:variable:lat:max}",
-              "resolution": "${netcdf:variable:lat:resolution}",
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
               "gridOrder": 3
             },
-            "lon": {
-              "min": "${netcdf:variable:lon:min}",
-              "max": "${netcdf:variable:lon:max}",
-              "resolution": "${netcdf:variable:lon:resolution}",
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
               "gridOrder": 4
             }
           }
