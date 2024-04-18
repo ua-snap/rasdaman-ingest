@@ -1,38 +1,20 @@
-import os
+from pathlib import Path
 import xarray as xr
-import rioxarray
-
-
-def open_and_reproject_dataset(fp):
-    ds = xr.open_dataset(fp)
-    if "height" in ds:
-        ds = ds.drop_vars("height")
-
-    # need to drop model and scenario dims for reprojecting with rioxarray
-    #  even though there should only be one of each for the dataset, they are
-    #  seen as extra dims
-    model = ds.model.values[0]
-    scenario = ds.scenario.values[0]
-    ds.sel(model=model, scenario=scenario)
-    ds = ds.rio.set_spatial_dims("lon", "lat").rio.reproject(3338)
-    ds = ds.assign_coords(model=model, scenario=scenario).expand_dims(
-        dim=["scenario", "model"]
-    )
-
-    return ds
-
 
 # Specify the directory where the NetCDF files are stored
-data_dir = "CMIP6_Indicators/"
+data_dir = Path("CMIP6_Indicators/")
+
+# merging historical and projected separately might have big efficiency gain?
 
 # Get a list of all NetCDF files in the directory that contain 'historical' in the file name (historical data)
-files = [f for f in os.listdir(data_dir) if f.endswith(".nc") and "historical" in f]
+hist_files = list(data_dir.glob("**/historical/**/*historical*.nc"))
 
 datasets = list()
 
 # Loop over the files, open each one, and add it to the list of datasets
-for file in files:
-    datasets.append(open_and_reproject_dataset(data_dir + file))
+for file in hist_files:
+    ds = xr.open_dataset(file)
+    datasets.append(ds)
 
 # Merge all the datasets
 historical_combined_ds = xr.merge(datasets)
@@ -42,29 +24,28 @@ for ds in datasets:
     ds.close()
 
 # Get a list of all NetCDF files in the directory that contain 'ssp' in the file name (projected data)
-files = [f for f in os.listdir(data_dir) if f.endswith(".nc") and "ssp" in f]
+proj_files = list(data_dir.glob("**/ssp*/**/*ssp*.nc"))
 
 datasets = list()
 
 # Loop over the files, open each one, and add it to the list of datasets
-for file in files:
-    datasets.append(open_and_reproject_dataset(data_dir + file))
+for file in proj_files:
+    ds = xr.open_dataset(file)
+    datasets.append(ds)
 
 # Merge all the datasets
 projected_combined_ds = xr.merge(datasets)
 
-# Close all the datasets
-for ds in datasets:
-    ds.close()
-
 # Combine the historical and projected datasets
 hp_combined_ds = xr.merge([historical_combined_ds, projected_combined_ds])
 
+# latitude axis coordinates must decrease from north to south for rasdaman
+hp_combined_ds = hp_combined_ds.reindex(lat=list(reversed(hp_combined_ds.lat)))
+# longitude axis must come before latitude in dimension ordering
+hp_combined_ds = hp_combined_ds.transpose("scenario", "model", "year", "lon", "lat")
+
 # Specify the output file name for the final combined NetCDF file
-output_file = "cmip6_indicators_3338.nc"
+output_file = "cmip6_indicators.nc"
 
 # Save the combined dataset to a new NetCDF file
 hp_combined_ds.to_netcdf(output_file)
-
-# Close the datasets
-hp_combined_ds.close()

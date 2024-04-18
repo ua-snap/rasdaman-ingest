@@ -11,9 +11,9 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "cmip6_indicators_3338",
+    "coverage_id": "cmip6_indicators",
     "paths": [
-      "cmip6_indicators_3338.nc"
+      "cmip6_indicators.nc"
     ]
   },
   "recipe": {
@@ -22,7 +22,7 @@
       "wms_import": true,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
+        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/4326",
         "metadata": {
           "type": "xml",
           "global": {
@@ -31,18 +31,16 @@
           "local": {
             "Encoding": {
               "model": {
-                "0": "CESM2",
-                "1": "CESM2-WACCM",
-                "2": "CNRM-CM6-1-HR",
-                "3": "EC-Earth3-Veg",
-                "4": "GFDL-ESM4",
-                "5": "HadGEM-GC31-LL",
-                "6": "HadGEM-GC31-MM",
-                "7": "KACE-1-0-G",
-                "8": "MIROC6",
-                "9": "MPI-ESM1-2-LR",
-                "10": "NorESM2-MM",
-                "11": "TaiESM1"
+                "0": "CNRM-CM6-1-HR",
+                "1": "EC-Earth3-Veg",
+                "2": "GFDL-ESM4",
+                "3": "HadGEM-GC31-LL",
+                "4": "HadGEM-GC31-MM",
+                "5": "KACE-1-0-G",
+                "6": "MIROC6",
+                "7": "MPI-ESM1-2-LR",
+                "8": "NorESM2-MM",
+                "9": "TaiESM1"
               },
               "scenario": {
                 "0": "historical",
@@ -108,17 +106,17 @@
               "irregular": true,
               "gridOrder": 2
             },
-            "Y": {
-              "min": "${netcdf:variable:y:min}",
-              "max": "${netcdf:variable:y:max}",
-              "resolution": "${netcdf:variable:y:resolution}",
-              "gridOrder": 3
-            },
-            "X": {
-              "min": "${netcdf:variable:x:min}",
-              "max": "${netcdf:variable:x:max}",
-              "resolution": "${netcdf:variable:x:resolution}",
+            "lat": {
+              "min": "${netcdf:variable:lat:min}",
+              "max": "${netcdf:variable:lat:max}",
+              "resolution": "${netcdf:variable:lat:resolution}",
               "gridOrder": 4
+            },
+            "lon": {
+              "min": "${netcdf:variable:lon:min}",
+              "max": "${netcdf:variable:lon:max}",
+              "resolution": "${netcdf:variable:lon:resolution}",
+              "gridOrder": 3
             }
           }
         }
