@@ -11,7 +11,7 @@
       {
         "description": "Create Landfast Sea Ice WMS Style for ARDAC",
         "when": "after_import",
-        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=landfast_sea_ice_extent_ardac&ABSTRACT=landfast_ice&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"values\\\", \\\"colorTable\\\": {  \\\"0\\\": [0, 0, 0, 0],
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfast_sea_ice_extent&ABSTRACT=Landfast%20Sea%20Ice%20Extent&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"values\\\", \\\"colorTable\\\": {  \\\"0\\\": [0, 0, 0, 0],
          \\\"1\\\": [214, 242, 238, 255] } }\"",
         "abort_on_error": true
       }
@@ -31,7 +31,9 @@
           "metadata": {
             "type": "xml",
             "global": {
-              "Title": "",
+              "Title": "Landfast Sea Ice Extent"
+             },
+             "local": {
               "Encoding": {
                 "ice_status": {
                   "0": "absent",
