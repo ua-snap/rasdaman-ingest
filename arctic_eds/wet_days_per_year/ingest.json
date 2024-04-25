@@ -11,7 +11,7 @@
     {
       "description": "Create projected wet days per year style for WMS Layer",
       "when": "after_import",
-      "cmd": "curl -u rasadmin \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=arctic_eds_projected_wet_days_per_year&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=arctic_eds_projected_wet_days_per_year&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
         \\\"-1\\\": [0, 0, 0, 0],
         \\\"0\\\": [237,248,251,255],
         \\\"60\\\": [204,236,230,255],
@@ -24,7 +24,7 @@
     {
       "description": "Create historical wet days per year style for WMS Layer",
       "when": "after_import",
-      "cmd": "curl -u rasadmin \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=arctic_eds_historical_wet_days_per_year&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=arctic_eds_historical_wet_days_per_year&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
         \\\"-1\\\": [0, 0, 0, 0],
         \\\"0\\\": [237,248,251,255],
         \\\"60\\\": [204,236,230,255],
@@ -37,19 +37,19 @@
     {
       "description": "Create historical Wet Days Per Year WMS Style for ARDAC",
       "when": "after_import",
-      "cmd": "curl -u rasadmin \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=ardac_wdpy_historical_era&ABSTRACT=Historical%20Wet%20Days%20Per%20Year&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-1\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"60\\\":[204,236,230,255],\\\"120\\\":[153,216,201,255],\\\"180\\\":[102,194,164,255]}}\"",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=ardac_wdpy_historical_era&ABSTRACT=Historical%20Wet%20Days%20Per%20Year&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-1\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"60\\\":[204,236,230,255],\\\"120\\\":[153,216,201,255],\\\"180\\\":[102,194,164,255]}}\"",
       "abort_on_error": true
     },
     {
       "description": "Create mid-century Wet Days Per Year WMS Style for ARDAC",
       "when": "after_import",
-      "cmd": "curl -u rasadmin \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=ardac_wdpy_midcentury_era&ABSTRACT=Mid-Century%20Wet%20Days%20Per%20Year&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2860%3A89%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-1\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"60\\\":[204,236,230,255],\\\"120\\\":[153,216,201,255],\\\"180\\\":[102,194,164,255]}}\"",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=ardac_wdpy_midcentury_era&ABSTRACT=Mid-Century%20Wet%20Days%20Per%20Year&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2860%3A89%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-1\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"60\\\":[204,236,230,255],\\\"120\\\":[153,216,201,255],\\\"180\\\":[102,194,164,255]}}\"",
       "abort_on_error": true
     },
     {
       "description": "Create late-century Wet Days Per Year WMS Style for ARDAC",
       "when": "after_import",
-      "cmd": "curl -u rasadmin \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=ardac_wdpy_latecentury_era&ABSTRACT=Late-Century%20Wet%20Days%20Per%20Year&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-1\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"60\\\":[204,236,230,255],\\\"120\\\":[153,216,201,255],\\\"180\\\":[102,194,164,255]}}\"",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=wet_days_per_year&STYLEID=ardac_wdpy_latecentury_era&ABSTRACT=Late-Century%20Wet%20Days%20Per%20Year&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-1\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"60\\\":[204,236,230,255],\\\"120\\\":[153,216,201,255],\\\"180\\\":[102,194,164,255]}}\"",
       "abort_on_error": true
     }
   ],
