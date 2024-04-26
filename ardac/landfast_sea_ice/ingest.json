@@ -9,10 +9,69 @@
     },
     "hooks": [
       {
-        "description": "Create Landfast Sea Ice WMS Style for ARDAC",
+        "description": "Create 1997 ARDAC landfast sea ice extent style for WMS Layer",
         "when": "after_import",
-        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfast_sea_ice_extent&ABSTRACT=Landfast%20Sea%20Ice%20Extent&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"values\\\", \\\"colorTable\\\": {  \\\"0\\\": [0, 0, 0, 0],
-         \\\"1\\\": [214, 242, 238, 255] } }\"",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_1997&ABSTRACT=1997%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%221997-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 1998 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_1998&ABSTRACT=1998%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%221998-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 1999 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_1999&ABSTRACT=1999%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%221999-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2000 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2000&ABSTRACT=2000%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222000-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2001 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2001&ABSTRACT=2001%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222001-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2002 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2002&ABSTRACT=2002%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222002-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2003 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2003&ABSTRACT=2003%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222003-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2004 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2004&ABSTRACT=2004%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222004-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2005 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2005&ABSTRACT=2005%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222005-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2006 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2006&ABSTRACT=2006%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222006-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
+        "abort_on_error": true
+      },
+      {
+        "description": "Create 2007 ARDAC landfast sea ice extent style for WMS Layer",
+        "when": "after_import",
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=landfast_sea_ice_extent&STYLEID=ardac_landfastice_2007&ABSTRACT=2007%20Landfast%20Sea%20Ice%20Extent&WCPSQUERYFRAGMENT=%24c%5Btime%28%222007-06-01%22%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1.0\\\":[0,0,255,255]}}\"",
         "abort_on_error": true
       }
     ],
