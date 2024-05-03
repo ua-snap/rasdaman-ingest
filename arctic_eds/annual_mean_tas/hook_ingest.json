@@ -50,7 +50,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "Mean Annual Temperature"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "0": "CRU-TS",

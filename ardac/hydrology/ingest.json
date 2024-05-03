@@ -416,7 +416,7 @@
   "input": {
     "coverage_id": "hydrology",
     "paths": [
-      "/usr/local/data/torgerso/zipped/hydrology.nc"
+      "/opt/rasdaman/user_data/snapdata/rasdaman-ingest/ardac/hydrology/geotiffs/hydrology.nc"
     ]
   },
   "recipe": {
@@ -429,7 +429,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Hydrology data'",
+            "Title": "'Hydrology data'"
+          },
+          "local": {
             "Encoding": {
               "evap": "mm",
               "glacier_melt": "mm",

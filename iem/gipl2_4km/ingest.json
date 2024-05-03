@@ -4,7 +4,9 @@
     "tmp_directory": "/tmp/",
     "crs_resolver": "http://localhost:8080/def/",
     "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
-    "default_null_values": ["-9999"],
+    "default_null_values": [
+      "-9999"
+    ],
     "mock": false,
     "automated": true
   },
@@ -54,8 +56,10 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP5 GIPL Model Output 4 km magt alt'",
-	    "Encoding": {
+            "Title": "'CMIP5 GIPL Model Output 4 km magt alt'"
+          },
+          "local": {
+            "Encoding": {
               "magt": "°C",
               "alt": "m",
               "eras": {

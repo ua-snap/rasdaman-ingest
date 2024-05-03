@@ -94,7 +94,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "GIPL Permafrost Outputs"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "0": "5ModelAvg",

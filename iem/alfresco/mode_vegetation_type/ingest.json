@@ -29,7 +29,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "ALFRESCO Vegetation Mode Statistic"
+          },
+          "local": {
             "Encoding": {
               "era": {
                 "0": "1950-2008",

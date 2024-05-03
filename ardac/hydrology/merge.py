@@ -7,7 +7,7 @@ import rasterio as rio
 import re
 
 # Set the working directory to the new path
-os.chdir("/tmp/hydrology/zipped/total")
+os.chdir("./geotiffs")
 
 # Create a list of all the files in the directory
 files = glob.glob("*.tif")
