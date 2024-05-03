@@ -7,6 +7,74 @@
     "automated": true,
     "track_files": false
   },
+  "hooks": [
+    {
+      "description": "Create Cold Day Threshold WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_cd&ABSTRACT=Cold%20Day%20Threshold&WCPSQUERYFRAGMENT=%24c%5Bindicator%280%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-70\\\":[8,81,156,255],\\\"-40\\\":[49,130,189,255],\\\"-30\\\":[107,174,214,255],\\\"-20\\\":[158,202,225,255],\\\"-10\\\":[198,219,239,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Consecutive Dry Days WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_cdd&ABSTRACT=Consecutive%20Dry%20Days&WCPSQUERYFRAGMENT=%24c%5Bindicator%281%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[0,109,44,255],\\\"20\\\":[44,162,95,255],\\\"40\\\":[102,194,164,255],\\\"80\\\":[178,226,226,255],\\\"160\\\":[237,248,251,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Cold Spell Duration Index WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_csdi&ABSTRACT=Cold%20Spell%20Duration%20Index&WCPSQUERYFRAGMENT=%24c%5Bindicator%282%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[198,219,239,255],\\\"1\\\":[158,202,225,255],\\\"2\\\":[107,174,214,255],\\\"4\\\":[49,130,189,255],\\\"8\\\":[8,81,156,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Consecutive Wet Days WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_cwd&ABSTRACT=Consecutive%20Wet%20Days&WCPSQUERYFRAGMENT=%24c%5Bindicator%283%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"2\\\":[178,226,226,255],\\\"4\\\":[102,194,164,255],\\\"8\\\":[44,162,95,255],\\\"16\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Deep Winter Days WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_dw&ABSTRACT=Deep%20Winter%20Days&WCPSQUERYFRAGMENT=%24c%5Bindicator%284%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1\\\":[198,219,239,255],\\\"10\\\":[158,202,225,255],\\\"20\\\":[107,174,214,255],\\\"40\\\":[49,130,189,255],\\\"80\\\":[8,81,156,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Hot Day Threshold WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_hd&ABSTRACT=Hot%20Day%20Threshold&WCPSQUERYFRAGMENT=%24c%5Bindicator%285%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[253,208,162,255],\\\"20\\\":[253,174,107,255],\\\"25\\\":[253,141,60,255],\\\"30\\\":[230,85,13,255],\\\"35\\\":[166,54,3,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Heavy Precipitation Days WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_r10mm&ABSTRACT=Heavy%20Precipitation%20Days&WCPSQUERYFRAGMENT=%24c%5Bindicator%286%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"5\\\":[178,226,226,255],\\\"10\\\":[102,194,164,255],\\\"15\\\":[44,162,95,255],\\\"20\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Maximum 1-day Precipitation WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_rx1day&ABSTRACT=Maximum%201-day%20Precipitation&WCPSQUERYFRAGMENT=%24c%5Bindicator%287%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"10\\\":[178,226,226,255],\\\"20\\\":[102,194,164,255],\\\"30\\\":[44,162,95,255],\\\"40\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Maximum 5-day Precipitation WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_rx5day&ABSTRACT=Maximum%205-day%20Precipitation&WCPSQUERYFRAGMENT=%24c%5Bindicator%288%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"50\\\":[178,226,226,255],\\\"100\\\":[102,194,164,255],\\\"150\\\":[44,162,95,255],\\\"200\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Summer Days WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_su&ABSTRACT=Summer%20Days&WCPSQUERYFRAGMENT=%24c%5Bindicator%289%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[0,0,0,0],\\\"1\\\":[253,208,162,255],\\\"5\\\":[253,174,107,255],\\\"10\\\":[253,141,60,255],\\\"20\\\":[230,85,13,255],\\\"40\\\":[166,54,3,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Warm Spell Duration Index WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ncar12km_indicators_era_summaries&STYLEID=ardac_indicator_wsdi&ABSTRACT=Warm%20Spell%20Duration%20Index&WCPSQUERYFRAGMENT=%24c%5Bindicator%2810%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[253,208,162,255],\\\"10\\\":[253,174,107,255],\\\"20\\\":[253,141,60,255],\\\"40\\\":[230,85,13,255],\\\"80\\\":[166,54,3,255]}}\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "ncar12km_indicators_era_summaries",
     "paths": [
