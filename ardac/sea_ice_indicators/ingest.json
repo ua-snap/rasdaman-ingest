@@ -13,20 +13,44 @@
     {
       "description": "Swap X and Y axes to needed order. Should be: (year, xc, yc)",
       "when": "before_import",
-      "cmd": "ncpdq -a xc,yc \"${file:path}\" \"${file:path}\".swap",
+      "cmd": "ncpdq -a xc,yc \"${file:path}\" \"${file:path}.swap\"",
       "abort_on_error": true,
       "replace_path": ["${file:path}.swap"]
     },
     {
       "description": "Remove x/y swapped file.",
       "when": "after_import",
-      "cmd": "rm -rf \"${file:path}\".swap"
+      "cmd": "rm -rf \"${file:path}\""
+    },
+    {
+      "description": "Create freeze-up start blue24 WMS style",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=arctic_seaice_indicators_noaa&STYLEID=freezeup_start_blue24&ABSTRACT=ESRI%20Blue%2024%20for%20freeze-up%20valid%209%2F1%20-%202%2F28&WCPSQUERYFRAGMENT=%24c.freezeup_start&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"243\\\":[255,255,255,0],\\\"244\\\":[178,202,255,255],\\\"425\\\":[39,56,89,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create freeze-up end blue24 WMS style",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=arctic_seaice_indicators_noaa&STYLEID=freezeup_end_blue24&ABSTRACT=ESRI%20Blue%2024%20for%20freeze-up%20valid%209%2F1%20-%202%2F28&WCPSQUERYFRAGMENT=%24c.freezeup_end&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"243\\\":[255,255,255,0],\\\"244\\\":[178,202,255,255],\\\"425\\\":[39,56,89,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create break-up start blue24 WMS style",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=arctic_seaice_indicators_noaa&STYLEID=breakup_start_blue24&ABSTRACT=ESRI%20Blue%2024%20for%20break-up%20valid%202%2F1%20-%209%2F29&WCPSQUERYFRAGMENT=%24c.breakup_start&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"31\\\":[255,255,255,0],\\\"32\\\":[178,202,255,255],\\\"273\\\":[39,56,89,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create break-up end blue24 WMS style",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=arctic_seaice_indicators_noaa&STYLEID=breakup_end_blue24&ABSTRACT=ESRI%20Blue%2024%20for%20break-up%20valid%202%2F1%20-%209%2F29&WCPSQUERYFRAGMENT=%24c.breakup_end&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"31\\\":[255,255,255,0],\\\"32\\\":[178,202,255,255],\\\"273\\\":[39,56,89,255]}}\"",
+      "abort_on_error": true
     }
   ],
   "input": {
     "coverage_id": "arctic_seaice_indicators_noaa",
     "paths": [
-      "arctic_seaice_fubu_dates_1979-2019_swap.nc"
+      "arctic_seaice_fubu_dates_1979-2019.nc"
     ]
   },
   "recipe": {
