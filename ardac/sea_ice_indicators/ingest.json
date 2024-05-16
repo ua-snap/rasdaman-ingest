@@ -1,0 +1,95 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_null_values": [
+      "-9999"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "hooks": [
+    {
+      "description": "Swap X and Y axes to needed order. Should be: (year, xc, yc)",
+      "when": "before_import",
+      "cmd": "ncpdq -a xc,yc \"${file:path}\" \"${file:path}\".swap",
+      "abort_on_error": true,
+      "replace_path": ["${file:path}.swap"]
+    },
+    {
+      "description": "Remove x/y swapped file.",
+      "when": "after_import",
+      "cmd": "rm -rf \"${file:path}\".swap"
+    }
+  ],
+  "input": {
+    "coverage_id": "arctic_seaice_indicators_noaa",
+    "paths": [
+      "arctic_seaice_fubu_dates_1979-2019_swap.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3411",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Eicken / Johnson / Walsh / NOAA Sea Ice Indicators'"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "freezeup_start",
+              "identifier": "freezeup_start",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "freezeup_end",
+              "identifier": "freezeup_end",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "breakup_start",
+              "identifier": "breakup_start",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "breakup_end",
+              "identifier": "breakup_end",
+              "nilValue": "-9999"
+            }
+          ],
+          "axes": {
+            "year": {
+              "min": "${netcdf:variable:year:min}",
+              "max": "${netcdf:variable:year:max}",
+              "directPositions": "${netcdf:variable:year}",
+              "irregular": true,
+              "gridOrder": 0
+            },
+            "X": {
+              "min": "${netcdf:variable:xc:min}",
+              "max": "${netcdf:variable:xc:max}",
+              "resolution": "${netcdf:variable:xc:resolution}",
+              "gridOrder": 1
+            },
+            "Y": {
+              "min": "${netcdf:variable:yc:min}",
+              "max": "${netcdf:variable:yc:max}",
+              "resolution": "${netcdf:variable:yc:resolution}",
+              "gridOrder": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}
