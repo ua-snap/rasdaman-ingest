@@ -77,6 +77,78 @@
       \\\"1\\\": [244, 165, 130, 255],
       \\\"2\\\": [214, 96, 77, 255] } }\"",
       "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century 3m MAGT WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_magt3m_earlycentury_era&ABSTRACT=Early-Century%203m%20MAGT&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%283%29%5D%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-20\\\":[33,102,172,255],\\\"-6\\\":[67,147,195,255],\\\"-4\\\":[146,197,222,255],\\\"-2\\\":[209,229,240,255],\\\"-1\\\":[247,247,247,255],\\\"-0\\\":[253,219,199,255],\\\"1\\\":[244,165,130,255],\\\"2\\\":[214,96,77,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century 3m MAGT WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_magt3m_midcentury_era&ABSTRACT=Mid-Century%203m%20MAGT&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%283%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-20\\\":[33,102,172,255],\\\"-6\\\":[67,147,195,255],\\\"-4\\\":[146,197,222,255],\\\"-2\\\":[209,229,240,255],\\\"-1\\\":[247,247,247,255],\\\"-0\\\":[253,219,199,255],\\\"1\\\":[244,165,130,255],\\\"2\\\":[214,96,77,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century 3m MAGT WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_magt3m_latecentury_era&ABSTRACT=Late-Century%203m%20MAGT&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%283%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-20\\\":[33,102,172,255],\\\"-6\\\":[67,147,195,255],\\\"-4\\\":[146,197,222,255],\\\"-2\\\":[209,229,240,255],\\\"-1\\\":[247,247,247,255],\\\"-0\\\":[253,219,199,255],\\\"1\\\":[244,165,130,255],\\\"2\\\":[214,96,77,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century Permafrost Base WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_permafrost_base_earlycentury_era&ABSTRACT=Early-Century%20Permafrost%20Base&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%287%29%5D%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[255,255,204,255],\\\"100\\\":[161,218,180,255],\\\"200\\\":[65,182,196,255],\\\"300\\\":[44,127,184,255],\\\"400\\\":[37,52,148,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century Permafrost Base WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_permafrost_base_midcentury_era&ABSTRACT=Mid-Century%20Permafrost%20Base&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%287%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[255,255,204,255],\\\"100\\\":[161,218,180,255],\\\"200\\\":[65,182,196,255],\\\"300\\\":[44,127,184,255],\\\"400\\\":[37,52,148,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century Permafrost Base WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_permafrost_base_latecentury_era&ABSTRACT=Late-Century%20Permafrost%20Base&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%287%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[255,255,204,255],\\\"100\\\":[161,218,180,255],\\\"200\\\":[65,182,196,255],\\\"300\\\":[44,127,184,255],\\\"400\\\":[37,52,148,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century Permafrost Top WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_permafrost_top_earlycentury_era&ABSTRACT=Early-Century%20Permafrost%20Top&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%288%29%5D%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[37,52,148,255],\\\"1\\\":[44,127,184,255],\\\"2\\\":[65,182,196,255],\\\"3\\\":[161,218,180,255],\\\"4\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century Permafrost Top WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_permafrost_top_midcentury_era&ABSTRACT=Mid-Century%20Permafrost%20Top&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%288%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[37,52,148,255],\\\"1\\\":[44,127,184,255],\\\"2\\\":[65,182,196,255],\\\"3\\\":[161,218,180,255],\\\"4\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century Permafrost Top WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_permafrost_top_latecentury_era&ABSTRACT=Late-Century%20Permafrost%20Top&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%288%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[37,52,148,255],\\\"1\\\":[44,127,184,255],\\\"2\\\":[65,182,196,255],\\\"3\\\":[161,218,180,255],\\\"4\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century Talik Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_talikthickness_earlycentury_era&ABSTRACT=Early-Century%20Talik%20Thickness&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%289%29%5D%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[37,52,148,255],\\\"0.25\\\":[44,127,184,255],\\\"0.5\\\":[65,182,196,255],\\\"1\\\":[161,218,180,255],\\\"2\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century Talik Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_talikthickness_midcentury_era&ABSTRACT=Mid-Century%20Talik%20Thickness&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%289%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[37,52,148,255],\\\"0.25\\\":[44,127,184,255],\\\"0.5\\\":[65,182,196,255],\\\"1\\\":[161,218,180,255],\\\"2\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century Talik Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=ardac_talikthickness_latecentury_era&ABSTRACT=Late-Century%20Talik%20Thickness&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%289%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[37,52,148,255],\\\"0.25\\\":[44,127,184,255],\\\"0.5\\\":[65,182,196,255],\\\"1\\\":[161,218,180,255],\\\"2\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
     }
   ],
   "input": {
@@ -94,7 +166,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "GIPL Permafrost Outputs"
+	  },
+	  "local": {
             "Encoding": {
               "model": {
                 "0": "5ModelAvg",
