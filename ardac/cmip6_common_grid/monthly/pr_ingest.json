@@ -7,6 +7,21 @@
     "mock": false,
     "automated": true
   },
+  "hooks": [
+    {
+      "description": "Create default style for monthly precipitation",
+      "when": "after_import",
+      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly_precipitation&STYLEID=default_precip&ABSTRACT=CMIP6%20average%20monthly%20precipitation&WCPSQUERYFRAGMENT=%24c.pr&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+       \\\"0\\\": [140, 81, 10, 255],
+       \\\"25\\\": [216, 179, 101, 255],
+       \\\"51\\\": [246, 232, 195, 255],
+       \\\"127\\\": [245, 245, 245, 255],
+       \\\"254\\\": [199, 234, 229, 255],
+       \\\"508\\\": [90, 180, 172, 255],
+       \\\"1016\\\": [1, 102, 94, 255] } }\"",
+      "abort_on_error": true
+    }
+  ],
   "input": {
     "coverage_id": "cmip6_monthly_precipitation",
     "paths": [
