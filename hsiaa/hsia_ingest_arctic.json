@@ -31,7 +31,7 @@
     {
       "description": "Create hsia style for WMS",
       "when": "after_import",
-      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=hsia_arctic_production&STYLEID=hsia&ABSTRACT=Style%20for%20the%20historical%20sea%20ice%20atlas&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [8, 29, 88, 255],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=hsia_arctic_production&STYLEID=hsia&ABSTRACT=Style%20for%20the%20historical%20sea%20ice%20atlas&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [8, 29, 88, 255],
         \\\"10\\\": [37, 52, 148, 255],
         \\\"20\\\": [34, 94, 168, 255],
         \\\"30\\\": [29, 145, 192, 255],
