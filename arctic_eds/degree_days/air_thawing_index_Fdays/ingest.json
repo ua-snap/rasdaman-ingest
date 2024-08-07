@@ -14,7 +14,7 @@
         {
             "description": "Create future thawing index WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=arctic_eds_thawing_index_future&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2891%3A120%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=arctic_eds_thawing_index_future&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2891%3A120%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"-1\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"1000\\\": [254,227,145,255],
@@ -27,7 +27,7 @@
         {
             "description": "Create historical thawing index WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=arctic_eds_thawing_index_historical&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2831%3A60%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=arctic_eds_thawing_index_historical&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2831%3A60%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"-1\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"1000\\\": [254,227,145,255],
@@ -37,10 +37,10 @@
               \\\"5000\\\": [153,52,4,255] } }\"",
             "abort_on_error": true
         },
-	        {
+        {
             "description": "Create ARDAC historical WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_historical_era&ABSTRACT=Historical%201980-2009%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_historical_era&ABSTRACT=Historical%201980-2009%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"0\\\": [253,208,162,255],
               \\\"1000\\\": [253,174,107,255],
               \\\"2000\\\": [253,141,60,255],
@@ -51,7 +51,7 @@
         {
             "description": "Create ARDAC mid-century WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_midcentury_era&ABSTRACT=Mid-Century%202040-2069%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_midcentury_era&ABSTRACT=Mid-Century%202040-2069%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"0\\\": [253,208,162,255],
               \\\"1000\\\": [253,174,107,255],
               \\\"2000\\\": [253,141,60,255],
@@ -59,10 +59,10 @@
               \\\"4000\\\": [166,54,3,255] } }\"",
             "abort_on_error": true
         },
-                {
+        {
             "description": "Create ARDAC late-century WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_latecentury_era&ABSTRACT=Late-Century%202070-2099%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28120%3A149%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=air_thawing_index_Fdays&STYLEID=ardac_thawing_index_latecentury_era&ABSTRACT=Late-Century%202070-2099%20Thawing%20Index&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28120%3A149%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"0\\\": [253,208,162,255],
               \\\"1000\\\": [253,174,107,255],
               \\\"2000\\\": [253,141,60,255],
@@ -81,8 +81,8 @@
         "name": "general_coverage",
         "options": {
             "wms_import": true,
-            "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304", 
-	    "import_order": "ascending",
+            "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+            "import_order": "ascending",
             "coverage": {
                 "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
                 "metadata": {
@@ -103,7 +103,7 @@
                                 "7": "MPI-ESM-MR",
                                 "8": "MRI-CGCM3",
                                 "9": "inmcm4"
-			    },
+                            },
                             "scenario": {
                                 "0": "historical",
                                 "1": "rcp45",
@@ -126,7 +126,7 @@
                         "model": {
                             "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
                             "min": "luts.models['daymet']",
-			    "max": "luts.models['inmcm4']",
+                            "max": "luts.models['inmcm4']",
                             "directPositions": "list(luts.models.values())",
                             "irregular": true,
                             "gridOrder": 0
@@ -134,7 +134,7 @@
                         "scenario": {
                             "min": "luts.scenarios['historical']",
                             "max": "luts.scenarios['rcp85']",
-			    "directPositions": "list(luts.scenarios.values())",
+                            "directPositions": "list(luts.scenarios.values())",
                             "irregular": true,
                             "gridOrder": 1
                         },
