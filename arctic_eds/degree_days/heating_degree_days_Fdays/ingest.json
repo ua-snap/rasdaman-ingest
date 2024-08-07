@@ -14,7 +14,7 @@
         {
             "description": "Create EDS future WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=arctic_eds_heating_degree_days_future&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=arctic_eds_heating_degree_days_future&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"-1\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"2500\\\": [236,231,242,255],
@@ -26,10 +26,10 @@
               \\\"17500\\\": [3,78,123,255] } }\"",
             "abort_on_error": true
         },
-	{
+        {
             "description": "Create EDS historical WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=arctic_eds_heating_degree_days_historical&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=arctic_eds_heating_degree_days_historical&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"-1\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"2500\\\": [236,231,242,255],
@@ -41,10 +41,10 @@
               \\\"17500\\\": [3,78,123,255] } }\"",
             "abort_on_error": true
         },
-	{
+        {
             "description": "Create ARDAC historical WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=ardac_dd_below_65_historical_era&ABSTRACT=Historical%201980-2009%20Degree%20Days%20Below%2065%C2%B0F&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=ardac_dd_below_65_historical_era&ABSTRACT=Historical%201980-2009%20Degree%20Days%20Below%2065%C2%B0F&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2830%3A59%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"4000\\\": [198,219,239,255],
               \\\"8000\\\": [107,174,214,255],
@@ -52,10 +52,10 @@
               \\\"16000\\\": [8,81,156,255] } }\"",
             "abort_on_error": true
         },
-	{
+        {
             "description": "Create ARDAC mid-century WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=ardac_dd_below_65_midcentury_era&ABSTRACT=Mid-Century%202040-2069%20Degree%20Days%20Below%2065%C2%B0F&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=ardac_dd_below_65_midcentury_era&ABSTRACT=Mid-Century%202040-2069%20Degree%20Days%20Below%2065%C2%B0F&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2890%3A119%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"4000\\\": [198,219,239,255],
               \\\"8000\\\": [107,174,214,255],
@@ -63,10 +63,10 @@
               \\\"16000\\\": [8,81,156,255] } }\"",
             "abort_on_error": true
         },
-	        {
+        {
             "description": "Create ARDAC late-century WMS style",
             "when": "after_import",
-            "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=ardac_dd_below_65_latecentury_era&ABSTRACT=Late-Century%202070-2099%20Degree%20Days%20Below%2065%C2%B0F&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28120%3A149%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days_Fdays&STYLEID=ardac_dd_below_65_latecentury_era&ABSTRACT=Late-Century%202070-2099%20Degree%20Days%20Below%2065%C2%B0F&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28120%3A149%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%2C%20scenario%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
               \\\"0\\\": [255,247,251,255],
               \\\"4000\\\": [198,219,239,255],
               \\\"8000\\\": [107,174,214,255],
@@ -85,7 +85,7 @@
         "name": "general_coverage",
         "options": {
             "wms_import": true,
-            "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",	    
+            "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
             "import_order": "ascending",
             "coverage": {
                 "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
@@ -97,7 +97,7 @@
                     "local": {
                         "Encoding": {
                             "model": {
-			        "0": "daymet",
+                                "0": "daymet",
                                 "1": "ACCESS1-3",
                                 "2": "CCSM4",
                                 "3": "CSIRO-Mk3-6-0",
@@ -130,7 +130,7 @@
                         "model": {
                             "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
                             "min": "luts.models['daymet']",
-			    "max": "luts.models['inmcm4']",
+                            "max": "luts.models['inmcm4']",
                             "directPositions": "list(luts.models.values())",
                             "irregular": true,
                             "gridOrder": 0
@@ -138,7 +138,7 @@
                         "scenario": {
                             "min": "luts.scenarios['historical']",
                             "max": "luts.scenarios['rcp85']",
-			    "directPositions": "list(luts.scenarios.values())",
+                            "directPositions": "list(luts.scenarios.values())",
                             "irregular": true,
                             "gridOrder": 1
                         },
