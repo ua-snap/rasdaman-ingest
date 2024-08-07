@@ -85,7 +85,8 @@
         "name": "general_coverage",
         "options": {
             "wms_import": true,
-            "import_order": "ascending",
+            "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+	    "import_order": "ascending",
             "coverage": {
                 "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
                 "metadata": {
