@@ -12,7 +12,7 @@ import argparse
 import numpy as np
 import xarray as xr
 from pathlib import Path
-from config import var_group_id_lu
+from luts import var_group_id_lu
 
 
 def get_var_ids(var_group_id):
