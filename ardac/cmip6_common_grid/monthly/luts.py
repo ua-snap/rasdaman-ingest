@@ -13,7 +13,9 @@ models = {
     "TaiESM1": 11, 
 }   
 
-
+var_group_id_lu = {
+    "v1_1": ["tas", "tasmax", "tasmin", "pr", "sfcWind", "sfcWindmax"],
+}
 
 scenarios = {
     "historical": 0,
