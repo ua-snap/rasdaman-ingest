@@ -11,7 +11,7 @@
         {
         "description": "Create ARDAC Landfast Sea Ice MMM Style.",
         "when": "after_import",
-        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ardac_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
+        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ardac_chukchi_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
         \\\"1\\\": [236, 231, 242, 255],
         \\\"2\\\": [166, 189, 219, 255],
         \\\"3\\\": [43, 140, 190, 255],
@@ -23,7 +23,7 @@
         }
     ],
     "input": {
-        "coverage_id": "ardac_landfast_sea_ice_mmm",
+        "coverage_id": "ardac_chukchi_landfast_sea_ice_mmm",
         "paths": [
             "geotiffs/*.tif"
         ]
@@ -37,7 +37,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "ARDAC Landfast Sea Ice MMM"
+                        "Title": "ARDAC Chukchi Landfast Sea Ice MMM"
                     },
                     "local": {
                         "Encoding": {
