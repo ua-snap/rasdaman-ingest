@@ -1,7 +1,9 @@
 {
     "config": {
-        "service_url": "http://localhost:8080/rasdaman/ows",
+        "service_url": "https://localhost/rasdaman/ows",
         "tmp_directory": "/tmp/",
+	"crs_resolver": "http://localhost:8080/def/",
+        "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
         "blocking": true,
         "mock": false,
         "automated": true,
@@ -11,7 +13,7 @@
         {
         "description": "Create ARDAC Landfast Sea Ice MMM Style.",
         "when": "after_import",
-        "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=ardac_chukchi_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
+        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_chukchi_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
         \\\"1\\\": [236, 231, 242, 255],
         \\\"2\\\": [166, 189, 219, 255],
         \\\"3\\\": [43, 140, 190, 255],
@@ -25,7 +27,7 @@
     "input": {
         "coverage_id": "ardac_chukchi_landfast_sea_ice_mmm",
         "paths": [
-            "geotiffs/*.tif"
+            "Chukchi_MMM/*.tif"
         ]
     },
     "recipe": {
@@ -65,7 +67,7 @@
                     "type": "gdal",
                     "axes": {
                         "month": {
-                            "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'Beaufort_(0[1-9]|1[0-2])_(1996-2005|2005-2014|2014-2023)_*'",
+                            "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'Chukchi_(0[1-9]|1[0-2])_(1996-2005|2005-2014|2014-2023)_*'",
                             "min": "luts.months[regex_extract('${file:name}', regex_str, 1)]",
                             "irregular": true,
                             "dataBound": false
