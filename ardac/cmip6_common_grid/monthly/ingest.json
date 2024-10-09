@@ -13,22 +13,39 @@
   "input": {
     "coverage_id": "cmip6_monthly",
     "paths": [
-      "v1_1_data/*.nc"
+      "data/*.nc"
     ]
   },
   "recipe": {
     "name": "general_coverage",
     "options": {
-      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
       "wms_import": true,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate@EPSG/0/4326",
+        "crs": "OGC/0/Index1D?axis-label=\"varname\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate@EPSG/0/4326",
         "metadata": {
           "type": "xml",
           "global": {
             "Title": "'CMIP6 monthly data on common grid'",
             "Encoding": {
+              "varname": {
+                "0": "clt",
+                "1": "evspsbl",
+                "2": "hfls",
+                "3": "hfss",
+                "4": "pr",
+                "5": "psl",
+                "6": "rlds",
+                "7": "rsds",
+                "8": "sfcWind",
+                "9": "tas",
+                "10": "tasmax",
+                "11": "tasmin",
+                "12": "ts",
+                "13": "uas",
+                "14": "vas"
+              },
               "model": {
                 "0": "CESM2",
                 "1": "CNRM-CM6-1-HR",
@@ -38,10 +55,10 @@
                 "5": "HadGEM3-GC31-MM",
                 "6": "KACE-1-0-G",
                 "7": "MIROC6",
-                "8": "MPI-ESM1-2-HR",
-                "9": "MRI-ESM2-0",
-                "10": "NorESM2-MM",
-                "11": "TaiESM1"
+                "11": "MPI-ESM1-2-HR",
+                "8": "MRI-ESM2-0",
+                "9": "NorESM2-MM",
+                "10": "TaiESM1"
               },
               "scenario": {
                 "0": "historical",
@@ -58,46 +75,36 @@
           "pixelIsPoint": true,
           "bands": [
             {
-              "name": "tas",
-              "identifier": "tas"
-            },
-            {
-              "name": "tasmin",
-              "identifier": "tasmin"
-            },
-            {
-              "name": "tasmax",
-              "identifier": "tasmax"
-            },
-            {
-              "name": "pr",
-              "identifier": "pr"
-            },
-            {
-              "name": "sfcWind",
-              "identifier": "sfcWind"
+              "name": "data",
+              "identifier": "data"
             }
           ],
           "axes": {
-            "model": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*)_(.*)_mon_v1_1.nc'",
-              "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+            "varname": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*)_(.*)_(.*)_mon.nc'",
+              "min": "luts.varname[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false,
               "gridOrder": 0
             },
-            "scenario": {
-              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 2)]",
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
               "irregular": true,
               "dataBound": false,
               "gridOrder": 1
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 2
             },
             "ansi": {
               "statements": "from datetime import datetime; import netCDF4",
               "min": "netCDF4.num2date(${netcdf:variable:time:min}, 'days since 1950-01-01', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
               "max": "netCDF4.num2date(${netcdf:variable:time:max}, 'days since 1950-01-01', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
               "directPositions": "[netCDF4.num2date(x, 'days since 1950-01-01', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
-              "gridOrder": 2,
+              "gridOrder": 3,
               "type": "ansidate",
               "irregular": true
             },
@@ -105,13 +112,13 @@
               "min": "${netcdf:variable:lon:min}",
               "max": "${netcdf:variable:lon:max}",
               "resolution": "${netcdf:variable:lon:resolution}",
-              "gridOrder": 3
+              "gridOrder": 4
             },
             "lat": {
               "min": "${netcdf:variable:lat:min}",
               "max": "${netcdf:variable:lat:max}",
               "resolution": "${netcdf:variable:lat:resolution}",
-              "gridOrder": 4
+              "gridOrder": 5
             }
           }
         }
@@ -119,3 +126,4 @@
     }
   }
 }
+
