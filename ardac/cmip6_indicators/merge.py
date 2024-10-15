@@ -7,7 +7,7 @@ data_dir = Path("CMIP6_Indicators/")
 # merging historical and projected separately might have big efficiency gain?
 
 # Get a list of all NetCDF files in the directory that contain 'historical' in the file name (historical data)
-hist_files = list(data_dir.glob("**/historical/**/*historical*.nc"))
+hist_files = list(data_dir.glob("*historical*.nc"))
 
 datasets = list()
 
@@ -24,7 +24,7 @@ for ds in datasets:
     ds.close()
 
 # Get a list of all NetCDF files in the directory that contain 'ssp' in the file name (projected data)
-proj_files = list(data_dir.glob("**/ssp*/**/*ssp*.nc"))
+proj_files = list(data_dir.glob("*ssp*.nc"))
 
 datasets = list()
 
@@ -43,6 +43,10 @@ hp_combined_ds = xr.merge([historical_combined_ds, projected_combined_ds])
 hp_combined_ds = hp_combined_ds.reindex(lat=list(reversed(hp_combined_ds.lat)))
 # longitude axis must come before latitude in dimension ordering
 hp_combined_ds = hp_combined_ds.transpose("scenario", "model", "year", "lon", "lat")
+
+for var_id in ["year", "ftc", "dw", "su"]:
+    # change type to int32
+    hp_combined_ds[var_id] = hp_combined_ds[var_id].astype("int32") 
 
 # Specify the output file name for the final combined NetCDF file
 output_file = "cmip6_indicators.nc"
