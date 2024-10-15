@@ -1,4 +1,5 @@
 from pathlib import Path
+import numpy as np
 import xarray as xr
 
 # Specify the directory where the NetCDF files are stored
@@ -46,6 +47,7 @@ hp_combined_ds = hp_combined_ds.transpose("scenario", "model", "year", "lon", "l
 
 for var_id in ["year", "ftc", "dw", "su"]:
     # change type to int32
+    hp_combined_ds[var_id].data[np.isnan(hp_combined_ds[var_id])] = -9999
     hp_combined_ds[var_id] = hp_combined_ds[var_id].astype("int32") 
 
 # Specify the output file name for the final combined NetCDF file
