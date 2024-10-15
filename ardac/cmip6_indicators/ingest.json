@@ -11,7 +11,7 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "cmip6_indicators",
+    "coverage_id": "cmip6_indicators_new",
     "paths": [
       "cmip6_indicators.nc"
     ]
@@ -31,16 +31,18 @@
           "local": {
             "Encoding": {
               "model": {
-                "0": "CNRM-CM6-1-HR",
-                "1": "EC-Earth3-Veg",
-                "2": "GFDL-ESM4",
-                "3": "HadGEM-GC31-LL",
-                "4": "HadGEM-GC31-MM",
-                "5": "KACE-1-0-G",
-                "6": "MIROC6",
-                "7": "MPI-ESM1-2-LR",
-                "8": "NorESM2-MM",
-                "9": "TaiESM1"
+                "0": "CESM2",
+                "1": "CNRM-CM6-1-HR",
+                "2": "EC-Earth3-Veg",
+                "3": "GFDL-ESM4",
+                "4": "HadGEM-GC31-LL",
+                "5": "HadGEM-GC31-MM",
+                "6": "KACE-1-0-G",
+                "7": "MIROC6",
+                "8": "MPI-ESM1-2-LR",
+                "9": "MRI-ESM2-0",
+                "10": "NorESM2-MM",
+                "11": "TaiESM1"
               },
               "scenario": {
                 "0": "historical",
@@ -93,7 +95,7 @@
               "gridOrder": 0
             },
             "model": {
-              "min": "luts.models['CNRM-CM6-1-HR']",
+              "min": "luts.models['CESM2']",
               "max": "luts.models['TaiESM1']",
               "directPositions": "list(luts.models.values())",
               "irregular": true,
