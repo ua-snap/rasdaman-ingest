@@ -23,7 +23,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP6 monthly average temperature on common grid'",
+            "Title": "'CMIP6 monthly average temperature on common grid'"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "0": "CESM2",

@@ -38,7 +38,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP6 monthly precipitation on common grid'",
+            "Title": "'CMIP6 monthly precipitation on common grid'"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "0": "CESM2",

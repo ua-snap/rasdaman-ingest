@@ -27,7 +27,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP6 monthly data on common grid'",
+            "Title": "'CMIP6 monthly data on common grid'"
+          },
+          "local": {
             "Encoding": {
               "varname": {
                 "0": "clt",
@@ -218,4 +220,3 @@
     }
   ]
 }
-
