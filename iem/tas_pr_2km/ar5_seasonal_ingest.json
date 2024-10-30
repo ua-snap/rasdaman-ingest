@@ -21,7 +21,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Seasonal-decadal summaries of AR5 temperature and precipitation projections over the 2km IEM domain'",
+            "Title": "'Seasonal-decadal summaries of AR5 temperature and precipitation projections over the 2km IEM domain'"
+          },
+          "local": {
             "Encoding": {
               "decade": {
                 "0": "2010_2019",
@@ -81,7 +83,7 @@
               "irregular": true,
               "dataBound": false
             },
-              "varname": {
+            "varname": {
               "min": "luts.varnames[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false

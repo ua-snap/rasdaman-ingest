@@ -39,7 +39,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "",
+            "Title": "Design Thawing Index"
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "1": "GFDL-CM3",

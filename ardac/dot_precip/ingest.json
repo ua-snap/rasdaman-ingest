@@ -26,7 +26,9 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'DOT Precipitation data'",
+            "Title": "'DOT Precipitation data'"
+          },
+          "local": {
             "Encoding": {
               "pf": "1/1000 inches",
               "pf_upper": "1/1000 inches",

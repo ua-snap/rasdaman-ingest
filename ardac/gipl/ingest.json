@@ -167,8 +167,8 @@
           "type": "xml",
           "global": {
             "Title": "GIPL Permafrost Outputs"
-	  },
-	  "local": {
+          },
+          "local": {
             "Encoding": {
               "model": {
                 "0": "5ModelAvg",

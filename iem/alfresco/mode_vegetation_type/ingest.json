@@ -36,8 +36,8 @@
           "type": "xml",
           "global": {
             "Title": "ALFRESCO Vegetation Mode Statistic"
-	  },
-	  "local": {
+          },
+          "local": {
             "Encoding": {
               "era": {
                 "0": "1950-2008",
