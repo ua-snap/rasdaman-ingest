@@ -9,6 +9,7 @@ import pandas as pd
 
 
 def merge(directory_path):
+    output_path = os.path.join(os.getcwd(), "air_freezing_index_Fdays.nc")
     os.chdir(directory_path)
 
     # list all the files in the directory
@@ -105,7 +106,8 @@ def merge(directory_path):
     # Add the CRS as an attribute to the dataset
     ds.attrs.update(crs_dict)
 
-    ds.to_netcdf("air_freezing_index_Fdays.nc")
+    ds.to_netcdf(output_path)
+    print(f"NetCDF file created at: {output_path}")
 
 
 if __name__ == "__main__":
