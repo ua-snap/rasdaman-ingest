@@ -1,6 +1,6 @@
 {
   "config": {
-    "service_url": "http://localhost:8080/rasdaman/ows",
+    "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "blocking": true,
     "mock": false,
@@ -11,7 +11,7 @@
     {
       "description": "Create Historical Precip Style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals_mm&STYLEID=precip_mm_historical_era&ABSTRACT=Average%20annual%20precipitation%2C%201980-2009%2C%20CRU%20TS&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2879%3A108%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals_mm&STYLEID=precip_mm_historical_era&ABSTRACT=Average%20annual%20precipitation%2C%201980-2009%2C%20CRU%20TS&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2879%3A108%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"0\\\": [140, 81, 10, 255],
        \\\"254\\\": [216, 179, 101, 255],
        \\\"508\\\": [246, 232, 195, 255],
@@ -24,7 +24,7 @@
     {
       "description": "Create Projected Precip Style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals_mm&STYLEID=precip_mm_midcentury_era&ABSTRACT=Average%20annual%20precipitation%2C%202040-2069%2C%20NCAR%20CCSM4%2C%20RCP%208.5&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28139%3A168%29%20using%20%24c%5Byear%28%24t%29%2C%20model%286%29%2C%20scenario%283%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=annual_precip_totals_mm&STYLEID=precip_mm_midcentury_era&ABSTRACT=Average%20annual%20precipitation%2C%202040-2069%2C%20NCAR%20CCSM4%2C%20RCP%208.5&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%28139%3A168%29%20using%20%24c%5Byear%28%24t%29%2C%20model%286%29%2C%20scenario%283%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"0\\\": [140, 81, 10, 255],
        \\\"254\\\": [216, 179, 101, 255],
        \\\"508\\\": [246, 232, 195, 255],

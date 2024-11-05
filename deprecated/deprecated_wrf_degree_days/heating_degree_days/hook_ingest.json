@@ -1,6 +1,6 @@
 {
   "config": {
-    "service_url": "http://localhost:8080/rasdaman/ows",
+    "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "blocking": true,
     "mock": false,
@@ -11,7 +11,7 @@
     {
       "description": "Create future heating degree days Style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days&STYLEID=arctic_eds_heating_degree_days_future_condensed_compressed&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days&STYLEID=arctic_eds_heating_degree_days_future_condensed_compressed&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
         \\\"-1\\\": [0, 0, 0, 0],
         \\\"0\\\": [255,247,251,255],
         \\\"2500\\\": [236,231,242,255],
@@ -26,7 +26,7 @@
     {
       "description": "Create historical heating degree days Style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days&STYLEID=arctic_eds_heating_degree_days_historical_condensed_compressed&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=heating_degree_days&STYLEID=arctic_eds_heating_degree_days_historical_condensed_compressed&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
         \\\"-1\\\": [0, 0, 0, 0],
         \\\"0\\\": [255,247,251,255],
         \\\"2500\\\": [236,231,242,255],

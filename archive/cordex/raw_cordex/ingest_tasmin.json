@@ -1,9 +1,9 @@
 {
   "config": {
-    "service_url": "http://localhost:8080/rasdaman/ows",
+    "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
-    "crs_resolver": "http://localhost:8080/def/",
-    "default_crs": "http://localhost:8080/def/crs/EPSG/0/4326",
+    "crs_resolver": "https://localhost/def/",
+    "default_crs": "https://localhost/def/crs/EPSG/0/4326",
     "mock": false,
     "automated": true
   },
@@ -100,7 +100,9 @@
       "when": "before_ingestion",
       "python_cmd": "import imp; utils = imp.load_source('utils', os.getenv('UTILS_PATH')); utils.check_dims('tasmin', '${file:path}', '${file:path}.checked')",
       "abort_on_error": true,
-      "replace_path": ["${file:path}.checked"]
+      "replace_path": [
+        "${file:path}.checked"
+      ]
     },
     {
       "description": "remove new files / symlinks",

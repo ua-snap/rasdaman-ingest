@@ -1,6 +1,6 @@
 {
   "config": {
-    "service_url": "http://localhost:8080/rasdaman/ows",
+    "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "blocking": true,
     "mock": false,
@@ -11,7 +11,7 @@
     {
       "description": "Create Style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_relative_flammability_30yr&STYLEID=climate_impact_reports_alfresco_relative_flammability_30yr&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [255, 255, 255, 255], \\\"0.03\\\": [255, 0, 0, 255] } }\"",
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_relative_flammability_30yr&STYLEID=climate_impact_reports_alfresco_relative_flammability_30yr&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0], \\\"0\\\": [255, 255, 255, 255], \\\"0.03\\\": [255, 0, 0, 255] } }\"",
       "abort_on_error": true
     }
   ],
