@@ -1,6 +1,6 @@
 {
   "config": {
-    "service_url": "http://localhost:8080/rasdaman/ows",
+    "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "blocking": true,
     "mock": false,
@@ -11,7 +11,7 @@
     {
       "description": "Create projected diurnal temperature variation per year style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_dtr&STYLEID=arctic_eds_projected_mean_annual_dtr&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_dtr&STYLEID=arctic_eds_projected_mean_annual_dtr&ABSTRACT=Average%20of%20years%20from%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2861%3A90%29%20using%20%24c%5Byear%28%24t%29%2C%20model%282%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"0\\\": [33, 102, 172, 255],
        \\\"1.2\\\": [103, 169, 207, 255],
        \\\"2.4\\\": [209, 229, 240, 255],
@@ -24,7 +24,7 @@
     {
       "description": "Create historical diurnal temperature variation per year style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_dtr&STYLEID=arctic_eds_historical_mean_annual_dtr&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=mean_annual_dtr&STYLEID=arctic_eds_historical_mean_annual_dtr&ABSTRACT=Average%20of%20years%20from%201980-2009&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%281%3A30%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"0\\\": [33, 102, 172, 255],
        \\\"1.2\\\": [103, 169, 207, 255],
        \\\"2.4\\\": [209, 229, 240, 255],
