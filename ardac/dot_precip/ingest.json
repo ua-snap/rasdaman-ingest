@@ -130,7 +130,7 @@
     {
       "description": "Create Precipitation Frequency WMS style for ARDAC",
       "when": "after_import",
-      "cmd": "curl \"http://localhost:8080/rasdaman/admin/layer/style/add?COVERAGEID=dot_precip&STYLEID=ardac_pf&ABSTRACT=Precipitation%20Frequency&WCPSQUERYFRAGMENT=%24c.pf&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"1574.8\\\":[178,226,226,255],\\\"3149.6\\\":[102,194,164,255],\\\"4724.4\\\":[44,162,95,255],\\\"6299.2\\\":[0,109,44,255],\\\"1000000\\\":[0,0,0,0]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=dot_precip&STYLEID=ardac_pf&ABSTRACT=Precipitation%20Frequency&WCPSQUERYFRAGMENT=%24c.pf&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[237,248,251,255],\\\"1574.8\\\":[178,226,226,255],\\\"3149.6\\\":[102,194,164,255],\\\"4724.4\\\":[44,162,95,255],\\\"6299.2\\\":[0,109,44,255],\\\"1000000\\\":[0,0,0,0]}}\"",
       "abort_on_error": true
     }
   ]
