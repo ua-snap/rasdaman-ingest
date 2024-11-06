@@ -84,7 +84,7 @@
           ],
           "axes": {
             "model": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'pcpt_(GFDL-CM3|NCAR-CCSM4)_sum_wrf_(60m|2h|3h|6h|12h|24h|2d|3d|4d|7d|10d|20d|30d|45d|60d)_(2020-2049|2050-2079|2080-2099)_undiff.nc'",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'pcpt_(GFDL-CM3|NCAR-CCSM4)_sum_wrf_(60m|2h|3h|6h|12h|24h|2d|3d|4d|7d|10d|20d|30d|45d|60d)_(2020-2049|2050-2079|2080-2099).nc'",
               "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
               "dataBound": false,
