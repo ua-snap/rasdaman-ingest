@@ -2,8 +2,6 @@
     "config": {
         "service_url": "https://localhost/rasdaman/ows",
         "tmp_directory": "/tmp/",
-	"crs_resolver": "http://localhost:8080/def/",
-        "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
         "blocking": true,
         "mock": false,
         "automated": true,
@@ -11,9 +9,9 @@
     },
     "hooks": [
         {
-        "description": "Create ARDAC Landfast Sea Ice MMM Style.",
-        "when": "after_import",
-        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_beaufort_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
+            "description": "Create ARDAC Landfast Sea Ice MMM Style.",
+            "when": "after_import",
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_beaufort_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
         \\\"1\\\": [236, 231, 242, 255],
         \\\"2\\\": [166, 189, 219, 255],
         \\\"3\\\": [43, 140, 190, 255],
@@ -21,7 +19,7 @@
         \\\"5\\\": [204, 230, 204, 0],
         \\\"6\\\": [230, 230, 230, 255],
         \\\"7\\\": [191, 212, 212, 255] } }\"",
-        "abort_on_error": true
+            "abort_on_error": true
         }
     ],
     "input": {
