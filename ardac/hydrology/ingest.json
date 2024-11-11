@@ -14,7 +14,7 @@
     {
       "description": "Create historical hydrology evapotranspiration for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -27,7 +27,7 @@
     {
       "description": "Create historical hydrology evapotranspiration for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -40,7 +40,7 @@
     {
       "description": "Create historical hydrology evapotranspiration for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -53,7 +53,7 @@
     {
       "description": "Create historical hydrology evapotranspiration for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_historical_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20historical%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -66,7 +66,7 @@
     {
       "description": "Create early century hydrology evapotranspiration for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -79,7 +79,7 @@
     {
       "description": "Create early century hydrology evapotranspiration for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -92,7 +92,7 @@
     {
       "description": "Create early century hydrology evapotranspiration for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -105,7 +105,7 @@
     {
       "description": "Create early century hydrology evapotranspiration for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_early_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20early%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -118,7 +118,7 @@
     {
       "description": "Create mid century hydrology evapotranspiration for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -131,7 +131,7 @@
     {
       "description": "Create mid century hydrology evapotranspiration for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -144,7 +144,7 @@
     {
       "description": "Create mid century hydrology evapotranspiration for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -157,7 +157,7 @@
     {
       "description": "Create mid century hydrology evapotranspiration for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_mid_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20mid%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -170,7 +170,7 @@
     {
       "description": "Create late century hydrology evapotranspiration for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -183,7 +183,7 @@
     {
       "description": "Create late century hydrology evapotranspiration for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -196,7 +196,7 @@
     {
       "description": "Create late century hydrology evapotranspiration for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -209,7 +209,7 @@
     {
       "description": "Create late century hydrology evapotranspiration for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_evap_late_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20late%20century%20era%20for%20evap%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Eevap&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -222,7 +222,7 @@
     {
       "description": "Create historical hydrology runoff for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"0\\\": [240, 249, 232, 255],
        \\\"15\\\": [186, 228, 188, 255],
        \\\"30\\\": [123, 204, 196, 255],
@@ -234,7 +234,7 @@
     {
       "description": "Create historical hydrology runoff for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"0\\\": [240, 249, 232, 255],
        \\\"15\\\": [186, 228, 188, 255],
        \\\"30\\\": [123, 204, 196, 255],
@@ -246,7 +246,7 @@
     {
       "description": "Create historical hydrology runoff for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -258,7 +258,7 @@
     {
       "description": "Create historical hydrology runoff for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_historical_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20historical%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%280%3A5%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%206%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -270,7 +270,7 @@
     {
       "description": "Create early century hydrology runoff for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -282,7 +282,7 @@
     {
       "description": "Create early century hydrology runoff for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -294,7 +294,7 @@
     {
       "description": "Create early century hydrology runoff for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -306,7 +306,7 @@
     {
       "description": "Create early century hydrology runoff for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_early_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20early%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%286%3A8%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -318,7 +318,7 @@
     {
       "description": "Create mid century hydrology runoff for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -330,7 +330,7 @@
     {
       "description": "Create mid century hydrology runoff for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -342,7 +342,7 @@
     {
       "description": "Create mid century hydrology runoff for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -354,7 +354,7 @@
     {
       "description": "Create mid century hydrology runoff for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_mid_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20mid%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%289%3A11%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -366,7 +366,7 @@
     {
       "description": "Create late century hydrology runoff for spring.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_spring&ABSTRACT=Spring%20%28March,%20April,%20and%20May%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%200%29%20or%20%28%24m%20%3D%207%29%20or%20%28%24m%20%3D%208%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
        \\\"-30\\\": [199, 234, 229, 255],
        \\\"0\\\": [245, 245, 245, 255],
        \\\"15\\\": [246, 232, 195, 255],
@@ -379,7 +379,7 @@
     {
       "description": "Create late century hydrology runoff for summer.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_summer&ABSTRACT=Summer%20%28June,%20July,%20and%20August%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%205%29%20or%20%28%24m%20%3D%206%29%20or%20%28%24m%20%3D%201%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -391,7 +391,7 @@
     {
       "description": "Create late century hydrology runoff for fall.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_fall&ABSTRACT=Fall%20%28September,%20October,%20and%20November%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%209%29%20or%20%28%24m%20%3D%2010%29%20or%20%28%24m%20%3D%2011%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],
@@ -403,7 +403,7 @@
     {
       "description": "Create late century hydrology runoff for winter.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hydrology&STYLEID=hydro_runoff_late_winter&ABSTRACT=Winter%20%28December,%20January,%20and%20February%29%20in%20late%20century%20era%20for%20runoff%20variable&WCPSQUERYFRAGMENT=%28%28condense%20%2B%20over%20%24e%20era%2812%3A14%29%2C%20%24m%20month%280%3A11%29%20where%20%28%28%24m%20%3D%202%29%20or%20%28%24m%20%3D%203%29%20or%20%28%24m%20%3D%204%29%29%20using%20%24c%5Bera%28%24e%29%2C%20month%28%24m%29%5D%29%20%2F%203%29%2Erunoff&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"0\\\": [240, 249, 232, 255],
       \\\"15\\\": [186, 228, 188, 255],
       \\\"30\\\": [123, 204, 196, 255],

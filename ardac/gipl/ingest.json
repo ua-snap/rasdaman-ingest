@@ -11,7 +11,7 @@
     {
       "description": "Create GIPL Mean Annual Ground Temperature Style in near century for the Arctic-EDS.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=arctic_eds_gipl_magt1m_nearcentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2050&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%281%29%2C%20model%280%29%2C%20scenario%281%29%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=arctic_eds_gipl_magt1m_nearcentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2050&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%281%29%2C%20model%280%29%2C%20scenario%281%29%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
         \\\"-20\\\": [33, 102, 172, 255],
         \\\"-6\\\": [67, 147, 195, 255],
         \\\"-4\\\": [146, 197, 222, 255],
@@ -25,7 +25,7 @@
     {
       "description": "Create GIPL Mean Annual Ground Temperature Style in late century for the Arctic-EDS.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=arctic_eds_gipl_magt1m_latecentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202071-2100&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2850%3A79%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%281%29%2C%20model%280%29%2C%20scenario%281%29%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=arctic_eds_gipl_magt1m_latecentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202071-2100&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2850%3A79%29%20using%20%24c%5Byear%28%24t%29%2C%20variable%281%29%2C%20model%280%29%2C%20scenario%281%29%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"-20\\\": [33, 102, 172, 255],
       \\\"-6\\\": [67, 147, 195, 255],
       \\\"-4\\\": [146, 197, 222, 255],
@@ -39,7 +39,7 @@
     {
       "description": "Create GIPL Mean Annual Ground Temperature Style in early century for the NCR.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=magt1m_2021_2039&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2039&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=magt1m_2021_2039&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2039&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"-20\\\": [33, 102, 172, 255],
       \\\"-6\\\": [67, 147, 195, 255],
       \\\"-4\\\": [146, 197, 222, 255],
@@ -53,7 +53,7 @@
     {
       "description": "Create GIPL Mean Annual Ground Temperature Style in mid century for the NCR.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=magt1m_2040_2069&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=magt1m_2040_2069&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"-20\\\": [33, 102, 172, 255],
       \\\"-6\\\": [67, 147, 195, 255],
       \\\"-4\\\": [146, 197, 222, 255],
@@ -67,7 +67,7 @@
     {
       "description": "Create GIPL Mean Annual Ground Temperature Style in late century for the NCR.",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=magt1m_2070_2099&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202070-2099&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs&STYLEID=magt1m_2070_2099&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202070-2099&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
       \\\"-20\\\": [33, 102, 172, 255],
       \\\"-6\\\": [67, 147, 195, 255],
       \\\"-4\\\": [146, 197, 222, 255],
