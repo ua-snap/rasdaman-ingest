@@ -2,8 +2,6 @@
     "config": {
         "service_url": "https://localhost/rasdaman/ows",
         "tmp_directory": "/tmp/",
-        "crs_resolver": "https://localhost/def/",
-        "default_crs": "https://localhost/def/crs/EPSG/0/3338",
         "default_null_values": [
             "-9999"
         ],
