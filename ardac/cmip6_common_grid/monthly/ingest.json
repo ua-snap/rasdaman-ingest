@@ -1,0 +1,220 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "default_null_values": [
+      "-9999"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "cmip6_monthly",
+    "paths": [
+      "data/*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"varname\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'CMIP6 monthly data on common grid'"
+          },
+          "local": {
+            "Encoding": {
+              "varname": {
+                "0": "clt",
+                "1": "evspsbl",
+                "2": "hfls",
+                "3": "hfss",
+                "4": "pr",
+                "5": "psl",
+                "6": "rlds",
+                "7": "rsds",
+                "8": "sfcWind",
+                "9": "tas",
+                "10": "tasmax",
+                "11": "tasmin",
+                "12": "ts",
+                "13": "uas",
+                "14": "vas"
+              },
+              "model": {
+                "0": "CESM2",
+                "1": "CNRM-CM6-1-HR",
+                "2": "EC-Earth3-Veg",
+                "3": "GFDL-ESM4",
+                "4": "HadGEM3-GC31-LL",
+                "5": "HadGEM3-GC31-MM",
+                "6": "KACE-1-0-G",
+                "7": "MIROC6",
+                "11": "MPI-ESM1-2-HR",
+                "8": "MRI-ESM2-0",
+                "9": "NorESM2-MM",
+                "10": "TaiESM1"
+              },
+              "scenario": {
+                "0": "historical",
+                "1": "ssp126",
+                "2": "ssp245",
+                "3": "ssp370",
+                "4": "ssp585"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "data",
+              "identifier": "data"
+            }
+          ],
+          "axes": {
+            "varname": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = '(.*)_(.*)_(.*)_mon.nc'",
+              "min": "luts.varname[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 0
+            },
+            "model": {
+              "min": "luts.models[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 1
+            },
+            "scenario": {
+              "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+              "dataBound": false,
+              "gridOrder": 2
+            },
+            "ansi": {
+              "statements": "from datetime import datetime; import netCDF4",
+              "min": "netCDF4.num2date(${netcdf:variable:time:min}, 'days since 1950-01-01', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "netCDF4.num2date(${netcdf:variable:time:max}, 'days since 1950-01-01', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[netCDF4.num2date(x, 'days since 1950-01-01', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "gridOrder": 3,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "lon": {
+              "min": "${netcdf:variable:lon:min}",
+              "max": "${netcdf:variable:lon:max}",
+              "resolution": "${netcdf:variable:lon:resolution}",
+              "gridOrder": 4
+            },
+            "lat": {
+              "min": "${netcdf:variable:lat:min}",
+              "max": "${netcdf:variable:lat:max}",
+              "resolution": "${netcdf:variable:lat:resolution}",
+              "gridOrder": 5
+            }
+          }
+        }
+      }
+    }
+  },
+  "hooks": [
+    {
+      "description": "Create Cloud Area Fraction WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_clt&ABSTRACT=Cloud%20Area%20Fraction%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%280%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[4,90,141,255],\\\"60\\\":[43,140,190,255],\\\"70\\\":[116,169,207,255],\\\"80\\\":[189,201,225,255],\\\"90\\\":[241,238,246,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Evaporation WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_evspsbl&ABSTRACT=Evaporation%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%281%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-0.1\\\":[0,104,55,255],\\\"0.00000\\\":[49,163,84,255],\\\"0.00001\\\":[120,198,121,255],\\\"0.00002\\\":[173,221,142,255],\\\"0.00003\\\":[217,240,163,255],\\\"0.00004\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Upward Latent Heat Flux WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_hfls&ABSTRACT=Upward%20Latent%20Heat%20Flux%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%282%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[171,217,233,255],\\\"0\\\":[224,243,248,255],\\\"20\\\":[255,255,191,255],\\\"40\\\":[254,224,144,255],\\\"60\\\":[253,174,97,255],\\\"80\\\":[244,109,67,255],\\\"100\\\":[215,48,39,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Upward Sensible Heat Flux WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_hfss&ABSTRACT=Upward%20Sensible%20Heat%20Flux%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%283%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[171,217,233,255],\\\"0\\\":[224,243,248,255],\\\"10\\\":[255,255,191,255],\\\"20\\\":[254,224,144,255],\\\"30\\\":[253,174,97,255],\\\"40\\\":[244,109,67,255],\\\"50\\\":[215,48,39,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Precipitation WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_pr&ABSTRACT=Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%284%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"50\\\":[178,226,226,255],\\\"100\\\":[102,194,164,255],\\\"150\\\":[44,162,95,255],\\\"200\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Sea Level Pressure WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_psl&ABSTRACT=Sea%20Level%20Pressure%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%285%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"100000\\\":[69,117,180,255],\\\"100250\\\":[145,191,219,255],\\\"100500\\\":[224,243,248,255],\\\"100750\\\":[254,224,144,255],\\\"101000\\\":[252,141,89,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Downwelling Longwave Flux WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_rlds&ABSTRACT=Downwelling%20Longwave%20Flux%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%286%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"100\\\":[255,255,191,255],\\\"175\\\":[254,224,144,255],\\\"250\\\":[253,174,97,255],\\\"325\\\":[244,109,67,255],\\\"400\\\":[215,48,39,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Downwelling Shortwave Flux WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_rsds&ABSTRACT=Downwelling%20Shortwave%20Flux%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%287%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[255,255,191,255],\\\"50\\\":[254,224,144,255],\\\"100\\\":[253,174,97,255],\\\"150\\\":[244,109,67,255],\\\"200\\\":[215,48,39,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Near-surface Wind Speed WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_sfcWind&ABSTRACT=Near-surface%20Wind%20Speed%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%288%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[37,37,37,255],\\\"1.5\\\":[99,99,99,255],\\\"3\\\":[150,150,150,255],\\\"4.5\\\":[204,204,204,255],\\\"6\\\":[247,247,247,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Near-surface Air Temperature WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_tas&ABSTRACT=Near-surface%20Air%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%289%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[49,54,149,255],\\\"-20\\\":[69,117,180,255],\\\"-15\\\":[116,173,209,255],\\\"-10\\\":[171,217,233,255],\\\"-5\\\":[224,243,248,255],\\\"0\\\":[254,224,144,255],\\\"5\\\":[253,174,97,255],\\\"10\\\":[244,109,67,255],\\\"15\\\":[215,48,39,255],\\\"20\\\":[165,0,38,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Maximum Near-surface Air Temperature WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_tasmax&ABSTRACT=Maximum%20Near-surface%20Air%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2810%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[49,54,149,255],\\\"-20\\\":[69,117,180,255],\\\"-15\\\":[116,173,209,255],\\\"-10\\\":[171,217,233,255],\\\"-5\\\":[224,243,248,255],\\\"0\\\":[254,224,144,255],\\\"5\\\":[253,174,97,255],\\\"10\\\":[244,109,67,255],\\\"15\\\":[215,48,39,255],\\\"20\\\":[165,0,38,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Minimum Near-surface Air Temperature WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_tasmin&ABSTRACT=Minimum%20Near-surface%20Air%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2811%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[49,54,149,255],\\\"-20\\\":[69,117,180,255],\\\"-15\\\":[116,173,209,255],\\\"-10\\\":[171,217,233,255],\\\"-5\\\":[224,243,248,255],\\\"0\\\":[254,224,144,255],\\\"5\\\":[253,174,97,255],\\\"10\\\":[244,109,67,255],\\\"15\\\":[215,48,39,255],\\\"20\\\":[165,0,38,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Surface Temperature WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_ts&ABSTRACT=Surface%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2812%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"223.15\\\":[49,54,149,255],\\\"253.15\\\":[69,117,180,255],\\\"258.15\\\":[116,173,209,255],\\\"263.15\\\":[171,217,233,255],\\\"268.15\\\":[224,243,248,255],\\\"273.15\\\":[254,224,144,255],\\\"278.15\\\":[253,174,97,255],\\\"283.15\\\":[244,109,67,255],\\\"288.15\\\":[215,48,39,255],\\\"293.15\\\":[165,0,38,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Near-surface Eastward Wind Speed WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_uas&ABSTRACT=Near-surface%20Eastward%20Wind%20Speed%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2813%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-20\\\":[197,27,125,255],\\\"-3\\\":[222,119,174,255],\\\"-2\\\":[241,182,218,255],\\\"-1\\\":[253,224,239,255],\\\"0\\\":[230,245,208,255],\\\"1\\\":[184,225,134,255],\\\"2\\\":[127,188,65,255],\\\"3\\\":[77,146,33,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Near-surface Northward Wind Speed WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_vas&ABSTRACT=Near-surface%20Northward%20Wind%20Speed%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2814%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-20\\\":[197,27,125,255],\\\"-3\\\":[222,119,174,255],\\\"-2\\\":[241,182,218,255],\\\"-1\\\":[253,224,239,255],\\\"0\\\":[230,245,208,255],\\\"1\\\":[184,225,134,255],\\\"2\\\":[127,188,65,255],\\\"3\\\":[77,146,33,255]}}\"",
+      "abort_on_error": true
+    }
+  ]
+}
