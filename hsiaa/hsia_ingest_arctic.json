@@ -44,7 +44,7 @@
     {
       "description": "Create Sea Ice Concentration WMS style for ARDAC",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=hsia_arctic_production&STYLEID=ardac_sea_ice_concentration&ABSTRACT=Sea%20Ice%20Concentration&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[8,69,148,255],\\\"20\\\":[33,113,181,255],\\\"40\\\":[66,146,198,255],\\\"60\\\":[107,174,214,255],\\\"80\\\":[158,202,225,255],\\\"101\\\":[0,0,0,0]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=hsia_arctic_production&STYLEID=ardac_sea_ice_concentration&ABSTRACT=Sea%20Ice%20Concentration&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[8,69,148,255],\\\"20\\\":[33,113,181,255],\\\"40\\\":[66,146,198,255],\\\"60\\\":[107,174,214,255],\\\"80\\\":[158,202,225,255],\\\"101\\\":[0,0,0,0]}}\"",
       "abort_on_error": true
     }
   ]

@@ -16,7 +16,7 @@
     {
       "description": "Create Vegetation Type WMS style for ARDAC",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_vegetation_mode_statistic&STYLEID=ardac_veg_type&ABSTRACT=Vegetation%20Type&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"values\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[255,255,255,255],\\\"1\\\":[53,85,0,255],\\\"2\\\":[81,171,0,255],\\\"3\\\":[220,220,103,255],\\\"4\\\":[171,171,2,255],\\\"5\\\":[185,186,133,255],\\\"6\\\":[127,197,218,255],\\\"7\\\":[97,97,97,255],\\\"8\\\":[68,136,68,255]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_vegetation_mode_statistic&STYLEID=ardac_veg_type&ABSTRACT=Vegetation%20Type&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"values\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0\\\":[255,255,255,255],\\\"1\\\":[53,85,0,255],\\\"2\\\":[81,171,0,255],\\\"3\\\":[220,220,103,255],\\\"4\\\":[171,171,2,255],\\\"5\\\":[185,186,133,255],\\\"6\\\":[127,197,218,255],\\\"7\\\":[97,97,97,255],\\\"8\\\":[68,136,68,255]}}\"",
       "abort_on_error": true
     }
   ],
