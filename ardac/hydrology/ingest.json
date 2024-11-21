@@ -576,7 +576,7 @@
   "input": {
     "coverage_id": "hydrology",
     "paths": [
-      "/opt/rasdaman/user_data/snapdata/rasdaman-ingest/ardac/hydrology/geotiffs/hydrology.nc"
+      "hydrology.nc"
     ]
   },
   "recipe": {
