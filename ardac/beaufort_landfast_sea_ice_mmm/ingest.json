@@ -1,0 +1,93 @@
+{
+    "config": {
+        "service_url": "https://localhost/rasdaman/ows",
+        "tmp_directory": "/tmp/",
+        "blocking": true,
+        "mock": false,
+        "automated": true,
+        "track_files": false
+    },
+    "hooks": [
+        {
+            "description": "Create ARDAC Landfast Sea Ice MMM Style.",
+            "when": "after_import",
+            "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_beaufort_landfast_sea_ice_mmm&STYLEID=ardac_landfast_ice_MMM&ABSTRACT=ARDAC%20Landfast%20Sea%20Ice%20MMM&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 0],
+        \\\"1\\\": [236, 231, 242, 255],
+        \\\"2\\\": [166, 189, 219, 255],
+        \\\"3\\\": [43, 140, 190, 255],
+        \\\"4\\\": [0, 0, 0, 255],
+        \\\"5\\\": [204, 230, 204, 0],
+        \\\"6\\\": [230, 230, 230, 255],
+        \\\"7\\\": [191, 212, 212, 255] } }\"",
+            "abort_on_error": true
+        }
+    ],
+    "input": {
+        "coverage_id": "ardac_beaufort_landfast_sea_ice_mmm",
+        "paths": [
+            "Beaufort_MMM/*.tif"
+        ]
+    },
+    "recipe": {
+        "name": "general_coverage",
+        "options": {
+            "wms_import": true,
+            "coverage": {
+                "crs": "OGC/0/Index1D?axis-label=\"month\"@OGC/0/Index1D?axis-label=\"era\"@EPSG/0/3338",
+                "metadata": {
+                    "type": "xml",
+                    "global": {
+                        "Title": "ARDAC Beaufort Landfast Sea Ice MMM"
+                    },
+                    "local": {
+                        "Encoding": {
+                            "month": {
+                                "0": "01",
+                                "1": "02",
+                                "2": "03",
+                                "3": "04",
+                                "4": "05",
+                                "5": "06",
+                                "6": "07",
+                                "7": "10",
+                                "8": "11",
+                                "9": "12"
+                            },
+                            "era": {
+                                "0": "1996-2005",
+                                "1": "2005-2014",
+                                "2": "2014-2023"
+                            }
+                        }
+                    }
+                },
+                "slicer": {
+                    "type": "gdal",
+                    "axes": {
+                        "month": {
+                            "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'Beaufort_(0[1-9]|1[0-2])_(1996-2005|2005-2014|2014-2023)_*'",
+                            "min": "luts.months[regex_extract('${file:name}', regex_str, 1)]",
+                            "irregular": true,
+                            "dataBound": false
+                        },
+                        "era": {
+                            "min": "luts.eras[regex_extract('${file:name}', regex_str, 2)]",
+                            "irregular": true,
+                            "dataBound": false
+                        },
+                        "X": {
+                            "min": "${gdal:minX}",
+                            "max": "${gdal:maxX}",
+                            "resolution": "${gdal:resolutionX}"
+                        },
+                        "Y": {
+                            "min": "${gdal:minY}",
+                            "max": "${gdal:maxY}",
+                            "resolution": "${gdal:resolutionY}"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

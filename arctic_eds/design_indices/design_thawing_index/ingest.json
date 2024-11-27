@@ -11,7 +11,7 @@
     {
       "description": "Create design freezing index Style for WMS Layer",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --insecure --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=design_thawing_index&STYLEID=arctic_eds&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=design_thawing_index&STYLEID=arctic_eds&ABSTRACT=Style%20for%20Arctic%20EDS%20web%20app.&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"ramp\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
         \\\"-1\\\": [0, 0, 0, 0],
         \\\"0\\\": [255,247,251,255],
         \\\"1000\\\": [255,247,188,255],
