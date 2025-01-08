@@ -5,7 +5,7 @@ directory structure: <model>/<scenario>/<frequency (table ID)>/<variable ID>/<fi
 The script will combine all files for all models, scenarios, and the supplied temporal frequency and the supplied variables into a single xarray dataset and write to disk.
 
 example usage:
-  python combine_for_rasdaman.py --var_group_id v1_1 --frequency mon --regrid_dir /beegfs/CMIP6/kmredilla/cmip6_regridding/regrid --rasda_dir /beegfs/CMIP6/kmredilla/cmip6_regridding/rasdaman_ready
+  python combine_regridded_data.py --var_group_id v1_1 --frequency mon --regrid_dir /beegfs/CMIP6/kmredilla/cmip6_regridding/regrid --rasda_dir /beegfs/CMIP6/kmredilla/cmip6_regridding/rasdaman_ready
 """
 
 import argparse
@@ -62,7 +62,9 @@ def open_and_combine(
 
     fps = get_files(var_id, model, scenario, frequency, regrid_dir)
     if not len(fps) > 0:
-        print(f"No files found for {model}, {scenario}, {frequency}. Skipping.")
+        print(
+            f"No files found for {var_id}, {model}, {scenario}, {frequency}. Skipping."
+        )
         return
 
     ds = xr.open_mfdataset(
@@ -149,7 +151,9 @@ if __name__ == "__main__":
 
     var_group_id, frequency, regrid_dir, rasda_dir, no_clobber = parse_args()
 
+    if not rasda_dir.exists():
+        rasda_dir.mkdir()
+
     run_open_and_combine_for_all_groups(
         var_group_id, frequency, regrid_dir, rasda_dir, no_clobber
     )
-
