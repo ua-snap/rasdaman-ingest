@@ -194,6 +194,12 @@
       "abort_on_error": true
     },
     {
+      "description": "Create Surface Snow Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_snd&ABSTRACT=Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2811%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"0.1\\\":[178,226,226,255],\\\"0.2\\\":[102,194,164,255],\\\"0.4\\\":[44,162,95,255],\\\"0.8\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
       "description": "Create Near-surface Air Temperature WMS style for ARDAC",
       "when": "after_import",
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_tas&ABSTRACT=Near-surface%20Air%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2813%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[49,54,149,255],\\\"-20\\\":[69,117,180,255],\\\"-15\\\":[116,173,209,255],\\\"-10\\\":[171,217,233,255],\\\"-5\\\":[224,243,248,255],\\\"0\\\":[254,224,144,255],\\\"5\\\":[253,174,97,255],\\\"10\\\":[244,109,67,255],\\\"15\\\":[215,48,39,255],\\\"20\\\":[165,0,38,255]}}\"",
