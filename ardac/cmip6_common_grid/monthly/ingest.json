@@ -2,9 +2,6 @@
   "config": {
     "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
-    "default_null_values": [
-      "-9999"
-    ],
     "mock": false,
     "automated": true
   },
@@ -161,6 +158,12 @@
       "abort_on_error": true
     },
     {
+      "description": "Create Snowfall Flux WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_prsn&ABSTRACT=Snowfall%20Flux%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%285%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"50\\\":[178,226,226,255],\\\"100\\\":[102,194,164,255],\\\"150\\\":[44,162,95,255],\\\"200\\\":[0,109,44,255]}}\"",
+      "abort_on_error": true
+    },
+    {
       "description": "Create Sea Level Pressure WMS style for ARDAC",
       "when": "after_import",
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_psl&ABSTRACT=Sea%20Level%20Pressure%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%286%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"100000\\\":[69,117,180,255],\\\"100250\\\":[145,191,219,255],\\\"100500\\\":[224,243,248,255],\\\"100750\\\":[254,224,144,255],\\\"101000\\\":[252,141,89,255]}}\"",
@@ -184,7 +187,8 @@
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_sfcWind&ABSTRACT=Near-surface%20Wind%20Speed%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%289%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[37,37,37,255],\\\"1.5\\\":[99,99,99,255],\\\"3\\\":[150,150,150,255],\\\"4.5\\\":[204,204,204,255],\\\"6\\\":[247,247,247,255]}}\"",
       "abort_on_error": true
     },
-    "description": "Create Sea Ice Concentration WMS style for ARDAC",
+    {
+      "description": "Create Sea Ice Concentration WMS style for ARDAC",
       "when": "after_import",
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_siconc&ABSTRACT=Sea%20Ice%20Concentration%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2810%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[4,90,141,255],\\\"70\\\":[43,140,190,255],\\\"80\\\":[116,169,207,255],\\\"90\\\":[189,201,225,255],\\\"100\\\":[241,238,246,255]}}\"",
       "abort_on_error": true
