@@ -28,14 +28,13 @@ varname = {
     "rsds": 8,
     "sfcWind": 9,
     "siconc": 10,
-    "snd": 11,
-    "snw": 12,
-    "tas": 13,
-    "tasmax": 14,
-    "tasmin": 15,
-    "ts": 16,
-    "uas": 17,
-    "vas": 18,
+    "snw": 11,
+    "tas": 12,
+    "tasmax": 13,
+    "tasmin": 14,
+    "ts": 15,
+    "uas": 16,
+    "vas": 17,
 }
 
 var_group_id_lu = {
@@ -52,7 +51,7 @@ var_group_id_lu = {
         "uas",
         "vas",
     ],
-    "v2": ["siconc", "prsn", "snw", "snd"],
+    "v2": ["siconc", "prsn", "snw"],
 }
 
 scenarios = {
@@ -62,3 +61,4 @@ scenarios = {
     "ssp370": 3,
     "ssp585": 4,
 }
+
