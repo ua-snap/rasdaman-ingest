@@ -41,15 +41,6 @@ def get_files(var_id, model, scenario, frequency, regrid_dir):
     return var_fps
 
 
-def get_var_ids(var_group_id):
-    """Var_group_id is a string that contains the variable group ID, e.g. v1, v2, etc.
-    This is just a mapping that will use the config.py file."""
-
-    var_ids = var_group_id_lu[var_group_id]
-
-    return var_ids
-
-
 def open_and_combine(
     var_id, model, scenario, frequency, regrid_dir, rasda_dir, no_clobber
 ):
