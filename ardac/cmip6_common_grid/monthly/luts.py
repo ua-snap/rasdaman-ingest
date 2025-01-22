@@ -22,16 +22,19 @@ varname = {
     "hfls": 2,
     "hfss": 3,
     "pr": 4,
-    "psl": 5,
-    "rlds": 6,
-    "rsds": 7,
-    "sfcWind": 8,
-    "tas": 9,
-    "tasmax": 10,
-    "tasmin": 11,
-    "ts": 12,
-    "uas": 13,
-    "vas": 14,
+    "prsn": 5,
+    "psl": 6,
+    "rlds": 7,
+    "rsds": 8,
+    "sfcWind": 9,
+    "siconc": 10,
+    "snw": 11,
+    "tas": 12,
+    "tasmax": 13,
+    "tasmin": 14,
+    "ts": 15,
+    "uas": 16,
+    "vas": 17,
 }
 
 var_group_id_lu = {
@@ -48,6 +51,7 @@ var_group_id_lu = {
         "uas",
         "vas",
     ],
+    "v2": ["siconc", "prsn", "snw"],
 }
 
 scenarios = {
