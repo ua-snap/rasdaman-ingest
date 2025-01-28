@@ -1,0 +1,295 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "crrel_gipl_outputs_nc",
+    "paths": [
+      "gipl_outputs_optimized.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "GIPL 2.0 Permafrost Model Output"
+          },
+          "local": {
+            "Encoding": {
+              "model": {
+                "0": "5ModelAvg",
+                "1": "GFDL-CM3",
+                "2": "NCAR-CCSM4"
+              },
+              "scenario": {
+                "0": "RCP 4.5",
+                "1": "RCP 8.5"
+              },
+              "variable": {
+                "0": "magt05m_degC",
+                "1": "magt1m_degC",
+                "2": "magt2m_degC",
+                "3": "magt3m_degC",
+                "4": "magt4m_degC",
+                "5": "magt5m_degC",
+                "6": "magtsurface_degC",
+                "7": "permafrostbase_m",
+                "8": "permafrosttop_m",
+                "9": "talikthickness_m"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "magt05m_degC",
+              "identifier": "magt05m_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "magt1m_degC",
+              "identifier": "magt1m_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "magt2m_degC",
+              "identifier": "magt2m_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "magt3m_degC",
+              "identifier": "magt3m_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "magt4m_degC",
+              "identifier": "magt4m_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "magt5m_degC",
+              "identifier": "magt5m_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "magtsurface_degC",
+              "identifier": "magtsurface_degC",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "permafrostbase_m",
+              "identifier": "permafrostbase_m",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "permafrosttop_m",
+              "identifier": "permafrosttop_m",
+              "nilValue": "-9999.0"
+            },
+            {
+              "name": "talikthickness_m",
+              "identifier": "talikthickness_m",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['5ModelAvg']",
+              "max": "luts.models['NCAR-CCSM4']",
+              "directPositions": "list(luts.models.values())",
+              "irregular": true,
+              "gridOrder": 1
+            },
+            "scenario": {
+              "min": "luts.scenarios['rcp45']",
+              "max": "luts.scenarios['rcp85']",
+              "directPositions": "list(luts.scenarios.values())",
+              "irregular": true,
+              "gridOrder": 2
+            },
+            "year": {
+              "min": "${netcdf:variable:time:min}",
+              "max": "${netcdf:variable:time:max}",
+              "directPositions": "${netcdf:variable:time}",
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 4
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 3
+            }
+          }
+        }
+      }
+    }
+  },
+  "hooks": [
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in near century for the Arctic-EDS.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=arctic_eds_gipl_magt1m_nearcentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2050&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%281%29%5D%29.magt1m_degC%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-20\\\": [33, 102, 172, 255],
+        \\\"-6\\\": [67, 147, 195, 255],
+        \\\"-4\\\": [146, 197, 222, 255],
+        \\\"-2\\\": [209, 229, 240, 255],
+        \\\"-1\\\": [247, 247, 247, 255],
+        \\\"-0\\\": [253, 219, 199, 255],
+        \\\"1\\\": [244, 165, 130, 255],
+        \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in late century for the Arctic-EDS.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=arctic_eds_gipl_magt1m_latecentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202071-2100&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2850%3A79%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%281%29%5D%29.magt1m_degC%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      \\\"-20\\\": [33, 102, 172, 255],
+      \\\"-6\\\": [67, 147, 195, 255],
+      \\\"-4\\\": [146, 197, 222, 255],
+      \\\"-2\\\": [209, 229, 240, 255],
+      \\\"-1\\\": [247, 247, 247, 255],
+      \\\"-0\\\": [253, 219, 199, 255],
+      \\\"1\\\": [244, 165, 130, 255],
+      \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in early century for the NCR.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=magt1m_2021_2039&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2039&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D.magt1m_degC%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      \\\"-20\\\": [33, 102, 172, 255],
+      \\\"-6\\\": [67, 147, 195, 255],
+      \\\"-4\\\": [146, 197, 222, 255],
+      \\\"-2\\\": [209, 229, 240, 255],
+      \\\"-1\\\": [247, 247, 247, 255],
+      \\\"-0\\\": [253, 219, 199, 255],
+      \\\"1\\\": [244, 165, 130, 255],
+      \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in mid century for the NCR.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=magt1m_2040_2069&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202040-2069&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D.magt1m_degC%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      \\\"-20\\\": [33, 102, 172, 255],
+      \\\"-6\\\": [67, 147, 195, 255],
+      \\\"-4\\\": [146, 197, 222, 255],
+      \\\"-2\\\": [209, 229, 240, 255],
+      \\\"-1\\\": [247, 247, 247, 255],
+      \\\"-0\\\": [253, 219, 199, 255],
+      \\\"1\\\": [244, 165, 130, 255],
+      \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in late century for the NCR.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=magt1m_2070_2099&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202070-2099&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D.magt1m_degC%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+      \\\"-20\\\": [33, 102, 172, 255],
+      \\\"-6\\\": [67, 147, 195, 255],
+      \\\"-4\\\": [146, 197, 222, 255],
+      \\\"-2\\\": [209, 229, 240, 255],
+      \\\"-1\\\": [247, 247, 247, 255],
+      \\\"-0\\\": [253, 219, 199, 255],
+      \\\"1\\\": [244, 165, 130, 255],
+      \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century 3m MAGT WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_magt3m_earlycentury_era&ABSTRACT=Early-Century%203m%20MAGT&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D.magt3m_degC%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-20\\\":[33,102,172,255],\\\"-6\\\":[67,147,195,255],\\\"-4\\\":[146,197,222,255],\\\"-2\\\":[209,229,240,255],\\\"-1\\\":[247,247,247,255],\\\"-0\\\":[253,219,199,255],\\\"1\\\":[244,165,130,255],\\\"2\\\":[214,96,77,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century 3m MAGT WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_magt3m_midcentury_era&ABSTRACT=Mid-Century%203m%20MAGT&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D.magt3m_degC%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-20\\\":[33,102,172,255],\\\"-6\\\":[67,147,195,255],\\\"-4\\\":[146,197,222,255],\\\"-2\\\":[209,229,240,255],\\\"-1\\\":[247,247,247,255],\\\"-0\\\":[253,219,199,255],\\\"1\\\":[244,165,130,255],\\\"2\\\":[214,96,77,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century 3m MAGT WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_magt3m_latecentury_era&ABSTRACT=Late-Century%203m%20MAGT&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D.magt3m_degC%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"-20\\\":[33,102,172,255],\\\"-6\\\":[67,147,195,255],\\\"-4\\\":[146,197,222,255],\\\"-2\\\":[209,229,240,255],\\\"-1\\\":[247,247,247,255],\\\"-0\\\":[253,219,199,255],\\\"1\\\":[244,165,130,255],\\\"2\\\":[214,96,77,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century Permafrost Base WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_permafrost_base_earlycentury_era&ABSTRACT=Early-Century%20Permafrost%20Base&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D.permafrostbase_m%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[255,255,204,255],\\\"100\\\":[161,218,180,255],\\\"200\\\":[65,182,196,255],\\\"300\\\":[44,127,184,255],\\\"400\\\":[37,52,148,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century Permafrost Base WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_permafrost_base_midcentury_era&ABSTRACT=Mid-Century%20Permafrost%20Base&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D.permafrostbase_m%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[255,255,204,255],\\\"100\\\":[161,218,180,255],\\\"200\\\":[65,182,196,255],\\\"300\\\":[44,127,184,255],\\\"400\\\":[37,52,148,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century Permafrost Base WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_permafrost_base_latecentury_era&ABSTRACT=Late-Century%20Permafrost%20Base&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D.permafrostbase_m%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[255,255,204,255],\\\"100\\\":[161,218,180,255],\\\"200\\\":[65,182,196,255],\\\"300\\\":[44,127,184,255],\\\"400\\\":[37,52,148,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century Permafrost Top WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_permafrost_top_earlycentury_era&ABSTRACT=Early-Century%20Permafrost%20Top&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D.permafrosttop_m%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[37,52,148,255],\\\"1\\\":[44,127,184,255],\\\"2\\\":[65,182,196,255],\\\"3\\\":[161,218,180,255],\\\"4\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century Permafrost Top WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_permafrost_top_midcentury_era&ABSTRACT=Mid-Century%20Permafrost%20Top&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D.permafrosttop_m%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[37,52,148,255],\\\"1\\\":[44,127,184,255],\\\"2\\\":[65,182,196,255],\\\"3\\\":[161,218,180,255],\\\"4\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century Permafrost Top WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_permafrost_top_latecentury_era&ABSTRACT=Late-Century%20Permafrost%20Top&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D.permafrosttop_m%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[37,52,148,255],\\\"1\\\":[44,127,184,255],\\\"2\\\":[65,182,196,255],\\\"3\\\":[161,218,180,255],\\\"4\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Early-Century Talik Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_talikthickness_earlycentury_era&ABSTRACT=Early-Century%20Talik%20Thickness&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A18%29%20using%20%24c%5Byear%28%24t%29%5D.talikthickness_m%29%20%2F%2019&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[37,52,148,255],\\\"0.25\\\":[44,127,184,255],\\\"0.5\\\":[65,182,196,255],\\\"1\\\":[161,218,180,255],\\\"2\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Mid-Century Talik Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_talikthickness_midcentury_era&ABSTRACT=Mid-Century%20Talik%20Thickness&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2819%3A48%29%20using%20%24c%5Byear%28%24t%29%5D.talikthickness_m%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[37,52,148,255],\\\"0.25\\\":[44,127,184,255],\\\"0.5\\\":[65,182,196,255],\\\"1\\\":[161,218,180,255],\\\"2\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create Late-Century Talik Thickness WMS style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=ardac_talikthickness_latecentury_era&ABSTRACT=Late-Century%20Talik%20Thickness&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2849%3A78%29%20using%20%24c%5Byear%28%24t%29%5D.talikthickness_m%29%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.0001\\\":[37,52,148,255],\\\"0.25\\\":[44,127,184,255],\\\"0.5\\\":[65,182,196,255],\\\"1\\\":[161,218,180,255],\\\"2\\\":[255,255,204,255]}}\"",
+      "abort_on_error": true
+    }
+  ]
+}
