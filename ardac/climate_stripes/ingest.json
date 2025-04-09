@@ -1,0 +1,107 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "climate_stripes",
+    "paths": [
+      "climate_stripes.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"year\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Berkeley Earth + CMIP6 Climate Stripes Data'"
+          },
+          "local": {
+            "Encoding": {
+              "model": {
+                "0": "Berkeley-Earth",
+                "1": "CESM2",
+                "2": "CNRM-CM6-1-HR",
+                "3": "EC-Earth3-Veg",
+                "4": "GFDL-ESM4",
+                "5": "HadGEM3-GC31-LL",
+                "6": "HadGEM3-GC31-MM",
+                "7": "KACE-1-0-G",
+                "8": "MIROC6",
+                "9": "MPI-ESM1-2-HR",
+                "10": "MRI-ESM2-0",
+                "11": "NorESM2-MM",
+                "12": "TaiESM1"
+              },
+              "scenario": {
+                "0": "historical",
+                "1": "ssp126",
+                "2": "ssp245",
+                "3": "ssp370",
+                "4": "ssp585"
+              }
+            }
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "anomaly",
+              "identifier": "anomaly",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['Berkeley-Earth']",
+              "max": "luts.models['TaiESM1']",
+              "directPositions": "list(luts.models.values())",
+              "irregular": true,
+              "gridOrder": 0
+            },
+            "scenario": {
+              "min": "luts.scenarios['historical']",
+              "max": "luts.scenarios['ssp585']",
+              "directPositions": "list(luts.scenarios.values())",
+              "irregular": true,
+              "gridOrder": 1
+            },
+            "year": {
+              "statements": "import netCDF4",
+              "min": "${netcdf:variable:year:min}",
+              "max": "${netcdf:variable:year:max}",
+              "directPositions": "list(range(${netcdf:variable:year:min}, ${netcdf:variable:year:max} + 1))",
+              "gridOrder": 2,
+              "irregular": true
+            },
+            "Lat": {
+              "min": "${netcdf:variable:latitude:min}",
+              "max": "${netcdf:variable:latitude:max}",
+              "resolution": "${netcdf:variable:latitude:resolution}",
+              "gridOrder": 3
+            },
+            "Lon": {
+              "min": "${netcdf:variable:longitude:min}",
+              "max": "${netcdf:variable:longitude:max}",
+              "resolution": "${netcdf:variable:longitude:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  }
+}
