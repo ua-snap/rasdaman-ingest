@@ -8,9 +8,9 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "climate_stripes",
+    "coverage_id": "temperature_anomalies",
     "paths": [
-      "climate_stripes.nc"
+      "temperature_anomalies.nc"
     ]
   },
   "recipe": {
