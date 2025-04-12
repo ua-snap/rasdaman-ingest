@@ -8,7 +8,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "temperature_anomalies",
+    "coverage_id": "temperature_anomaly_anomalies",
     "paths": [
       "temperature_anomalies.nc"
     ]
