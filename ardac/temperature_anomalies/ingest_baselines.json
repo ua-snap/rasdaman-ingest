@@ -1,6 +1,6 @@
 {
   "config": {
-    "service_url": "https://localhost/rasdaman/ows",
+    "service_url": "http://localhost:8080/rasdaman/ows",
     "tmp_directory": "/tmp/",
     "blocking": true,
     "mock": false,
@@ -18,7 +18,7 @@
     "options": {
       "wms_import": true,
       "import_order": "ascending",
-      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*] tile size 4194304",
       "coverage": {
         "crs": "OGC/0/Index1D?axis-label=\"model\"@EPSG/0/4326",
         "metadata": {
@@ -27,23 +27,23 @@
             "Title": "'Berkeley Earth + CMIP6 Climate Stripes Data'"
           },
           "local": {
-            "Encoding": {
-              "model": {
-                "0": "Berkeley-Earth",
-                "1": "CESM2",
-                "2": "CNRM-CM6-1-HR",
-                "3": "EC-Earth3-Veg",
-                "4": "GFDL-ESM4",
-                "5": "HadGEM3-GC31-LL",
-                "6": "HadGEM3-GC31-MM",
-                "7": "KACE-1-0-G",
-                "8": "MIROC6",
-                "9": "MPI-ESM1-2-HR",
-                "10": "MRI-ESM2-0",
-                "11": "NorESM2-MM",
-                "12": "TaiESM1"
+            "Encoding": "{
+              'model': {
+                '0': 'Berkeley-Earth',
+                '1': 'CESM2',
+                '2': 'CNRM-CM6-1-HR',
+                '3': 'EC-Earth3-Veg',
+                '4': 'GFDL-ESM4',
+                '5': 'HadGEM3-GC31-LL',
+                '6': 'HadGEM3-GC31-MM',
+                '7': 'KACE-1-0-G',
+                '8': 'MIROC6',
+                '9': 'MPI-ESM1-2-HR',
+                '10': 'MRI-ESM2-0',
+                '11': 'NorESM2-MM',
+                '12': 'TaiESM1'
               }
-            }
+            }"
           }
         },
         "slicer": {
