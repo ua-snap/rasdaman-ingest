@@ -87,16 +87,16 @@
               "gridOrder": 2,
               "irregular": true
             },
-            "lat": {
-              "min": "${netcdf:variable:latitude:min}",
-              "max": "${netcdf:variable:latitude:max}",
-              "resolution": "${netcdf:variable:latitude:resolution}",
-              "gridOrder": 3
-            },
             "lon": {
               "min": "${netcdf:variable:longitude:min}",
               "max": "${netcdf:variable:longitude:max}",
               "resolution": "${netcdf:variable:longitude:resolution}",
+              "gridOrder": 3
+            },
+            "lat": {
+              "min": "${netcdf:variable:latitude:min}",
+              "max": "${netcdf:variable:latitude:max}",
+              "resolution": "${netcdf:variable:latitude:resolution}",
               "gridOrder": 4
             }
           }
