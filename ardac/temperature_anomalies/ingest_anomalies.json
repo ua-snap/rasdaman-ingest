@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Berkeley Earth + CMIP6 Climate Stripes Data'"
+            "Title": "'Berkeley Earth + CMIP6 temperature anomalies'"
           },
           "local": {
             "Encoding": "{

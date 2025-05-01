@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Berkeley Earth + CMIP6 Climate Stripes Data'"
+            "Title": "'Berkeley Earth + CMIP6 temperature anomaly baselines (1951-1980)'"
           },
           "local": {
             "Encoding": "{
