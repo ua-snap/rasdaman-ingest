@@ -80,7 +80,6 @@
               "gridOrder": 1
             },
             "year": {
-              "statements": "import netCDF4",
               "min": "${netcdf:variable:year:min}",
               "max": "${netcdf:variable:year:max}",
               "directPositions": "list(range(${netcdf:variable:year:min}, ${netcdf:variable:year:max} + 1))",
