@@ -1,0 +1,85 @@
+{
+  "config": {
+    "service_url": "http://localhost:8080/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "temperature_anomaly_baselines",
+    "paths": [
+      "temperature_anomalies.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*] tile size 4194304",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Berkeley Earth + CMIP6 temperature anomaly baselines (1951-1980)'"
+          },
+          "local": {
+            "Encoding": "{
+              'model': {
+                '0': 'Berkeley-Earth',
+                '1': 'CESM2',
+                '2': 'CNRM-CM6-1-HR',
+                '3': 'EC-Earth3-Veg',
+                '4': 'GFDL-ESM4',
+                '5': 'HadGEM3-GC31-LL',
+                '6': 'HadGEM3-GC31-MM',
+                '7': 'KACE-1-0-G',
+                '8': 'MIROC6',
+                '9': 'MPI-ESM1-2-HR',
+                '10': 'MRI-ESM2-0',
+                '11': 'NorESM2-MM',
+                '12': 'TaiESM1'
+              }
+            }"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "baseline",
+              "identifier": "baseline",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['Berkeley-Earth']",
+              "max": "luts.models['TaiESM1']",
+              "directPositions": "list(luts.models.values())",
+              "irregular": true,
+              "gridOrder": 0
+            },
+            "lon": {
+              "min": "${netcdf:variable:longitude:min}",
+              "max": "${netcdf:variable:longitude:max}",
+              "resolution": "${netcdf:variable:longitude:resolution}",
+              "gridOrder": 1
+            },
+            "lat": {
+              "min": "${netcdf:variable:latitude:min}",
+              "max": "${netcdf:variable:latitude:max}",
+              "resolution": "${netcdf:variable:latitude:resolution}",
+              "gridOrder": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}
