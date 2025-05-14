@@ -34,7 +34,8 @@
           "bands": [
             {
               "name": "data",
-              "identifier": "data"
+              "identifier": "data",
+              "nilValue": "nan"
             }
           ],
           "axes": {
