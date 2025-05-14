@@ -141,7 +141,7 @@
     {
       "description": "Create Snow Water Equivalent WMS style for ARDAC",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_swe&ABSTRACT=Snow%20Water%20Equivalent%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2811%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"75\\\":[178,226,226,255],\\\"150\\\":[102,194,164,255],\\\"225\\\":[44,162,95,255],\\\"300\\\":[0,109,44,255],\\\"9999\\\":[0,0,0,0]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_snw&ABSTRACT=Snow%20Water%20Equivalent%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2811%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"75\\\":[178,226,226,255],\\\"150\\\":[102,194,164,255],\\\"225\\\":[44,162,95,255],\\\"300\\\":[0,109,44,255],\\\"9999\\\":[0,0,0,0]}}\"",
       "abort_on_error": true
     },
     {
