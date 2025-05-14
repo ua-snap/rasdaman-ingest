@@ -22,9 +22,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP6 monthly data on common grid'"
-          },
-          "local": {
+            "Title": "'CMIP6 monthly data on common grid'",
             "Encoding": "{\"varname\": {\"0\": \"clt\", \"1\": \"evspsbl\", \"2\": \"hfls\", \"3\": \"hfss\", \"4\": \"pr\", \"5\": \"prsn\", \"6\": \"psl\", \"7\": \"rlds\", \"8\": \"rsds\", \"9\": \"sfcWind\", \"10\": \"siconc\", \"11\": \"snw\", \"12\": \"tas\", \"13\": \"tasmax\", \"14\": \"tasmin\", \"15\": \"ts\", \"16\": \"uas\", \"17\": \"vas\"}, \"model\": {\"0\": \"CESM2\", \"1\": \"CNRM-CM6-1-HR\", \"2\": \"E3SM-1-1\", \"3\": \"E3SM-2-0\", \"4\": \"EC-Earth3-Veg\", \"5\": \"GFDL-ESM4\", \"6\": \"HadGEM3-GC31-LL\", \"7\": \"HadGEM3-GC31-MM\", \"8\": \"KACE-1-0-G\", \"9\": \"MIROC6\",\"10\":\"MPI-ESM1-2-HR\", \"11\": \"MRI-ESM2-0\", \"12\": \"NorESM2-MM\", \"13\": \"TaiESM1\"}, \"scenario\": {\"0\": \"historical\", \"1\": \"ssp126\", \"2\": \"ssp245\", \"3\": \"ssp370\", \"4\": \"ssp585\"}}"
           }
         },
@@ -183,4 +181,3 @@
     }
   ]
 }
-
