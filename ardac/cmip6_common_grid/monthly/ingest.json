@@ -22,52 +22,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'CMIP6 monthly data on common grid'"
-          },
-          "local": {
-            "Encoding": {
-              "varname": {
-                "0": "clt",
-                "1": "evspsbl",
-                "2": "hfls",
-                "3": "hfss",
-                "4": "pr",
-                "5": "prsn",
-                "6": "psl",
-                "7": "rlds",
-                "8": "rsds",
-                "9": "sfcWind",
-                "10": "siconc",
-                "11": "swe",
-                "12": "tas",
-                "13": "tasmax",
-                "14": "tasmin",
-                "15": "ts",
-                "16": "uas",
-                "17": "vas"
-              },
-              "model": {
-                "0": "CESM2",
-                "1": "CNRM-CM6-1-HR",
-                "2": "EC-Earth3-Veg",
-                "3": "GFDL-ESM4",
-                "4": "HadGEM3-GC31-LL",
-                "5": "HadGEM3-GC31-MM",
-                "6": "KACE-1-0-G",
-                "7": "MIROC6",
-                "11": "MPI-ESM1-2-HR",
-                "8": "MRI-ESM2-0",
-                "9": "NorESM2-MM",
-                "10": "TaiESM1"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "ssp126",
-                "2": "ssp245",
-                "3": "ssp370",
-                "4": "ssp585"
-              }
-            }
+            "Title": "'CMIP6 monthly data on common grid'",
+            "Encoding": "{\"varname\": {\"0\": \"clt\", \"1\": \"evspsbl\", \"2\": \"hfls\", \"3\": \"hfss\", \"4\": \"pr\", \"5\": \"prsn\", \"6\": \"psl\", \"7\": \"rlds\", \"8\": \"rsds\", \"9\": \"sfcWind\", \"10\": \"siconc\", \"11\": \"snw\", \"12\": \"tas\", \"13\": \"tasmax\", \"14\": \"tasmin\", \"15\": \"ts\", \"16\": \"uas\", \"17\": \"vas\"}, \"model\": {\"0\": \"CESM2\", \"1\": \"CNRM-CM6-1-HR\", \"2\": \"E3SM-1-1\", \"3\": \"E3SM-2-0\", \"4\": \"EC-Earth3-Veg\", \"5\": \"GFDL-ESM4\", \"6\": \"HadGEM3-GC31-LL\", \"7\": \"HadGEM3-GC31-MM\", \"8\": \"KACE-1-0-G\", \"9\": \"MIROC6\",\"10\":\"MPI-ESM1-2-HR\", \"11\": \"MRI-ESM2-0\", \"12\": \"NorESM2-MM\", \"13\": \"TaiESM1\"}, \"scenario\": {\"0\": \"historical\", \"1\": \"ssp126\", \"2\": \"ssp245\", \"3\": \"ssp370\", \"4\": \"ssp585\"}}"
           }
         },
         "slicer": {
@@ -76,7 +32,8 @@
           "bands": [
             {
               "name": "data",
-              "identifier": "data"
+              "identifier": "data",
+              "nilValue": "nan"
             }
           ],
           "axes": {
@@ -183,7 +140,7 @@
     {
       "description": "Create Snow Water Equivalent WMS style for ARDAC",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_swe&ABSTRACT=Snow%20Water%20Equivalent%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2811%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"75\\\":[178,226,226,255],\\\"150\\\":[102,194,164,255],\\\"225\\\":[44,162,95,255],\\\"300\\\":[0,109,44,255],\\\"9999\\\":[0,0,0,0]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_monthly&STYLEID=ardac_snw&ABSTRACT=Snow%20Water%20Equivalent%20(ARDAC)&WCPSQUERYFRAGMENT=%24c%5Bvarname%2811%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,251,255],\\\"75\\\":[178,226,226,255],\\\"150\\\":[102,194,164,255],\\\"225\\\":[44,162,95,255],\\\"300\\\":[0,109,44,255],\\\"9999\\\":[0,0,0,0]}}\"",
       "abort_on_error": true
     },
     {
@@ -224,4 +181,3 @@
     }
   ]
 }
-

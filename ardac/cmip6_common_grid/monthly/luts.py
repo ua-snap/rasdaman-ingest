@@ -1,19 +1,18 @@
 models = {
     "CESM2": 0,
     "CNRM-CM6-1-HR": 1,
-    "EC-Earth3-Veg": 2,
-    "GFDL-ESM4": 3,
-    "HadGEM3-GC31-LL": 4,
-    "HadGEM3-GC31-MM": 5,
-    "KACE-1-0-G": 6,
-    "MIROC6": 7,
-    "MRI-ESM2-0": 8,
-    "NorESM2-MM": 9,
-    "TaiESM1": 10,
-    # MPI is the last model to be added
-    #  because it has no historical data
-    #  (currently as of 10/8/24, perhaps bug in processing)
-    "MPI-ESM1-2-HR": 11,
+    "E3SM-1-1": 2,
+    "E3SM-2-0": 3,
+    "EC-Earth3-Veg": 4,
+    "GFDL-ESM4": 5,
+    "HadGEM3-GC31-LL": 6,
+    "HadGEM3-GC31-MM": 7,
+    "KACE-1-0-G": 8,
+    "MIROC6": 9,
+    "MPI-ESM1-2-HR": 10,
+    "MRI-ESM2-0": 11,
+    "NorESM2-MM": 12,
+    "TaiESM1": 13,
 }
 
 varname = {
@@ -61,4 +60,3 @@ scenarios = {
     "ssp370": 3,
     "ssp585": 4,
 }
-
