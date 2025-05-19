@@ -6,9 +6,9 @@
       "automated": true
     },
     "input": {
-      "coverage_id": "era5_4km_daily_t2max",
+      "coverage_id": "era5_4km_daily_t2_max",
       "paths": [
-        "data/*.nc"
+        "t2_max/*.nc"
       ]
     },
     "recipe": {

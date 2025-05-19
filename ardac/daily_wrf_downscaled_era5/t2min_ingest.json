@@ -6,9 +6,9 @@
       "automated": true
     },
     "input": {
-      "coverage_id": "era5_4km_daily_t2min",
+      "coverage_id": "era5_4km_daily_t2_min",
       "paths": [
-        "data/*.nc"
+        "t2_min/*.nc"
       ]
     },
     "recipe": {
