@@ -217,7 +217,7 @@ if __name__ == "__main__":
 
     # validate vars
     if vars == "all":
-        vars = list(cmip6_vars.keys())
+        vars = cmip6_vars
     else:
         vars = vars.split()
         validate_vars(vars, cmip6_vars)
