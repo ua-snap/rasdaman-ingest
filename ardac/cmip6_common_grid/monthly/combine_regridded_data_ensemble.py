@@ -13,7 +13,7 @@ import sys
 import xarray as xr
 from pathlib import Path
 from datetime import datetime
-from luts import cmip6_models, cmip6_scenarios, cmip6_vars
+from luts import cmip6_models, cmip6_scenarios, cmip6_var_attrs, global_attrs
 
 
 def validate_args(input_list, cmip6_dict):
@@ -23,15 +23,6 @@ def validate_args(input_list, cmip6_dict):
             sys.exit(
                 f"Input {item} not allowed. Must be one of {list(cmip6_dict.keys())}"
             )
-        else:
-            pass
-
-
-def validate_vars(vars, varnames):
-    """Validate a list of variables against a list."""
-    for var in vars:
-        if var not in varnames:
-            sys.exit(f"Input {var} not allowed. Must be one of {varnames}")
         else:
             pass
 
@@ -55,10 +46,14 @@ def list_all_files(vars, models, scenarios, frequency, regrid_dir):
 
 def fix_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
+
+    # sort by time, to avoid monotonic indexing errors
+    if "time" in ds.coords:
+        ds = ds.sortby("time")
+
     # drop any unnecessary vars, if they exist
     ds = ds.drop_vars(["spatial_ref", "height"], errors="ignore")
 
-    # get dataset var id
     # if dataset var id does not match the filename var id, rename it
     # this allows for datasets with generic var names (like "data") to be used
     # as long as their filepath contains the var id
@@ -70,8 +65,8 @@ def fix_ds(ds):
     if var != fp_var_id:
         ds = ds.rename({var: fp_var_id})
 
-    # get model and scenario from filepath
-    # add these to the dataset as dimensions
+    # get model and scenario from filepath as well
+    # and add these to the dataset as dimensions
     fp_model = src.split("/")[-1].split("_")[
         2
     ]  # assumes filename has model name in third position
@@ -82,18 +77,18 @@ def fix_ds(ds):
     # add model and scenario to dataset as dimensions using an array with one value each
     ds = ds.expand_dims({"model": [fp_model], "scenario": [fp_scenario]})
 
-    # wipe existing global attributes
+    # wipe existing global attributes and replace with new ones
     ds.attrs = {}
+    for k, v in global_attrs.items():
+        ds.attrs[k] = v
 
-    #TODO: add variable attributes
-    # ds = add_variable_attrs(ds, var_id)
-
+    # wipe variable attributes and replace with new ones
+    for var_id in ds.data_vars:
+        if var_id in cmip6_var_attrs.keys():
+            ds[var_id].attrs = {}
+            for k, v in cmip6_var_attrs[var_id].items():
+                ds[var_id].attrs[k] = v
     return ds
-
-
-#TODO: finish this function!
-# def add_variable_attrs(ds, var_id):
-#     """Add variable attributes to a dataset."""
 
 
 def open_and_combine(fps):
@@ -107,9 +102,9 @@ def open_and_combine(fps):
         combine="by_coords",
         engine="netcdf4",
         decode_cf=True,
-        data_vars="minimal",
-        coords="minimal",
-        compat="override",
+        # data_vars="minimal",
+        # coords="minimal",
+        # compat="no_conflicts",
     )
     return ds
 
@@ -215,12 +210,11 @@ if __name__ == "__main__":
         scenarios = scenarios.split()
         validate_args(scenarios, cmip6_scenarios)
 
-    # validate vars
     if vars == "all":
-        vars = cmip6_vars
+        vars = list(cmip6_var_attrs.keys())
     else:
         vars = vars.split()
-        validate_vars(vars, cmip6_vars)
+        validate_args(vars, cmip6_var_attrs)
 
     # validate frequency
     if frequency not in ["mon", "day"]:
@@ -231,7 +225,6 @@ if __name__ == "__main__":
     ds = open_and_combine(fps)
     ds_with_ensemble = compute_ensemble_mean(ds)
 
-    # TODO: replace model and scenario strings with integers for rasdaman ingestion
     ds_with_ensemble = map_integers(ds_with_ensemble, cmip6_models, cmip6_scenarios)
 
     out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
