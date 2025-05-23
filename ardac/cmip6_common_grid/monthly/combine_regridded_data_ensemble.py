@@ -47,9 +47,9 @@ def list_all_files(vars, models, scenarios, frequency, regrid_dir):
 def fix_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
 
-    # sort by time, to avoid monotonic indexing errors
-    if "time" in ds.coords:
-        ds = ds.sortby("time")
+    # ensure dtype and sort by time, trying to avoid monotonic indexing errors
+    ds["time"] = ds["time"].astype("datetime64[ns]")
+    ds = ds.sortby("time")
 
     # drop any unnecessary vars, if they exist
     ds = ds.drop_vars(["spatial_ref", "height"], errors="ignore")
