@@ -104,7 +104,7 @@ def open_and_combine(fps):
         decode_cf=True,
         # data_vars="minimal",
         # coords="minimal",
-        # compat="no_conflicts",
+        compat="override",
     )
     return ds
 
