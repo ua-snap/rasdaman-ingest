@@ -47,10 +47,17 @@ def list_all_files(vars, models, scenarios, frequency, regrid_dir):
 
 def fix_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
-
-    # ensure dtype and sort by time, trying to avoid monotonic indexing errors
-    ds["time"] = ds["time"].astype("datetime64[ns]")
-    ds = ds.sortby("time")
+    # check if there is a time coord
+    if "time" not in ds.coords:
+        var = list(ds.data_vars)[0]  # assume first var is the one we want
+        src = ds[var].encoding["source"]
+        sys.exit(
+            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
+        )
+    else:
+        # ensure dtype and sort by time, trying to avoid monotonic indexing errors
+        ds["time"] = ds["time"].astype("datetime64[ns]")
+        ds = ds.sortby("time")
 
     # drop any unnecessary vars, if they exist
     ds = ds.drop_vars(["spatial_ref", "height"], errors="ignore")
@@ -98,13 +105,12 @@ def open_and_combine(fps):
     ds = xr.open_mfdataset(
         fps,
         preprocess=fix_ds,
-        chunks={"time": 12},
+        chunks={"time": "auto", "lat": "auto", "lon": "auto"},
         parallel=True,
         combine="by_coords",
         engine="netcdf4",
         decode_cf=True,
-        # data_vars="minimal",
-        # coords="minimal",
+        coords="minimal",
         compat="override",
     )
     return ds
@@ -142,7 +148,7 @@ def map_integers(ds, models_dict, scenarios_dict):
 
 def run_cf_checks(fp):
     """Run CF checks on the dataset, and print output to a text file."""
-    output_fp = fp.with_suffix("_cfchecks.txt")
+    output_fp = fp.with_suffix(".cfchecks.txt")
     with open(output_fp, "w") as out_file:
         subprocess.run(["cfchecks", str(fp)], stdout=out_file, stderr=subprocess.STDOUT)
     print("CF checks run, output saved to", output_fp)
