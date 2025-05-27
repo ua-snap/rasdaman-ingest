@@ -249,6 +249,17 @@ def transpose_dims(ds):
     return ds
 
 
+def drop_other_attrs(ds):
+    """Drop any persistent attributes from the dataset.
+    This is useful to ensure that the dataset does not have any attributes that will fail CF checks.
+    """
+    for var in ds.data_vars:
+        ds[var].attrs.pop(
+            "coordinates", None
+        )  # "coordinate":"height" seems to sneak thru all other attr checks, so we drop here right before writing to disk
+    return ds
+
+
 def add_crs(ds, crs):
     """Add a CRS to the dataset using rioxarray."""
 
@@ -360,6 +371,7 @@ if __name__ == "__main__":
     ds = replace_lat_lon_attrs(ds)
     ds = transpose_dims(ds)
     ds = add_crs(ds, "EPSG:4326")
+    ds = drop_other_attrs(ds)
 
     out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
     print(
