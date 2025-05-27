@@ -137,13 +137,6 @@ cmip6_var_attrs = {
     },
 }
 
-
-# reverse the dicts for decoding rasdaman returns
-rasdaman_encodings = {
-    "models": {v: k for k, v in cmip6_models.items()},
-    "scenarios": {v: k for k, v in cmip6_scenarios.items()},
-}
-
 title_fmt_str = "CMIP6 {frequency} Data on a Common Grid with Multi-Model Ensemble Mean"
 description_fmt_str = "{frequency} data from {number_of_models} CMIP6 models on a common grid, including multi-model ensemble mean calculated for each variable. Models include {models}. Scenarios include {scenarios}. Variables include {variables}. Multi-model ensemble mean is calculated for each variable across all available models for each scenario; some variables do not have data for all models or scenarios."
 
