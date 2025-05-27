@@ -86,16 +86,16 @@ cmip6_var_attrs = {
         "description": "Near-surface (usually, 10 meters) wind speed.",
     },
     "siconc": {
-        "units": "",
-        "standard_name": "",
-        "long_name": "",
-        "description": "",
-    },
-    "snw": {
         "units": "percent",
         "standard_name": "sea_ice_area_fraction",
         "long_name": "Sea Ice Area Percentage",
         "description": "Percentage of grid cell covered by sea ice.",
+    },
+    "snw": {
+        "units": "kg m-2",
+        "standard_name": "surface_snow_amount",
+        "long_name": "Surface Snow Amount",
+        "description": "Total water mass of the snowpack (liquid or frozen), averaged over a grid cell and intercepted by the canopy.",
     },
     "tas": {
         "units": "degC",  # standard units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
