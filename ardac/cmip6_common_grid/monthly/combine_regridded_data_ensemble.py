@@ -10,6 +10,7 @@ example usage:
 
 import argparse
 import sys
+import subprocess
 import xarray as xr
 from pathlib import Path
 from datetime import datetime
@@ -139,6 +140,15 @@ def map_integers(ds, models_dict, scenarios_dict):
     return ds_with_ensemble
 
 
+def run_cf_checks(fp):
+    """Run CF checks on the dataset, and print output to a text file."""
+    output_fp = fp.with_suffix("_cfchecks.txt")
+    with open(output_fp, "w") as out_file:
+        subprocess.run(["cfchecks", str(fp)], stdout=out_file, stderr=subprocess.STDOUT)
+    print("CF checks run, output saved to", output_fp)
+    return
+
+
 def parse_args():
 
     parser = argparse.ArgumentParser(
@@ -234,6 +244,12 @@ if __name__ == "__main__":
 
     ds_with_ensemble.to_netcdf(out_fp)
     print("Done ... ended at : ", datetime.now().isoformat())
+    print("Dataset written to disk at: ", out_fp)
 
+    # close datasets to free up memory
     ds.close()
     ds_with_ensemble.close()
+
+    # run CF checks on the output file
+    print("Running CF checks on the output file...")
+    run_cf_checks(out_fp)
