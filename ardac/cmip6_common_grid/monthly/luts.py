@@ -50,13 +50,13 @@ cmip6_var_attrs = {
         "description": "The surface sensible heat flux, also called turbulent heat flux, is the exchange of heat between the surface and the air by motion of air.",
     },
     "pr": {
-        "units": "mm",  # actual units are "kg m-2 s-1", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
+        "units": "mm",  # standard units are "kg m-2 s-1", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
         "standard_name": "precipitation_flux",
         "long_name": "Precipitation",
         "description": "Includes both liquid and solid phases.",
     },
     "prsn": {
-        "units": "mm",  # actual units are "kg m-2 s-1", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
+        "units": "mm",  # standard units are "kg m-2 s-1", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
         "standard_name": "snowfall_flux",
         "long_name": "Snowfall Flux",
         "description": "At surface; includes precipitation of all forms of water in the solid phase.",
@@ -98,24 +98,24 @@ cmip6_var_attrs = {
         "description": "Percentage of grid cell covered by sea ice.",
     },
     "tas": {
-        "units": "degC",  # actual units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
+        "units": "degC",  # standard units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
         "standard_name": "air_temperature",
         "long_name": "Near-Surface Air Temperature",
         "description": "Near-surface (usually, 2 meter) air temperature.",
     },
     "tasmax": {
-        "units": "degC",  # actual units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
+        "units": "degC",  # standard units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
         "standard_name": "air_temperature",
         "long_name": "Daily Maximum Near-Surface Air Temperature",
         "description": "Maximum near-surface (usually, 2 meter) air temperature.",
-        "cell_methods": "time: maximum",  # added for CF convention since standard_name is ambiguous
+        "cell_methods": "time: maximum",  # must be added for CF convention since standard_name is ambiguous
     },
     "tasmin": {
-        "units": "degC",  # actual units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
+        "units": "degC",  # standard units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
         "standard_name": "air_temperature",
         "long_name": "Daily Minimum Near-Surface Air Temperature",
         "description": "Minimum near-surface (usually, 2 meter) air temperature.",
-        "cell_methods": "time: minimum",  # added for CF convention since standard_name is ambiguous
+        "cell_methods": "time: minimum",  # must be added for CF convention since standard_name is ambiguous
     },
     "ts": {
         "units": "K",
