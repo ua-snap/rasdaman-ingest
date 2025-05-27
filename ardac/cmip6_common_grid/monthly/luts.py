@@ -144,9 +144,13 @@ rasdaman_encodings = {
     "scenarios": {v: k for k, v in cmip6_scenarios.items()},
 }
 
+title_fmt_str = "CMIP6 {frequency} Data on a Common Grid with Multi-Model Ensemble Mean"
+description_fmt_str = "{frequency} data from thirteen CMIP6 models on a common grid, including multi-model ensemble mean calculated for each variable. Models include {models}. Scenarios include {scenarios}. Variables include {variables}. Multi-model ensemble mean is calculated for each variable across all available models for each scenario; some variables do not have data for all models or scenarios."
+
 global_attrs = {
     "Conventions": "CF-1.8",
-    "title": "CMIP6 regridded data",
+    "title": "",
+    "description": "",
     "institution": "Scenarios Network for Alaska and Arctic Planning, University of Alaska Fairbanks, International Arctic Research Center",
     "source": "CMIP6 model output",
     "contact": "uaf-snap-data-tools@alaska.edu",

@@ -15,10 +15,53 @@ import xarray as xr
 import rioxarray
 from pathlib import Path
 from datetime import datetime
-from luts import cmip6_models, cmip6_scenarios, cmip6_var_attrs, global_attrs
+from luts import (
+    cmip6_models,
+    cmip6_scenarios,
+    cmip6_var_attrs,
+    description_fmt_str,
+    title_fmt_str,
+    global_attrs,
+)
 
 
-def validate_args(input_list, cmip6_dict):
+def validate_all_args(models, scenarios, vars, frequency, regrid_dir, rasda_dir):
+    """Validate all input arguments for the script."""
+
+    # validate dirs
+    if not rasda_dir.exists():
+        rasda_dir.mkdir()
+    if not regrid_dir.exists():
+        sys.exit(f"Directory not found: {regrid_dir}")
+
+    # validate models/scenarios/vars
+    if models == "all":
+        models = list(cmip6_models.keys())
+        models.remove("Ensemble")  # drop "Ensemble" from models list
+    else:
+        models = models.split()
+        validate_args_against_dict(models, cmip6_models)
+
+    if scenarios == "all":
+        scenarios = list(cmip6_scenarios.keys())
+    else:
+        scenarios = scenarios.split()
+        validate_args_against_dict(scenarios, cmip6_scenarios)
+
+    if vars == "all":
+        vars = list(cmip6_var_attrs.keys())
+    else:
+        vars = vars.split()
+        validate_args_against_dict(vars, cmip6_var_attrs)
+
+    # validate frequency
+    if frequency not in ["mon", "day"]:
+        sys.exit(f"{frequency} not allowed. Must be 'mon' or 'day'.")
+
+    return models, scenarios, vars, frequency, regrid_dir, rasda_dir
+
+
+def validate_args_against_dict(input_list, cmip6_dict):
     """Validate a list of arguments against a list derived from dictionary keys."""
 
     for item in input_list:
@@ -28,6 +71,32 @@ def validate_args(input_list, cmip6_dict):
             )
         else:
             pass
+
+
+def update_global_attrs(global_attrs, models, scenarios, vars, frequency):
+    """Update global attributes for the dataset.
+    These will be applied in the preprocess_ds() function."""
+
+    freq_str = (
+        "Monthly" if frequency == "mon" else "Daily" if frequency == "day" else None
+    )
+
+    title = title_fmt_str.format(
+        frequency=freq_str,
+        models=", ".join(models),
+        scenarios=", ".join(scenarios),
+        variables=", ".join(vars),
+    )
+    description = description_fmt_str.format(
+        frequency=freq_str,
+        models=", ".join(models),
+        scenarios=", ".join(scenarios),
+        variables=", ".join(vars),
+    )
+    global_attrs["title"] = title
+    global_attrs["description"] = description
+
+    return global_attrs
 
 
 def get_files(var_id, model, scenario, frequency, regrid_dir):
@@ -100,12 +169,17 @@ def replace_var_attrs(ds, cmip6_var_attrs):
 
     for var_id in ds.data_vars:
         if var_id in cmip6_var_attrs.keys():
+
             # remove existing attributes
             if ds[var_id].attrs is None:
                 ds[var_id].attrs = {}
             else:
                 # clear existing attributes
                 ds[var_id].attrs.clear()
+
+            # remove existing encoding
+            ds[var_id].encoding.clear()
+
             # add new attributes from cmip6_var_attrs
             for k, v in cmip6_var_attrs[var_id].items():
                 ds[var_id].attrs[k] = v
@@ -250,17 +324,6 @@ def transpose_dims(ds):
     return ds
 
 
-def drop_other_attrs(ds):
-    """Drop any persistent attributes from the dataset.
-    This is useful to ensure that the dataset does not have any attributes that will fail CF checks.
-    """
-    for var in ds.data_vars:
-        ds[var].attrs.pop(
-            "coordinates", None
-        )  # "coordinate":"height" seems to sneak thru all other attr checks, so we drop here right before writing to disk
-    return ds
-
-
 def add_crs(ds, crs):
     """Add a CRS to the dataset using rioxarray."""
 
@@ -318,52 +381,24 @@ def parse_args():
 
     args = parser.parse_args()
 
-    return (
-        args.models,
-        args.scenarios,
-        args.vars,
-        args.frequency,
-        Path(args.regrid_dir),
-        Path(args.rasda_dir),
-    )
+    return {
+        "models": args.models,
+        "scenarios": args.scenarios,
+        "vars": args.vars,
+        "frequency": args.frequency,
+        "regrid_dir": Path(args.regrid_dir),
+        "rasda_dir": Path(args.rasda_dir),
+    }
 
 
 if __name__ == "__main__":
 
-    # parse args
-    models, scenarios, vars, frequency, regrid_dir, rasda_dir = parse_args()
+    models, scenarios, vars, frequency, regrid_dir, rasda_dir = validate_all_args(
+        **parse_args()
+    )
 
-    # validate dirs
-    if not rasda_dir.exists():
-        rasda_dir.mkdir()
-    if not regrid_dir.exists():
-        sys.exit(f"Directory not found: {regrid_dir}")
+    global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
-    # validate models/scenarios/vars
-    if models == "all":
-        models = list(cmip6_models.keys())
-        models.remove("Ensemble")  # drop "Ensemble" from models list
-    else:
-        models = models.split()
-        validate_args(models, cmip6_models)
-
-    if scenarios == "all":
-        scenarios = list(cmip6_scenarios.keys())
-    else:
-        scenarios = scenarios.split()
-        validate_args(scenarios, cmip6_scenarios)
-
-    if vars == "all":
-        vars = list(cmip6_var_attrs.keys())
-    else:
-        vars = vars.split()
-        validate_args(vars, cmip6_var_attrs)
-
-    # validate frequency
-    if frequency not in ["mon", "day"]:
-        sys.exit(f"{frequency} not allowed. Must be 'mon' or 'day'.")
-
-    # find and process the files
     fps = list_all_files(vars, models, scenarios, frequency, regrid_dir)
     ds = open_and_combine(fps)
     ds = compute_ensemble_mean(ds)
@@ -372,7 +407,6 @@ if __name__ == "__main__":
     ds = replace_lat_lon_attrs(ds)
     ds = transpose_dims(ds)
     ds = add_crs(ds, "EPSG:4326")
-    ds = drop_other_attrs(ds)
 
     out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
     print(
