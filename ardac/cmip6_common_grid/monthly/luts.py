@@ -1,5 +1,3 @@
-import json
-
 cmip6_models = {
     "CESM2": 0,
     "CNRM-CM6-1-HR": 1,
@@ -110,14 +108,14 @@ cmip6_var_attrs = {
         "standard_name": "air_temperature",
         "long_name": "Daily Maximum Near-Surface Air Temperature",
         "description": "Maximum near-surface (usually, 2 meter) air temperature.",
-        "cell_methods": "time: max",  # added for CF convention since standard_name is ambiguous
+        "cell_methods": "time: maximum",  # added for CF convention since standard_name is ambiguous
     },
     "tasmin": {
         "units": "degC",  # actual units are "K", but we convert these in regridding here: https://github.com/ua-snap/cmip6-utils/blob/d9ee45e1ed9e802896b0ee6e2c9d97eb5db7990d/regridding/regrid.py#L826
         "standard_name": "air_temperature",
         "long_name": "Daily Minimum Near-Surface Air Temperature",
         "description": "Minimum near-surface (usually, 2 meter) air temperature.",
-        "cell_methods": "time: min",  # added for CF convention since standard_name is ambiguous
+        "cell_methods": "time: minimum",  # added for CF convention since standard_name is ambiguous
     },
     "ts": {
         "units": "K",
@@ -153,6 +151,4 @@ global_attrs = {
     "source": "CMIP6 model output",
     "contact": "uaf-snap-data-tools@alaska.edu",
     "url": "https://uaf-snap.org/",
-    # convert the rasdaman_encodings to a string
-    "encodings": json.dumps(rasdaman_encodings),
 }
