@@ -174,7 +174,7 @@ def map_integers(ds, cmip6_models, cmip6_scenarios):
     return ds
 
 
-def replace_dim_attrs(ds, cmip6_models, cmip6_scenarios):
+def replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios):
     """Replace the model and scenario dimensions with integer values for rasdaman ingestion."""
 
     # remove "bounds", "title", "type" attributes from time, lat, and lon if they exist
@@ -368,7 +368,7 @@ if __name__ == "__main__":
     ds = open_and_combine(fps)
     ds = compute_ensemble_mean(ds)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
-    ds = replace_dim_attrs(ds, cmip6_models, cmip6_scenarios)
+    ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
     ds = replace_lat_lon_attrs(ds)
     ds = transpose_dims(ds)
     ds = add_crs(ds, "EPSG:4326")
