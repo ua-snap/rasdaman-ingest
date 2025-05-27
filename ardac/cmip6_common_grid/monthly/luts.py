@@ -145,7 +145,7 @@ rasdaman_encodings = {
 }
 
 title_fmt_str = "CMIP6 {frequency} Data on a Common Grid with Multi-Model Ensemble Mean"
-description_fmt_str = "{frequency} data from thirteen CMIP6 models on a common grid, including multi-model ensemble mean calculated for each variable. Models include {models}. Scenarios include {scenarios}. Variables include {variables}. Multi-model ensemble mean is calculated for each variable across all available models for each scenario; some variables do not have data for all models or scenarios."
+description_fmt_str = "{frequency} data from {number_of_models} CMIP6 models on a common grid, including multi-model ensemble mean calculated for each variable. Models include {models}. Scenarios include {scenarios}. Variables include {variables}. Multi-model ensemble mean is calculated for each variable across all available models for each scenario; some variables do not have data for all models or scenarios."
 
 global_attrs = {
     "Conventions": "CF-1.8",

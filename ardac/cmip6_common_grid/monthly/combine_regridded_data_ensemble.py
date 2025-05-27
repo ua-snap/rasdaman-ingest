@@ -90,6 +90,7 @@ def update_global_attrs(global_attrs, models, scenarios, vars, frequency):
     description = description_fmt_str.format(
         frequency=freq_str,
         models=", ".join(models),
+        number_of_models=len(models),
         scenarios=", ".join(scenarios),
         variables=", ".join(vars),
     )
