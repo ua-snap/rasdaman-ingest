@@ -177,10 +177,11 @@ def map_integers(ds, cmip6_models, cmip6_scenarios):
 def replace_dim_attrs(ds, cmip6_models, cmip6_scenarios):
     """Replace the model and scenario dimensions with integer values for rasdaman ingestion."""
 
-    # remove "bounds" and "title" attributes from time, lat, and lon if they exist
+    # remove "bounds", "title", "type" attributes from time, lat, and lon if they exist
     for dim in ["time", "lat", "lon"]:
         ds[dim].attrs.pop("bounds", None)
         ds[dim].attrs.pop("title", None)
+        ds[dim].attrs.pop("type", None)
 
     # reverse the model and scenario dictionaries
     model_dict = {v: k for k, v in cmip6_models.items()}
