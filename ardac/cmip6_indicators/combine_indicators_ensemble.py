@@ -69,6 +69,27 @@ def validate_args_against_dict(input_list, cmip6_dict):
             pass
 
 
+def update_global_attrs(global_attrs, models, scenarios, indicators):
+    """Update global attributes for the dataset.
+    These will be applied in the preprocess_ds() function."""
+
+    title = title_fmt_str.format(
+        models=", ".join(models),
+        scenarios=", ".join(scenarios),
+        indicators=", ".join(indicators),
+    )
+    description = description_fmt_str.format(
+        models=", ".join(models),
+        number_of_models=len(models),
+        scenarios=", ".join(scenarios),
+        indicators=", ".join(indicators),
+    )
+    global_attrs["title"] = title
+    global_attrs["description"] = description
+
+    return global_attrs
+
+
 # TODO flesh out the functions
 
 
@@ -117,3 +138,5 @@ if __name__ == "__main__":
     models, scenarios, indicators, indicators_dir, rasda_dir = validate_all_args(
         **parse_args()
     )
+
+    global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
