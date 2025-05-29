@@ -384,7 +384,19 @@ if __name__ == "__main__":
         f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
     )
 
-    ds.to_netcdf(out_fp)
+    # Set chunk encoding for all variables (adjust chunk sizes as needed)
+    # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon)
+    encoding = {var: {"chunksizes": (1, 1, 10, 10, 60)} for var in ds.data_vars}
+
+    # Write to NetCDF incrementally using those chunks
+    ds.to_netcdf(
+        out_fp,
+        engine="netcdf4",  # or "h5netcdf"
+        mode="w",
+        format="NETCDF4",
+        encoding=encoding,
+        compute=True,
+    )
     print("Done ... ended at : ", datetime.now().isoformat())
     print("Dataset written to disk at: ", out_fp)
 
