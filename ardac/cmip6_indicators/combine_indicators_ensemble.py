@@ -12,6 +12,7 @@ import argparse
 import sys
 import subprocess
 import xarray as xr
+import pandas as pd
 import rioxarray
 from pathlib import Path
 from datetime import datetime
@@ -48,10 +49,10 @@ def validate_all_args(models, scenarios, indicators, indicators_dir, rasda_dir):
         scenarios = scenarios.split()
         validate_args_against_dict(scenarios, cmip6_scenarios)
 
-    if vars == "all":
-        vars = list(cmip6_indicator_attrs.keys())
+    if indicators == "all":
+        indicators = list(cmip6_indicator_attrs.keys())
     else:
-        vars = vars.split()
+        indicators = indicators.split()
         validate_args_against_dict(vars, cmip6_indicator_attrs)
 
     return models, scenarios, indicators, indicators_dir, rasda_dir
@@ -93,7 +94,7 @@ def update_global_attrs(global_attrs, models, scenarios, indicators):
 def get_files(indicator, model, scenario, indicators_dir):
     """Get a list of file paths for a given model, scenario, and indicator."""
 
-    var_fps = list(indicators_dir.glob(f"{model}/{scenario}/indicator/*.nc"))
+    var_fps = list(indicators_dir.glob(f"{model}/{scenario}/{indicator}/*.nc"))
 
     return var_fps
 
@@ -111,51 +112,64 @@ def list_all_files(indicators, models, scenarios, indicators_dir):
     return fps
 
 
-def validate_time(ds):
-    """Validate that the time coordinate is present and correctly formatted."""
-
-    if "time" not in ds.coords:
-        var = list(ds.data_vars)[0]
-        src = ds[var].encoding["source"]
-        sys.exit(
-            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
-        )
-    else:
-        ds["time"] = ds["time"].astype("datetime64[ns]")
-
-        return ds
-
-
-def pull_dims_from_source(ds):
-    """Pull dimensions from the source attribute of the dataset.
-    If dataset variable id does not match the filename variable id, rename it.
-    (This allows for datasets with generic variable names like "data" to be used,
-    as long as their filepath starts with the variable id.)
+def convert_time(ds):
+    """Convert the 'year' coordinate to CF compliant 'time' coordinate.
+    This function assumes that the dataset has a 'year' coordinate in YYYY format.
+    CF conventions require the time coordinate to be in a format that includes
+    the time unit and reference time. We will use 'days since 1950-01-01 00:00:00'
+    and the first day of the year to represent the time coordinate.
     """
 
-    var = list(ds.data_vars)[0]  # assume first var is the one we want
-    src = ds[var].encoding["source"]
-    fp_var_id = src.split("/")[-1].split("_")[
-        0
-    ]  # assumes filename begins with the var id
-    if var != fp_var_id:
-        ds = ds.rename({var: fp_var_id})
+    if "year" in ds.coords:
+        years = ds["year"].values.astype(int)
+        # Reference date for CF time
+        ref_date = pd.Timestamp("1950-01-01")
+        # Create datetime index for January 1st of each year
+        times = pd.to_datetime(years, format="%Y")
+        # Calculate days since reference date
+        days_since_ref = (times - ref_date).days
+        # Assign new coordinate values and rename 'year' to 'time'
+        ds = ds.assign_coords(year=("year", days_since_ref))
+        ds = ds.rename({"year": "time"})
+        ds["time"].attrs["units"] = "days since 1950-01-01 00:00:00"
+        ds["time"].attrs["calendar"] = "standard"
 
-    # get model and scenario from filepath and add these to the dataset as dimensions
-    fp_model = src.split("/")[-1].split("_")[
-        1
-    ]  # assumes filename has model name in second position
-    fp_scenario = src.split("/")[-1].split("_")[
-        2
-    ]  # assumes filename has scenario name in third position
-
-    # add model and scenario to dataset as dimensions using an array with one value each
-    ds = ds.expand_dims({"model": [fp_model], "scenario": [fp_scenario]})
+    else:
+        sys.exit(
+            "Dataset does not contain 'year' coordinate. Cannot convert to 'time' coordinate."
+        )
 
     return ds
 
 
-def replace_var_attrs(ds, cmip6_indicator_attrs):
+def fix_time_and_preprocess(fps):
+    """Fix the time coordinate in all datasets by converting 'year' to 'time' and adding CF compliant attributes.
+    And preprocess the datasets by replacing indicator attributes and global attributes.
+    """
+
+    datasets_fixed_time = []
+    for fp in fps:
+        ds = xr.open_dataset(
+            fp,
+            engine="netcdf4",
+            decode_cf=True,
+            chunks={"time": "auto", "lat": "auto", "lon": "auto"},
+        )
+        ds = convert_time(ds)
+
+        # add CF compliant attributes to the time coordinate
+        ds["time"].attrs["standard_name"] = "time"
+        ds["time"].attrs["long_name"] = "time"
+
+        # preprocess the dataset
+        ds = preprocess_ds(ds)
+
+        datasets_fixed_time.append(ds)
+
+    return datasets_fixed_time
+
+
+def replace_indicator_attrs(ds, cmip6_indicator_attrs):
     """Replace the indicator attributes in the dataset."""
 
     for var_id in ds.data_vars:
@@ -180,29 +194,17 @@ def replace_var_attrs(ds, cmip6_indicator_attrs):
 def preprocess_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
 
-    ds = validate_time(ds)
-    ds = pull_dims_from_source(ds)
-    ds = replace_var_attrs(ds, cmip6_indicator_attrs)
+    ds = replace_indicator_attrs(ds, cmip6_indicator_attrs)
     ds.attrs = global_attrs  # replace any global attributes with our own
 
     return ds
 
 
-def open_and_combine(fps):
-    """Open and combine a list of file paths into a single xarray dataset."""
+def merge_datasets(datasets):
+    """Merge a list of xarray datasets into a single dataset."""
 
-    print(f"Combining files ... started at: {datetime.now().isoformat()}")
-    ds = xr.open_mfdataset(
-        fps,
-        preprocess=preprocess_ds,
-        chunks={"time": "auto", "lat": "auto", "lon": "auto"},
-        parallel=True,
-        combine="by_coords",
-        engine="netcdf4",
-        decode_cf=True,
-        coords="minimal",
-        compat="override",
-    )
+    print("Merging datasets...started at: ", datetime.now().isoformat())
+    ds = xr.merge(datasets, compat="override", combine_attrs="drop_conflicts")
 
     return ds
 
@@ -383,10 +385,26 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
 
     fps = list_all_files(indicators, models, scenarios, indicators_dir)
-    ds = open_and_combine(fps)
+    datasets_fixed_time = fix_time_and_preprocess(fps)
+
+    ds = merge_datasets(datasets_fixed_time)
     ds = compute_ensemble_mean(ds)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
     ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
     ds = replace_lat_lon_attrs(ds)
     ds = transpose_dims(ds)
     ds = add_crs(ds, "EPSG:4326")
+
+    out_fp = rasda_dir / f"cmip6_indicators_ensemble.nc"
+    print(
+        f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
+    )
+
+    ds.to_netcdf(out_fp)
+    print("Done ... ended at : ", datetime.now().isoformat())
+    print("Dataset written to disk at: ", out_fp)
+
+    ds.close()
+
+    # run CF checks on the output file
+    run_cf_checks(out_fp)
