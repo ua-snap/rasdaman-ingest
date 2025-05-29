@@ -90,7 +90,248 @@ def update_global_attrs(global_attrs, models, scenarios, indicators):
     return global_attrs
 
 
-# TODO flesh out the functions
+def get_files(indicator, model, scenario, indicators_dir):
+    """Get a list of file paths for a given model, scenario, and indicator."""
+
+    var_fps = list(indicators_dir.glob(f"{model}/{scenario}/indicator/*.nc"))
+
+    return var_fps
+
+
+def list_all_files(indicators, models, scenarios, indicators_dir):
+    """Get all file paths for a list of models, list of scenarios, and list of indicators."""
+
+    fps = []
+    for model in models:
+        for scenario in scenarios:
+            for indicator in indicators:
+                fps.extend(get_files(indicator, model, scenario, indicators_dir))
+    print(f"Found {len(fps)} files to combine...")
+
+    return fps
+
+
+def validate_time(ds):
+    """Validate that the time coordinate is present and correctly formatted."""
+
+    if "time" not in ds.coords:
+        var = list(ds.data_vars)[0]
+        src = ds[var].encoding["source"]
+        sys.exit(
+            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
+        )
+    else:
+        ds["time"] = ds["time"].astype("datetime64[ns]")
+
+        return ds
+
+
+def pull_dims_from_source(ds):
+    """Pull dimensions from the source attribute of the dataset.
+    If dataset variable id does not match the filename variable id, rename it.
+    (This allows for datasets with generic variable names like "data" to be used,
+    as long as their filepath starts with the variable id.)
+    """
+
+    var = list(ds.data_vars)[0]  # assume first var is the one we want
+    src = ds[var].encoding["source"]
+    fp_var_id = src.split("/")[-1].split("_")[
+        0
+    ]  # assumes filename begins with the var id
+    if var != fp_var_id:
+        ds = ds.rename({var: fp_var_id})
+
+    # get model and scenario from filepath and add these to the dataset as dimensions
+    fp_model = src.split("/")[-1].split("_")[
+        1
+    ]  # assumes filename has model name in second position
+    fp_scenario = src.split("/")[-1].split("_")[
+        2
+    ]  # assumes filename has scenario name in third position
+
+    # add model and scenario to dataset as dimensions using an array with one value each
+    ds = ds.expand_dims({"model": [fp_model], "scenario": [fp_scenario]})
+
+    return ds
+
+
+def replace_var_attrs(ds, cmip6_indicator_attrs):
+    """Replace the indicator attributes in the dataset."""
+
+    for var_id in ds.data_vars:
+        if var_id in cmip6_indicator_attrs.keys():
+
+            # remove existing attributes
+            if ds[var_id].attrs is None:
+                ds[var_id].attrs = {}
+            else:
+                # clear existing attributes
+                ds[var_id].attrs.clear()
+
+            # remove existing encoding
+            ds[var_id].encoding.clear()
+
+            # add new attributes from cmip6_var_attrs
+            for k, v in cmip6_indicator_attrs[var_id].items():
+                ds[var_id].attrs[k] = v
+    return ds
+
+
+def preprocess_ds(ds):
+    """Peforms a number of functions to fix datasets as they are merged."""
+
+    ds = validate_time(ds)
+    ds = pull_dims_from_source(ds)
+    ds = replace_var_attrs(ds, cmip6_indicator_attrs)
+    ds.attrs = global_attrs  # replace any global attributes with our own
+
+    return ds
+
+
+def open_and_combine(fps):
+    """Open and combine a list of file paths into a single xarray dataset."""
+
+    print(f"Combining files ... started at: {datetime.now().isoformat()}")
+    ds = xr.open_mfdataset(
+        fps,
+        preprocess=preprocess_ds,
+        chunks={"time": "auto", "lat": "auto", "lon": "auto"},
+        parallel=True,
+        combine="by_coords",
+        engine="netcdf4",
+        decode_cf=True,
+        coords="minimal",
+        compat="override",
+    )
+
+    return ds
+
+
+def compute_ensemble_mean(ds):
+    """Compute the ensemble mean for a dataset."""
+
+    print("Computing ensemble mean...started at: ", datetime.now().isoformat())
+    ensemble_mean = ds.mean(dim="model")
+    ensemble_mean = ensemble_mean.expand_dims(model=["Ensemble"])
+    ds_with_ensemble = xr.concat([ds, ensemble_mean], dim="model")
+
+    return ds_with_ensemble
+
+
+def map_integers(ds, cmip6_models, cmip6_scenarios):
+    """Map model and scenario strings to integers from luts.py dictionarys for rasdaman ingestion."""
+
+    # check if dataset models and scenarios are in the dictionaries
+    if not all([i in cmip6_models.keys() for i in ds["model"].values]):
+        sys.exit(
+            f"At least one model name in dataset not found in models_dict: {ds['model'].values} must be one of {list(cmip6_models.keys())}"
+        )
+    if not all([i in cmip6_scenarios.keys() for i in ds["scenario"].values]):
+        sys.exit(
+            f"At least one scenario name in dataset not found in scenarios_dict: {ds['scenario'].values} must be one of {list(cmip6_scenarios.keys())}"
+        )
+
+    ds["model"] = [cmip6_models[i] for i in ds["model"].values]
+    ds["scenario"] = [cmip6_scenarios[i] for i in ds["scenario"].values]
+
+    return ds
+
+
+def replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios):
+    """Replace the model and scenario dimensions with integer values for rasdaman ingestion."""
+
+    # remove "bounds", "title", "type" attributes from time, lat, and lon if they exist
+    for dim in ["time", "lat", "lon"]:
+        ds[dim].attrs.pop("bounds", None)
+        ds[dim].attrs.pop("title", None)
+        ds[dim].attrs.pop("type", None)
+
+    # reverse the model and scenario dictionaries
+    model_dict = {v: k for k, v in cmip6_models.items()}
+    scenario_dict = {v: k for k, v in cmip6_scenarios.items()}
+
+    # then drop any keys that are not actually in the dataset
+    model_dict = {k: v for k, v in model_dict.items() if k in ds["model"].values}
+    scenario_dict = {
+        k: v for k, v in scenario_dict.items() if k in ds["scenario"].values
+    }
+
+    # then add the encoding dictionaries, units, and name to the attributes
+    ds["model"].attrs["long_name"] = "model"
+    ds["model"].attrs["units"] = "1"  # denotes dimensionless unit under CF conventions
+    ds["model"].attrs["encoding"] = str(model_dict)
+
+    ds["scenario"].attrs["long_name"] = "scenario"
+    ds["scenario"].attrs[
+        "units"
+    ] = "1"  # denotes dimensionless unit under CF conventions
+    ds["scenario"].attrs["encoding"] = str(scenario_dict)
+
+    return ds
+
+
+def replace_lat_lon_attrs(ds):
+    """Replace the latitude and longitude attributes with standard CF attributes.
+    This function assumes that the latitude and longitude coordinates are named 'lat' and 'lon' respectively.
+    It also updates the attributes to include min_value and max_value derived from the data.
+    """
+
+    ds["lat"].attrs = {}
+    ds["lon"].attrs = {}
+
+    ds["lat"].attrs.update(
+        {
+            "standard_name": "latitude",
+            "long_name": "latitude",
+            "units": "degrees_north",
+            "axis": "Y",
+            "min_value": ds["lat"].min().values,
+            "max_value": ds["lat"].max().values,
+        }
+    )
+
+    ds["lon"].attrs.update(
+        {
+            "standard_name": "longitude",
+            "long_name": "longitude",
+            "units": "degrees_east",
+            "axis": "X",
+            "min_value": ds["lon"].min().values,
+            "max_value": ds["lon"].max().values,
+        }
+    )
+
+    return ds
+
+
+def transpose_dims(ds):
+    """Transpose the dataset dimensions to have the order: model, scenario, time, lat, lon.
+    This is necessary for CF conventions."""
+
+    ds = ds.transpose("model", "scenario", "time", "lat", "lon")
+
+    return ds
+
+
+def add_crs(ds, crs):
+    """Add a CRS to the dataset using rioxarray."""
+
+    ds = ds.rio.set_spatial_dims("lon", "lat")
+    ds = ds.rio.write_crs(crs)  # this creates the "spatial_ref" coordinate
+
+    return ds
+
+
+def run_cf_checks(fp):
+    """Run CF checks on the dataset, and print output to a text file."""
+    print("Running CF checks on the output file...")
+
+    output_fp = fp.with_suffix(".cfchecks.txt")
+    with open(output_fp, "w") as out_file:
+        subprocess.run(["cfchecks", str(fp)], stdout=out_file, stderr=subprocess.STDOUT)
+    print("CF checks run, output saved to", output_fp)
+
+    return None
 
 
 def parse_args():
@@ -140,3 +381,12 @@ if __name__ == "__main__":
     )
 
     global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
+
+    fps = list_all_files(indicators, models, scenarios, indicators_dir)
+    ds = open_and_combine(fps)
+    ds = compute_ensemble_mean(ds)
+    ds = map_integers(ds, cmip6_models, cmip6_scenarios)
+    ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+    ds = replace_lat_lon_attrs(ds)
+    ds = transpose_dims(ds)
+    ds = add_crs(ds, "EPSG:4326")
