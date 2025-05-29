@@ -35,32 +35,32 @@ cmip6_indicator_attrs = {
         "description": "Maximum 5-day Precipitation, calculated over a yearly frequency using xclim.indices.max_n_day_precipitation_amount().",
     },
     "r10mm": {
-        "units": "days",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Yearly Number of Days with Precipitation >= 10mm",
         "description": "Number of Days with Precipitation >= 10mm, calculated over a yearly frequency using xclim.indices._threshold.tg_days_above().",
     },
     "cdd": {
-        "units": "days",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Yearly Number of Consecutive Days with Precipitation < 1mm",
         "description": "Number of Consecutive Days with Precipitation < 1mm, calculated over a yearly frequency using xclim.indices.maximum_consecutive_dry_days().",
     },
     "cwd": {
-        "units": "days",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Yearly Number of Consecutive Days with Precipitation > 1mm",
         "description": "Number of Consecutive Days with Precipitation > 1mm, calculated over a yearly frequency using xclim.indices.maximum_consecutive_wet_days().",
     },
     "dw": {
-        "units": "days",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Yearly Number of Deep Winter Days (-30C threshold)",
         "description": "Number of Deep Winter Days, calculated over a yearly frequency with a daily minimum temperature threshold of -30C using xclim.indices.tn_days_below().",
     },
     "su": {
-        "units": "days",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Yearly Number of Summer Days (25C threshold)",
         "description": "Number of Summer Days, calculated over a yearly frequency with a daily maximum temperature threshold of 25C using xclim.indices.tx_days_above().",
     },
     "ftc": {
-        "units": "1",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Yearly Number of Freeze-Thaw Cycles",
         "description": "Number of Freeze Thaw Cycles, calculated over a yearly frequency using xclim.indicators.atmos.daily_freezethaw_cycles().",
     },
@@ -75,12 +75,12 @@ cmip6_indicator_attrs = {
         "description": "the lowest observed daily minimum 2m air temperature such that there are 5 other observations equal to or less than this value.",
     },
     "wsdi": {
-        "units": "1",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Warm Spell Duration Index",
         "description": "Annual count of occurrences of at least 5 consecutive days with daily maximum temperature above 90th percentile of historical values for the date, calculated over a yearly frequency using xclim.indices.warm_spell_duration_index().",
     },
     "csdi": {
-        "units": "1",
+        "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
         "long_name": "Cold Spell Duration Index",
         "description": "Annual count of occurrences of at least 5 consecutive days with daily minimum temperature below 10th percentile of historical values for the date, calculated over a yearly frequency using xclim.indices.cold_spell_duration_index().",
     },

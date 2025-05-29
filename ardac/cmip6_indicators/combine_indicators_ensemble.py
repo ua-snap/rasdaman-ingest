@@ -53,7 +53,7 @@ def validate_all_args(models, scenarios, indicators, indicators_dir, rasda_dir):
         indicators = list(cmip6_indicator_attrs.keys())
     else:
         indicators = indicators.split()
-        validate_args_against_dict(vars, cmip6_indicator_attrs)
+        validate_args_against_dict(indicators, cmip6_indicator_attrs)
 
     return models, scenarios, indicators, indicators_dir, rasda_dir
 
@@ -112,63 +112,6 @@ def list_all_files(indicators, models, scenarios, indicators_dir):
     return fps
 
 
-def convert_time(ds):
-    """Convert the 'year' coordinate to CF compliant 'time' coordinate.
-    This function assumes that the dataset has a 'year' coordinate in YYYY format.
-    CF conventions require the time coordinate to be in a format that includes
-    the time unit and reference time. We will use 'days since 1950-01-01 00:00:00'
-    and the first day of the year to represent the time coordinate.
-    """
-
-    if "year" in ds.coords:
-        years = ds["year"].values.astype(int)
-        # Reference date for CF time
-        ref_date = pd.Timestamp("1950-01-01")
-        # Create datetime index for January 1st of each year
-        times = pd.to_datetime(years, format="%Y")
-        # Calculate days since reference date
-        days_since_ref = (times - ref_date).days
-        # Assign new coordinate values and rename 'year' to 'time'
-        ds = ds.assign_coords(year=("year", days_since_ref))
-        ds = ds.rename({"year": "time"})
-        ds["time"].attrs["units"] = "days since 1950-01-01 00:00:00"
-        ds["time"].attrs["calendar"] = "standard"
-
-    else:
-        sys.exit(
-            "Dataset does not contain 'year' coordinate. Cannot convert to 'time' coordinate."
-        )
-
-    return ds
-
-
-def fix_time_and_preprocess(fps):
-    """Fix the time coordinate in all datasets by converting 'year' to 'time' and adding CF compliant attributes.
-    And preprocess the datasets by replacing indicator attributes and global attributes.
-    """
-
-    datasets_fixed_time = []
-    for fp in fps:
-        ds = xr.open_dataset(
-            fp,
-            engine="netcdf4",
-            decode_cf=True,
-            chunks={"time": "auto", "lat": "auto", "lon": "auto"},
-        )
-        ds = convert_time(ds)
-
-        # add CF compliant attributes to the time coordinate
-        ds["time"].attrs["standard_name"] = "time"
-        ds["time"].attrs["long_name"] = "time"
-
-        # preprocess the dataset
-        ds = preprocess_ds(ds)
-
-        datasets_fixed_time.append(ds)
-
-    return datasets_fixed_time
-
-
 def replace_indicator_attrs(ds, cmip6_indicator_attrs):
     """Replace the indicator attributes in the dataset."""
 
@@ -191,20 +134,59 @@ def replace_indicator_attrs(ds, cmip6_indicator_attrs):
     return ds
 
 
+def validate_time(ds):
+    """Validate that the time coordinate is present and correctly formatted."""
+
+    if "time" not in ds.coords:
+        var = list(ds.data_vars)[0]
+        src = ds[var].encoding["source"]
+        sys.exit(
+            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
+        )
+    else:
+        ds["time"] = ds["time"].astype("datetime64[ns]")
+
+        return ds
+
+
 def preprocess_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
 
+    ds = validate_time(ds)
     ds = replace_indicator_attrs(ds, cmip6_indicator_attrs)
     ds.attrs = global_attrs  # replace any global attributes with our own
 
     return ds
 
 
-def merge_datasets(datasets):
-    """Merge a list of xarray datasets into a single dataset."""
+def open_and_combine(fps):
+    """Open and combine a list of file paths into a single xarray dataset. To avoid indexing errors with the time dimension,
+    we will separate historical and projected data, open them separately, and then combine them.
+    """
 
-    print("Merging datasets...started at: ", datetime.now().isoformat())
-    ds = xr.merge(datasets, compat="override", combine_attrs="drop_conflicts")
+    print(f"Combining files ... started at: {datetime.now().isoformat()}")
+    # Merge files in the fps list that contain 'historical' in the file name (historical data)
+    hist_files = [file for file in fps if "historical" in file.name]
+    hist_datasets = list()
+    for file in hist_files:
+        ds = xr.open_dataset(file, chunks="auto")
+        ds = preprocess_ds(ds)
+        hist_datasets.append(ds)
+    historical_combined_ds = xr.merge(hist_datasets)
+
+    # Merge files in the fps list that contain 'ssp' in the file name (projected data)
+    proj_files = [file for file in fps if "ssp" in file.name]
+    proj_datasets = list()
+    for file in proj_files:
+        ds = xr.open_dataset(file, chunks="auto")
+        ds = preprocess_ds(ds)
+        proj_datasets.append(ds)
+    projected_combined_ds = xr.merge(proj_datasets)
+
+    # Combine the historical and projected datasets
+    ds = xr.combine_by_coords(
+        [historical_combined_ds, projected_combined_ds], combine_attrs="drop_conflicts"
+    )
 
     return ds
 
@@ -213,8 +195,11 @@ def compute_ensemble_mean(ds):
     """Compute the ensemble mean for a dataset."""
 
     print("Computing ensemble mean...started at: ", datetime.now().isoformat())
-    ensemble_mean = ds.mean(dim="model")
+    # Compute ensemble mean and ensure it does not share memory with ds
+    ensemble_mean = ds.mean(dim="model", skipna=True)
+    # Set the model coordinate for the ensemble mean
     ensemble_mean = ensemble_mean.expand_dims(model=["Ensemble"])
+    # Concatenate along the model dimension
     ds_with_ensemble = xr.concat([ds, ensemble_mean], dim="model")
 
     return ds_with_ensemble
@@ -385,9 +370,8 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
 
     fps = list_all_files(indicators, models, scenarios, indicators_dir)
-    datasets_fixed_time = fix_time_and_preprocess(fps)
 
-    ds = merge_datasets(datasets_fixed_time)
+    ds = open_and_combine(fps)
     ds = compute_ensemble_mean(ds)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
     ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
