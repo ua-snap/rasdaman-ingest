@@ -209,7 +209,7 @@ def preprocess_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
 
     # drop any unnecessary vars, if they exist
-    ds = ds.drop_vars(["spatial_ref", "height"], errors="ignore")
+    ds = ds.drop_vars(["spatial_ref", "height", "type"], errors="ignore")
     ds = pull_dims_from_source(ds)
     ds = replace_var_attrs(ds, cmip6_var_attrs)
     ds.attrs = global_attrs  # replace any global attributes with our own
