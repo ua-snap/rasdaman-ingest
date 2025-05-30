@@ -121,6 +121,37 @@ def list_all_files(vars, models, scenarios, frequency, regrid_dir):
     return fps
 
 
+def get_chunks_from_sample_file(sample_fp):
+    """Get chunk sizes from a sample file. Assumes all files have the same dimensions (time, lat, lon).
+    This is used to determine how to chunk the dataset when opening it with xarray.open_mfdataset().
+    The chunk sizes are determined by the dimensions of the sample file.
+    """
+
+    ds = xr.open_dataset(sample_fp)
+    dims = ds.sizes
+    # use full size of all dimensions except time, which will be chunked by year (1 year = 1 chunk)
+    chunks = {}
+    for dim in dims:
+        if dim == "time":
+            chunks[dim] = 1  # chunk time by year
+        else:
+            # use full size for other dimensions; this could be -1 for opening files, but that doesn't work when writing to disk
+            chunks[dim] = dims[dim]
+
+    # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon) derived from chunks used to open the files
+    # this will be used in encoding when writing the dataset to disk
+    # here we set model and scenario chunk sizes to 1 - these dimensions don't yet exist in the source file, but will be added later
+    chunksizes = (
+        1,
+        1,
+        chunks["time"],
+        chunks["lat"],
+        chunks["lon"],
+    )
+
+    return chunks, chunksizes
+
+
 def validate_time(ds):
     """Validate that the time coordinate is present and correctly formatted."""
 
@@ -200,14 +231,14 @@ def preprocess_ds(ds):
     return ds
 
 
-def open_and_combine(fps):
+def open_and_combine(fps, chunks):
     """Open and combine a list of file paths into a single xarray dataset."""
 
     print(f"Combining files ... started at: {datetime.now().isoformat()}")
     ds = xr.open_mfdataset(
         fps,
         preprocess=preprocess_ds,
-        chunks={"time": "auto", "lat": "auto", "lon": "auto"},
+        chunks=chunks,
         parallel=True,
         combine="by_coords",
         engine="netcdf4",
@@ -401,7 +432,8 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
     fps = list_all_files(vars, models, scenarios, frequency, regrid_dir)
-    ds = open_and_combine(fps)
+    chunks, chunksizes = get_chunks_from_sample_file(fps[0])
+    ds = open_and_combine(fps, chunks)
     ds = compute_ensemble_mean(ds)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
     ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
@@ -414,7 +446,18 @@ if __name__ == "__main__":
         f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
     )
 
-    ds.to_netcdf(out_fp)
+    # use same chunks as used to open the dataset - this should allow incremental loading and writing
+    encoding = {var: {"chunksizes": chunksizes} for var in ds.data_vars}
+
+    ds.to_netcdf(
+        out_fp,
+        engine="netcdf4",
+        mode="w",
+        format="NETCDF4",
+        encoding=encoding,
+        compute=True,
+    )
+
     print("Done ... ended at : ", datetime.now().isoformat())
     print("Dataset written to disk at: ", out_fp)
 
