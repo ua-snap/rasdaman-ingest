@@ -70,6 +70,36 @@ def validate_args_against_dict(input_list, cmip6_dict):
             pass
 
 
+def get_chunks_from_sample_file(sample_fp):
+    """Get chunk sizes from a sample file. Assumes all files have the same dimensions (model, scenario, time, lat, lon).
+    This is used to determine how to chunk the dataset when opening it with xarray.open_mfdataset().
+    The chunk sizes are determined by the dimensions of the sample file.
+    """
+
+    ds = xr.open_dataset(sample_fp)
+    dims = ds.sizes
+    # use full size of all dimensions except time, which will be chunked by year (1 year = 1 chunk)
+    chunks = {}
+    for dim in dims:
+        if dim == "time":
+            chunks[dim] = 1  # chunk time by year
+        else:
+            # use full size for other dimensions; this could be -1 for opening files, but that doesn't work when writing to disk
+            chunks[dim] = dims[dim]
+
+    # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon) derived from chunks used to open the files
+    # this will be used in encoding when writing the dataset to disk
+    chunksizes = (
+        chunks["model"],
+        chunks["scenario"],
+        chunks["time"],
+        chunks["lat"],
+        chunks["lon"],
+    )
+
+    return chunks, chunksizes
+
+
 def update_global_attrs(global_attrs, models, scenarios, indicators):
     """Update global attributes for the dataset.
     These will be applied in the preprocess_ds() function."""
@@ -159,7 +189,7 @@ def preprocess_ds(ds):
     return ds
 
 
-def open_and_combine(fps):
+def open_and_combine(fps, chunks):
     """Open and combine a list of file paths into a single xarray dataset. To avoid indexing errors with the time dimension,
     we will separate historical and projected data, open them separately, and then combine them.
     """
@@ -169,7 +199,7 @@ def open_and_combine(fps):
     hist_files = [file for file in fps if "historical" in file.name]
     hist_datasets = list()
     for file in hist_files:
-        ds = xr.open_dataset(file, chunks="auto")
+        ds = xr.open_dataset(file, chunks=chunks)
         ds = preprocess_ds(ds)
         hist_datasets.append(ds)
     historical_combined_ds = xr.merge(hist_datasets)
@@ -178,7 +208,7 @@ def open_and_combine(fps):
     proj_files = [file for file in fps if "ssp" in file.name]
     proj_datasets = list()
     for file in proj_files:
-        ds = xr.open_dataset(file, chunks="auto")
+        ds = xr.open_dataset(file, chunks=chunks)
         ds = preprocess_ds(ds)
         proj_datasets.append(ds)
     projected_combined_ds = xr.merge(proj_datasets)
@@ -370,8 +400,8 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
 
     fps = list_all_files(indicators, models, scenarios, indicators_dir)
-
-    ds = open_and_combine(fps)
+    chunks, chunksizes = get_chunks_from_sample_file(fps[0])
+    ds = open_and_combine(fps, chunks)
     ds = compute_ensemble_mean(ds)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
     ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
@@ -384,11 +414,9 @@ if __name__ == "__main__":
         f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
     )
 
-    # Set chunk encoding for all variables (adjust chunk sizes as needed)
-    # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon)
-    encoding = {var: {"chunksizes": (1, 1, 10, 10, 60)} for var in ds.data_vars}
+    # use same chunks as used to open the dataset - this should allow incremental loading and writing
+    encoding = {var: {"chunksizes": chunksizes} for var in ds.data_vars}
 
-    # Write to NetCDF incrementally using those chunks
     ds.to_netcdf(
         out_fp,
         engine="netcdf4",  # or "h5netcdf"
@@ -397,6 +425,7 @@ if __name__ == "__main__":
         encoding=encoding,
         compute=True,
     )
+
     print("Done ... ended at : ", datetime.now().isoformat())
     print("Dataset written to disk at: ", out_fp)
 
