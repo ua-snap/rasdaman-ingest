@@ -15,6 +15,8 @@ import xarray as xr
 import rioxarray
 from pathlib import Path
 from datetime import datetime
+import numpy as np
+import pandas as pd
 from luts import (
     cmip6_models,
     cmip6_scenarios,
@@ -133,7 +135,7 @@ def get_chunks_from_sample_file(sample_fp):
     chunks = {}
     for dim in dims:
         if dim == "time":
-            chunks[dim] = 1  # chunk time by year
+            chunks[dim] = 12  # chunk time by 12 month increments
         else:
             # use full size for other dimensions; this could be -1 for opening files, but that doesn't work when writing to disk
             chunks[dim] = dims[dim]
@@ -150,21 +152,6 @@ def get_chunks_from_sample_file(sample_fp):
     )
 
     return chunks, chunksizes
-
-
-def validate_time(ds):
-    """Validate that the time coordinate is present and correctly formatted."""
-
-    if "time" not in ds.coords:
-        var = list(ds.data_vars)[0]
-        src = ds[var].encoding["source"]
-        sys.exit(
-            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
-        )
-    else:
-        ds["time"] = ds["time"].astype("datetime64[ns]")
-
-        return ds
 
 
 def pull_dims_from_source(ds):
@@ -223,7 +210,6 @@ def preprocess_ds(ds):
 
     # drop any unnecessary vars, if they exist
     ds = ds.drop_vars(["spatial_ref", "height"], errors="ignore")
-    ds = validate_time(ds)
     ds = pull_dims_from_source(ds)
     ds = replace_var_attrs(ds, cmip6_var_attrs)
     ds.attrs = global_attrs  # replace any global attributes with our own
