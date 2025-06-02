@@ -16,6 +16,7 @@ import pandas as pd
 import rioxarray
 from pathlib import Path
 from datetime import datetime
+from dask.distributed import Client
 from luts import (
     cmip6_models,
     cmip6_scenarios,
@@ -70,34 +71,34 @@ def validate_args_against_dict(input_list, cmip6_dict):
             pass
 
 
-def get_chunks_from_sample_file(sample_fp):
-    """Get chunk sizes from a sample file. Assumes all files have the same dimensions (model, scenario, time, lat, lon).
-    This is used to determine how to chunk the dataset when opening it with xarray.open_mfdataset().
-    The chunk sizes are determined by the dimensions of the sample file.
-    """
+# def get_chunks_from_sample_file(sample_fp):
+#     """Get chunk sizes from a sample file. Assumes all files have the same dimensions (model, scenario, time, lat, lon).
+#     This is used to determine how to chunk the dataset when opening it with xarray.open_mfdataset().
+#     The chunk sizes are determined by the dimensions of the sample file.
+#     """
 
-    ds = xr.open_dataset(sample_fp)
-    dims = ds.sizes
-    # use full size of all dimensions except time, which will be chunked by year (1 year = 1 chunk)
-    chunks = {}
-    for dim in dims:
-        if dim == "time":
-            chunks[dim] = 1  # chunk time by year
-        else:
-            # use full size for other dimensions; this could be -1 for opening files, but that doesn't work when writing to disk
-            chunks[dim] = dims[dim]
+#     ds = xr.open_dataset(sample_fp)
+#     dims = ds.sizes
+#     # use full size of all dimensions except time, which will be chunked by year (1 year = 1 chunk)
+#     chunks = {}
+#     for dim in dims:
+#         if dim == "time":
+#             chunks[dim] = 1  # chunk time by year
+#         else:
+#             # use full size for other dimensions; this could be -1 for opening files, but that doesn't work when writing to disk
+#             chunks[dim] = dims[dim]
 
-    # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon) derived from chunks used to open the files
-    # this will be used in encoding when writing the dataset to disk
-    chunksizes = (
-        chunks["model"],
-        chunks["scenario"],
-        chunks["time"],
-        chunks["lat"],
-        chunks["lon"],
-    )
+#     # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon) derived from chunks used to open the files
+#     # this will be used in encoding when writing the dataset to disk
+#     chunksizes = (
+#         chunks["model"],
+#         chunks["scenario"],
+#         chunks["time"],
+#         chunks["lat"],
+#         chunks["lon"],
+#     )
 
-    return chunks, chunksizes
+#     return chunks, chunksizes
 
 
 def update_global_attrs(global_attrs, models, scenarios, indicators):
@@ -164,59 +165,43 @@ def replace_indicator_attrs(ds, cmip6_indicator_attrs):
     return ds
 
 
-def validate_time(ds):
-    """Validate that the time coordinate is present and correctly formatted."""
-
-    if "time" not in ds.coords:
-        var = list(ds.data_vars)[0]
-        src = ds[var].encoding["source"]
-        sys.exit(
-            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
-        )
-    else:
-        ds["time"] = ds["time"].astype("datetime64[ns]")
-
-        return ds
-
-
-def preprocess_ds(ds):
-    """Peforms a number of functions to fix datasets as they are merged."""
-
-    ds = validate_time(ds)
-    ds = replace_indicator_attrs(ds, cmip6_indicator_attrs)
-    ds.attrs = global_attrs  # replace any global attributes with our own
-
-    return ds
-
-
-def open_and_combine(fps, chunks):
+def open_and_combine(fps):#, chunks):
     """Open and combine a list of file paths into a single xarray dataset. To avoid indexing errors with the time dimension,
     we will separate historical and projected data, open them separately, and then combine them.
     """
 
     print(f"Combining files ... started at: {datetime.now().isoformat()}")
-    # Merge files in the fps list that contain 'historical' in the file name (historical data)
     hist_files = [file for file in fps if "historical" in file.name]
-    hist_datasets = list()
-    for file in hist_files:
-        ds = xr.open_dataset(file, chunks=chunks)
-        ds = preprocess_ds(ds)
-        hist_datasets.append(ds)
-    historical_combined_ds = xr.merge(hist_datasets)
-
-    # Merge files in the fps list that contain 'ssp' in the file name (projected data)
     proj_files = [file for file in fps if "ssp" in file.name]
-    proj_datasets = list()
-    for file in proj_files:
-        ds = xr.open_dataset(file, chunks=chunks)
-        ds = preprocess_ds(ds)
-        proj_datasets.append(ds)
-    projected_combined_ds = xr.merge(proj_datasets)
+    with Client(n_workers=4, threads_per_worker=6) as client:
+        hist_ds = xr.open_mfdataset(hist_files)
+        hist_ds = hist_ds.load()
 
-    # Combine the historical and projected datasets
-    ds = xr.combine_by_coords(
-        [historical_combined_ds, projected_combined_ds], combine_attrs="drop_conflicts"
-    )
+        proj_ds = xr.open_mfdataset(proj_files)
+        proj_ds = proj_ds.load()
+
+    ds = xr.merge([hist_ds, proj_ds], combine_attrs="drop_conflicts")
+
+    return ds
+
+
+def convert_time(ds):
+    """Convert the 'year' coordinate to a CF-compliant 'time' coordinate."""
+
+    years = ds["year"].values.astype(int)
+    # Reference date for CF time
+    ref_date = pd.Timestamp("1950-01-01")
+    # Create datetime index for January 1st of each year
+    times = pd.to_datetime(years, format="%Y")
+    # Calculate days since reference date
+    days_since_ref = (times - ref_date).days
+    # Assign new coordinate values and rename 'year' to 'time'
+    ds = ds.assign_coords(year=("year", days_since_ref))
+    ds = ds.rename({"year": "time"})
+    ds["time"].attrs["units"] = "days since 1950-01-01 00:00:00"
+    ds["time"].attrs["calendar"] = "standard"
+    ds["time"].attrs["long_name"] = "time"
+    ds["time"].attrs["standard_name"] = "time"
 
     return ds
 
@@ -428,11 +413,13 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
 
     fps = list_all_files(indicators, models, scenarios, indicators_dir)
-    chunks, chunksizes = get_chunks_from_sample_file(fps[0])
-    ds = open_and_combine(fps, chunks)
+    #chunks, chunksizes = get_chunks_from_sample_file(fps[0])
+    ds = open_and_combine(fps)#, chunks)
     ds = compute_ensemble_mean(ds)
     ds = enforce_dtypes_and_precision(ds, cmip6_indicator_attrs)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
+    ds = replace_indicator_attrs(ds, cmip6_indicator_attrs)
+    ds.attrs = global_attrs  # replace any global attributes with our own
     ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
     ds = replace_lat_lon_attrs(ds)
     ds = transpose_dims(ds)
@@ -444,16 +431,9 @@ if __name__ == "__main__":
     )
 
     # use same chunks as used to open the dataset - this should allow incremental loading and writing
-    encoding = {var: {"chunksizes": chunksizes} for var in ds.data_vars}
+    #encoding = {var: {"chunksizes": chunksizes} for var in ds.data_vars}
 
-    ds.to_netcdf(
-        out_fp,
-        engine="netcdf4",  # or "h5netcdf"
-        mode="w",
-        format="NETCDF4",
-        encoding=encoding,
-        compute=True,
-    )
+    ds.to_netcdf(out_fp, engine="h5netcdf", format="NETCDF4")
 
     print("Done ... ended at : ", datetime.now().isoformat())
     print("Dataset written to disk at: ", out_fp)
