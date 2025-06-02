@@ -162,7 +162,9 @@ def replace_indicator_attrs(ds, cmip6_indicator_attrs):
 
             # add new attributes from cmip6_var_attrs
             for k, v in cmip6_indicator_attrs[var_id].items():
-                ds[var_id].attrs[k] = v
+                # skip "dtype" and "precision" as they are handled separately
+                if k not in ["dtype", "precision"]:
+                    ds[var_id].attrs[k] = v
     return ds
 
 
@@ -435,7 +437,7 @@ if __name__ == "__main__":
     # use same chunks as used to open the dataset - this should allow incremental loading and writing
     #encoding = {var: {"chunksizes": chunksizes} for var in ds.data_vars}
 
-    ds.to_netcdf(out_fp, engine="h5netcdf", format="NETCDF4")
+    ds.to_netcdf(out_fp, engine="netcdf4", format="NETCDF4")
 
     print("Done ... ended at : ", datetime.now().isoformat())
     print("Dataset written to disk at: ", out_fp)
