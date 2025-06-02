@@ -163,25 +163,9 @@ def replace_indicator_attrs(ds, cmip6_indicator_attrs):
     return ds
 
 
-def validate_time(ds):
-    """Validate that the time coordinate is present and correctly formatted."""
-
-    if "time" not in ds.coords:
-        var = list(ds.data_vars)[0]
-        src = ds[var].encoding["source"]
-        sys.exit(
-            f"Dataset {src} does not have a time coordinate. Cannot combine without time."
-        )
-    else:
-        ds["time"] = ds["time"].astype("datetime64[ns]")
-
-        return ds
-
-
 def preprocess_ds(ds):
     """Peforms a number of functions to fix datasets as they are merged."""
 
-    ds = validate_time(ds)
     ds = replace_indicator_attrs(ds, cmip6_indicator_attrs)
     ds.attrs = global_attrs  # replace any global attributes with our own
 
