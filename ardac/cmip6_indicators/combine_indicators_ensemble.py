@@ -14,6 +14,7 @@ import subprocess
 import xarray as xr
 import pandas as pd
 import rioxarray
+import numpy as np
 from pathlib import Path
 from datetime import datetime
 from dask.distributed import Client
@@ -415,6 +416,7 @@ if __name__ == "__main__":
     fps = list_all_files(indicators, models, scenarios, indicators_dir)
     #chunks, chunksizes = get_chunks_from_sample_file(fps[0])
     ds = open_and_combine(fps)#, chunks)
+    ds = convert_time(ds)
     ds = compute_ensemble_mean(ds)
     ds = enforce_dtypes_and_precision(ds, cmip6_indicator_attrs)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
