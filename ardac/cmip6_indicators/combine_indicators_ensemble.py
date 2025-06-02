@@ -237,16 +237,11 @@ def enforce_dtypes_and_precision(ds, cmip6_indicator_attrs):
                     pass
                 # If converting to integer, set nodata to -9999 before conversion
                 if cmip6_indicator_attrs[var]["dtype"].startswith("int"):
-                    nodata_val = -9999
-                    # Replace NaNs with nodata value
+                    nodata_val = cmip6_indicator_attrs[var]["_FillValue"]
                     ds[var] = ds[var].where(~np.isnan(ds[var]), nodata_val)
+                # round before dtype conversion
+                ds[var] = ds[var].round(cmip6_indicator_attrs[var]["precision"])
                 ds[var] = ds[var].astype(cmip6_indicator_attrs[var]["dtype"])
-            if "precision" in cmip6_indicator_attrs[var]:
-                # round the variable to the specified precision, unless precision is None in which case we skip
-                if cmip6_indicator_attrs[var]["precision"] is not None:
-                    ds[var] = ds[var].round(cmip6_indicator_attrs[var]["precision"])
-                else:
-                    pass
 
     return ds
 

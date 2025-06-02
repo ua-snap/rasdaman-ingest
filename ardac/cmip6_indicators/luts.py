@@ -32,7 +32,7 @@ cmip6_indicator_attrs = {
         "description": "Maxmimum 1-day Precipitation, calculated over a yearly frequency using xclim.indices.max_n_day_precipitation_amount().",
         "_FillValue": -9999,
         "dtype": "int32", # we do not need submillimeter precision for this indicator
-        "precision": None, # integers do not have a precision
+        "precision": 0, # integers will be rounded to whole numbers if coerced from float to int
     },
     "rx5day": {
         "units": "mm",
@@ -40,7 +40,7 @@ cmip6_indicator_attrs = {
         "description": "Maximum 5-day Precipitation, calculated over a yearly frequency using xclim.indices.max_n_day_precipitation_amount().",
         "_FillValue": -9999,
         "dtype": "int32", # we do not need submillimeter precision for this indicator
-        "precision": None,
+        "precision": 0,
     },
     "r10mm": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -48,7 +48,7 @@ cmip6_indicator_attrs = {
         "description": "Number of Days with Precipitation >= 10mm, calculated over a yearly frequency using xclim.indices._threshold.tg_days_above().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "cdd": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -56,7 +56,7 @@ cmip6_indicator_attrs = {
         "description": "Number of Consecutive Days with Precipitation < 1mm, calculated over a yearly frequency using xclim.indices.maximum_consecutive_dry_days().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "cwd": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -64,7 +64,7 @@ cmip6_indicator_attrs = {
         "description": "Number of Consecutive Days with Precipitation > 1mm, calculated over a yearly frequency using xclim.indices.maximum_consecutive_wet_days().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "dw": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -72,7 +72,7 @@ cmip6_indicator_attrs = {
         "description": "Number of Deep Winter Days, calculated over a yearly frequency with a daily minimum temperature threshold of -30C using xclim.indices.tn_days_below().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "su": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -80,7 +80,7 @@ cmip6_indicator_attrs = {
         "description": "Number of Summer Days, calculated over a yearly frequency with a daily maximum temperature threshold of 25C using xclim.indices.tx_days_above().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "ftc": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -88,7 +88,7 @@ cmip6_indicator_attrs = {
         "description": "Number of Freeze Thaw Cycles, calculated over a yearly frequency using xclim.indicators.atmos.daily_freezethaw_cycles().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "hd": {
         "units": "degC",
@@ -112,7 +112,7 @@ cmip6_indicator_attrs = {
         "description": "Annual count of occurrences of at least 5 consecutive days with daily maximum temperature above 90th percentile of historical values for the date, calculated over a yearly frequency using xclim.indices.warm_spell_duration_index().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
     "csdi": {
         "units": "1",  # this has to be unitless, or else decode_cf=True will produce strange results
@@ -120,7 +120,7 @@ cmip6_indicator_attrs = {
         "description": "Annual count of occurrences of at least 5 consecutive days with daily minimum temperature below 10th percentile of historical values for the date, calculated over a yearly frequency using xclim.indices.cold_spell_duration_index().",
         "_FillValue": -9999,
         "dtype": "int32",
-        "precision": None,
+        "precision": 0,
     },
 }
 
