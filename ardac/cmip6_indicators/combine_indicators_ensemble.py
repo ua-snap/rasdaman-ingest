@@ -235,6 +235,34 @@ def compute_ensemble_mean(ds):
     return ds_with_ensemble
 
 
+def enforce_dtypes_and_precision(ds, cmip6_indicator_attrs):
+    """Enforce dtypes and precision for the dataset variables using the attributes in the lookup table."""
+
+    for var in ds.data_vars:
+        if var not in ["spatial_ref"]:
+            if "dtype" in cmip6_indicator_attrs[var]:
+                # validate that the dtype is OK - if not, skip the conversion but warn the user
+                if cmip6_indicator_attrs[var]["dtype"] not in ["int32", "float32", "float64"]:
+                    print(
+                        f"Warning: dtype {ds[var].encoding['dtype']} for variable {var} is not supported. Skipping conversion."
+                    )
+                    pass
+                # If converting to integer, set nodata to -9999 before conversion
+                if cmip6_indicator_attrs[var]["dtype"].startswith("int"):
+                    nodata_val = -9999
+                    # Replace NaNs with nodata value
+                    ds[var] = ds[var].where(~np.isnan(ds[var]), nodata_val)
+                ds[var] = ds[var].astype(cmip6_indicator_attrs[var]["dtype"])
+            if "precision" in cmip6_indicator_attrs[var]:
+                # round the variable to the specified precision, unless precision is None in which case we skip
+                if cmip6_indicator_attrs[var]["precision"] is not None:
+                    ds[var] = ds[var].round(cmip6_indicator_attrs[var]["precision"])
+                else:
+                    pass
+
+    return ds
+
+
 def map_integers(ds, cmip6_models, cmip6_scenarios):
     """Map model and scenario strings to integers from luts.py dictionarys for rasdaman ingestion."""
 
@@ -403,6 +431,7 @@ if __name__ == "__main__":
     chunks, chunksizes = get_chunks_from_sample_file(fps[0])
     ds = open_and_combine(fps, chunks)
     ds = compute_ensemble_mean(ds)
+    ds = enforce_dtypes_and_precision(ds, cmip6_indicator_attrs)
     ds = map_integers(ds, cmip6_models, cmip6_scenarios)
     ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
     ds = replace_lat_lon_attrs(ds)
