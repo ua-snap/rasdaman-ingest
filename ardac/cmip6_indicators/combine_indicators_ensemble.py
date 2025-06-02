@@ -12,7 +12,6 @@ import argparse
 import sys
 import subprocess
 import xarray as xr
-import pandas as pd
 import rioxarray
 from pathlib import Path
 from datetime import datetime
