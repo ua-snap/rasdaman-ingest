@@ -176,34 +176,34 @@ def replace_var_attrs(ds, cmip6_var_attrs):
 
 
 def preprocess_ds(ds):
-    """Peforms a number of functions to fix datasets as they are merged."""
+    """Peforms functions to fix datasets as they are opened."""
 
-    # drop any unnecessary vars, if they exist
-    ds = ds.drop_vars(["spatial_ref", "height", "type"], errors="ignore")
     ds = pull_dims_from_source(ds)
-    ds = replace_var_attrs(ds, cmip6_var_attrs)
-    ds.attrs = global_attrs  # replace any global attributes with our own
+    # drop global encoding and attributes that are not needed
+    ds.encoding = {}
+    ds.attrs = {}
 
     return ds
 
 
-def open_and_combine(fps):
-    """Open and combine a list of file paths into a single xarray dataset."""
+# def open_and_combine(fps):
+#     """Open and combine a list of file paths into a single xarray dataset."""
 
-    print(f"Combining files ... started at: {datetime.now().isoformat()}")
-    with Client(n_workers=4, threads_per_worker=6) as client:
-        ds = xr.open_mfdataset(
-            fps,
-            preprocess=preprocess_ds,
-            parallel=True,
-            combine="by_coords",
-            engine="netcdf4",
-            decode_cf=True,
-            coords="minimal",
-            compat="override",
-        )
+#     print(f"Combining files ... started at: {datetime.now().isoformat()}")
+#     with Client(n_workers=4, threads_per_worker=6) as client:
+#         ds = xr.open_mfdataset(
+#             fps,
+#             drop_variables=["spatial_ref", "height", "type"],
+#             preprocess=preprocess_ds,
+#             parallel=True,
+#             combine="by_coords",
+#             engine="netcdf4",
+#             decode_cf=True,
+#             coords="minimal",
+#             compat="override",
+#         )
 
-    return ds
+#     return ds
 
 
 def compute_ensemble_mean(ds):
@@ -388,25 +388,53 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
     fps = list_all_files(vars, models, scenarios, frequency, regrid_dir)
-    ds = open_and_combine(fps)
-    ds = compute_ensemble_mean(ds)
-    ds = map_integers(ds, cmip6_models, cmip6_scenarios)
-    ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
-    ds = replace_lat_lon_attrs(ds)
-    ds = transpose_dims(ds)
-    ds = add_crs(ds, "EPSG:4326")
+    # ds = open_and_combine(fps)
+    print(f"Combining files ... started at: {datetime.now().isoformat()}")
+    with Client(
+        n_workers=12,
+        threads_per_worker=2,
+        memory_limit="10GB",
+    ) as client:
+        ds = xr.open_mfdataset(
+            fps,
+            drop_variables=["spatial_ref", "height", "type"],
+            preprocess=preprocess_ds,
+            parallel=True,
+            combine="by_coords",
+            engine="netcdf4",
+            decode_cf=True,
+            coords="minimal",
+            compat="override",
+            chunks={"time": 120},
+        )
 
-    out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
-    print(
-        f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
-    )
+        print("Multi-file dataset opened with chunks:")
+        print(ds.chunks)
 
-    ds.to_netcdf(out_fp,engine="netcdf4",format="NETCDF4")
+        ds = compute_ensemble_mean(ds)
+        ds = map_integers(ds, cmip6_models, cmip6_scenarios)
+        ds = replace_var_attrs(ds, cmip6_var_attrs)
+        ds.attrs = global_attrs
+        ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+        ds = replace_lat_lon_attrs(ds)
+        ds = transpose_dims(ds)
+        ds = add_crs(ds, "EPSG:4326")
 
-    print("Done ... ended at : ", datetime.now().isoformat())
-    print("Dataset written to disk at: ", out_fp)
+        out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
+        print(
+            f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
+        )
 
-    ds.close()
+        print(ds)
+        for var in ds.data_vars:
+            print(var, ds[var].dims)
+
+        ds.to_netcdf(out_fp, engine="netcdf4", format="NETCDF4")
+
+        print("Done ... ended at : ", datetime.now().isoformat())
+        print("Dataset written to disk at: ", out_fp)
+
+        ds.close()
 
     # run CF checks on the output file
     run_cf_checks(out_fp)
