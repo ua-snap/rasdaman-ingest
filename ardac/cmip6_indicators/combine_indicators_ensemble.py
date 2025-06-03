@@ -71,36 +71,6 @@ def validate_args_against_dict(input_list, cmip6_dict):
             pass
 
 
-# def get_chunks_from_sample_file(sample_fp):
-#     """Get chunk sizes from a sample file. Assumes all files have the same dimensions (model, scenario, time, lat, lon).
-#     This is used to determine how to chunk the dataset when opening it with xarray.open_mfdataset().
-#     The chunk sizes are determined by the dimensions of the sample file.
-#     """
-
-#     ds = xr.open_dataset(sample_fp)
-#     dims = ds.sizes
-#     # use full size of all dimensions except time, which will be chunked by year (1 year = 1 chunk)
-#     chunks = {}
-#     for dim in dims:
-#         if dim == "time":
-#             chunks[dim] = 1  # chunk time by year
-#         else:
-#             # use full size for other dimensions; this could be -1 for opening files, but that doesn't work when writing to disk
-#             chunks[dim] = dims[dim]
-
-#     # Note: 'chunksizes' is a tuple of (model, scenario, time, lat, lon) derived from chunks used to open the files
-#     # this will be used in encoding when writing the dataset to disk
-#     chunksizes = (
-#         chunks["model"],
-#         chunks["scenario"],
-#         chunks["time"],
-#         chunks["lat"],
-#         chunks["lon"],
-#     )
-
-#     return chunks, chunksizes
-
-
 def update_global_attrs(global_attrs, models, scenarios, indicators):
     """Update global attributes for the dataset.
     These will be applied in the preprocess_ds() function."""
@@ -167,7 +137,7 @@ def replace_indicator_attrs(ds, cmip6_indicator_attrs):
     return ds
 
 
-def open_and_combine(fps):#, chunks):
+def open_and_combine(fps):
     """Open and combine a list of file paths into a single xarray dataset. To avoid indexing errors with the time dimension,
     we will separate historical and projected data, open them separately, and then combine them.
     """
@@ -410,8 +380,7 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, indicators)
 
     fps = list_all_files(indicators, models, scenarios, indicators_dir)
-    #chunks, chunksizes = get_chunks_from_sample_file(fps[0])
-    ds = open_and_combine(fps)#, chunks)
+    ds = open_and_combine(fps)
     ds = convert_time(ds)
     ds = compute_ensemble_mean(ds)
     ds = enforce_dtypes_and_precision(ds, cmip6_indicator_attrs)
@@ -427,9 +396,6 @@ if __name__ == "__main__":
     print(
         f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
     )
-
-    # use same chunks as used to open the dataset - this should allow incremental loading and writing
-    #encoding = {var: {"chunksizes": chunksizes} for var in ds.data_vars}
 
     ds.to_netcdf(out_fp, engine="netcdf4", format="NETCDF4")
 
