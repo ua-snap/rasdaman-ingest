@@ -72,8 +72,7 @@ def validate_args_against_dict(input_list, cmip6_dict):
 
 
 def update_global_attrs(global_attrs, models, scenarios, indicators):
-    """Update global attributes for the dataset.
-    These will be applied in the preprocess_ds() function."""
+    """Update global attributes for the dataset."""
 
     title = title_fmt_str.format(
         models=", ".join(models),
