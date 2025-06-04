@@ -186,30 +186,30 @@ def preprocess_ds(ds):
     return ds
 
 
-# def open_and_combine(fps):
-#     """Open and combine a list of file paths into a single xarray dataset."""
+def reindex_and_rechunk(ds, chunks):
+    """Reindex the dataset to include all models and scenarios, and rechunk it for efficient processing.
+    This is necessary because the dataset may not have all models and scenarios present,
+    and rechunking is needed to prevent automatic rechunking which results in many very
+    small chunks and inefficient processing."""
 
-#     print(f"Combining files ... started at: {datetime.now().isoformat()}")
-#     with Client(n_workers=4, threads_per_worker=6) as client:
-#         ds = xr.open_mfdataset(
-#             fps,
-#             drop_variables=["spatial_ref", "height", "type"],
-#             preprocess=preprocess_ds,
-#             parallel=True,
-#             combine="by_coords",
-#             engine="netcdf4",
-#             decode_cf=True,
-#             coords="minimal",
-#             compat="override",
-#         )
+    all_models = ds["model"].values
+    all_scenarios = ds["scenario"].values
+    for var in ds.data_vars:
+        ds[var] = ds[var].reindex(model=all_models, scenario=all_scenarios)
+        # explicitly rechunk to align dask chunks for all variables
+        chunks["model"] = 1
+        chunks["scenario"] = 1
+        ds[var] = ds[var].chunk(chunks)
 
-#     return ds
+    print("Dataset opened and combined successfully with chunks:")
+    print(ds.chunks)
+
+    return ds
 
 
 def compute_ensemble_mean(ds):
     """Compute the ensemble mean for a dataset."""
 
-    print("Computing ensemble mean...started at: ", datetime.now().isoformat())
     ensemble_mean = ds.mean(dim="model")
     ensemble_mean = ensemble_mean.expand_dims(model=["Ensemble"])
     ds_with_ensemble = xr.concat([ds, ensemble_mean], dim="model")
@@ -381,6 +381,8 @@ def parse_args():
 
 if __name__ == "__main__":
 
+    chunks = {"time": 120}
+
     models, scenarios, vars, frequency, regrid_dir, rasda_dir = validate_all_args(
         **parse_args()
     )
@@ -388,13 +390,17 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
     fps = list_all_files(vars, models, scenarios, frequency, regrid_dir)
-    # ds = open_and_combine(fps)
+
     print(f"Combining files ... started at: {datetime.now().isoformat()}")
     with Client(
-        n_workers=12,
+        n_workers=14,  # 14 workers × 2 threads = 28 cores
         threads_per_worker=2,
-        memory_limit="10GB",
+        memory_limit="8GB",  # 14 × 8GB = 112GB, leaves some headroom for OS/other processes
+        dashboard_address=":8787",
     ) as client:
+
+        print(f"View progress on the client dashboard at {client.dashboard_link}")
+
         ds = xr.open_mfdataset(
             fps,
             drop_variables=["spatial_ref", "height", "type"],
@@ -404,13 +410,11 @@ if __name__ == "__main__":
             engine="netcdf4",
             decode_cf=True,
             coords="minimal",
-            compat="override",
-            chunks={"time": 120},
+            compat="no_conflicts",
+            chunks=chunks,
         )
 
-        print("Multi-file dataset opened with chunks:")
-        print(ds.chunks)
-
+        ds = reindex_and_rechunk(ds, chunks)
         ds = compute_ensemble_mean(ds)
         ds = map_integers(ds, cmip6_models, cmip6_scenarios)
         ds = replace_var_attrs(ds, cmip6_var_attrs)
