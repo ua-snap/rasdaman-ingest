@@ -17,7 +17,7 @@ from pathlib import Path
 from datetime import datetime
 from dask.distributed import Client
 import numpy as np
-import pandas as pd
+from time import time
 from luts import (
     cmip6_models,
     cmip6_scenarios,
@@ -406,6 +406,9 @@ def parse_args():
 
 if __name__ == "__main__":
 
+    start_time = datetime.now()
+    print("Starting script at: ", start_time.isoformat())
+
     chunks = {"time": 120}
 
     models, scenarios, vars, frequency, regrid_dir, rasda_dir = validate_all_args(
@@ -416,7 +419,7 @@ if __name__ == "__main__":
 
     fps = list_all_files(vars, models, scenarios, frequency, regrid_dir)
 
-    print(f"Combining files ... started at: {datetime.now().isoformat()}")
+    print(f"Combining files ...")
     with Client(
         n_workers=14,  # 14 workers × 2 threads = 28 cores
         threads_per_worker=2,
@@ -451,17 +454,12 @@ if __name__ == "__main__":
         ds = add_crs(ds, "EPSG:4326")
 
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
-        print(
-            f"Writing combined dataset with ensemble mean to {out_fp}... started at: {datetime.now().isoformat()}"
-        )
-
-        print(ds)
-        for var in ds.data_vars:
-            print(var, ds[var].dims)
-
+        print(f"Writing combined dataset with ensemble mean to {out_fp}...")
         ds.to_netcdf(out_fp, engine="netcdf4", format="NETCDF4")
 
-        print("Done ... ended at : ", datetime.now().isoformat())
+        end_time = datetime.now()
+        print("Done ... ended at : ", end_time.isoformat())
+        print("Elapsed time: ", (end_time - start_time).isoformat())
         print("Dataset written to disk at: ", out_fp)
 
         ds.close()
