@@ -171,7 +171,9 @@ def replace_var_attrs(ds, cmip6_var_attrs):
 
             # add new attributes from cmip6_var_attrs
             for k, v in cmip6_var_attrs[var_id].items():
-                ds[var_id].attrs[k] = v
+                # skip "dtype" and "precision" as they are handled separately
+                if k not in ["dtype", "precision"]:
+                    ds[var_id].attrs[k] = v
     return ds
 
 
@@ -215,6 +217,29 @@ def compute_ensemble_mean(ds):
     ds_with_ensemble = xr.concat([ds, ensemble_mean], dim="model")
 
     return ds_with_ensemble
+
+
+def enforce_dtypes_and_precision(ds, cmip6_var_attrs):
+    """Enforce dtypes and precision for the dataset variables using the attributes in the lookup table."""
+
+    for var in ds.data_vars:
+        if var not in ["spatial_ref"]:
+            if "dtype" in cmip6_var_attrs[var]:
+                # validate that the dtype is OK - if not, skip the conversion but warn the user
+                if cmip6_var_attrs[var]["dtype"] not in ["int32", "float32", "float64"]:
+                    print(
+                        f"Warning: dtype {ds[var].encoding['dtype']} for variable {var} is not supported. Skipping conversion."
+                    )
+                    pass
+                # If converting to integer, set nodata to -9999 before conversion
+                if cmip6_var_attrs[var]["dtype"].startswith("int"):
+                    nodata_val = cmip6_var_attrs[var]["_FillValue"]
+                    ds[var] = ds[var].where(~np.isnan(ds[var]), nodata_val)
+                # round before dtype conversion
+                ds[var] = ds[var].round(cmip6_var_attrs[var]["precision"])
+                ds[var] = ds[var].astype(cmip6_var_attrs[var]["dtype"])
+
+    return ds
 
 
 def map_integers(ds, cmip6_models, cmip6_scenarios):
@@ -416,6 +441,7 @@ if __name__ == "__main__":
 
         ds = reindex_and_rechunk(ds, chunks)
         ds = compute_ensemble_mean(ds)
+        ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
         ds = map_integers(ds, cmip6_models, cmip6_scenarios)
         ds = replace_var_attrs(ds, cmip6_var_attrs)
         ds.attrs = global_attrs
