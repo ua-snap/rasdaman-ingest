@@ -4,6 +4,8 @@ It is assumed that the data has already been regridded and is stored in the foll
 directory structure: <model>/<scenario>/<frequency (table ID)>/<variable ID>/<filename>.
 The script will combine all files for supplied models, scenarios, temporal frequency, variables into a single xarray dataset and write to disk.
 
+!NOTE: Daily frequency has not yet been tested, and may require a different dask client configuration to manage memory usage.
+
 example usage:
   python combine_regridded_data_ensemble.py --models 'all' --scenarios 'all' --vars 'all' --frequency 'mon' --regrid_dir /beegfs/CMIP6/jdpaul3/CMIP6_common_regrid/regrid --rasda_dir /beegfs/CMIP6/jdpaul3/cmip6_regrid_for_rasdaman
 """
@@ -457,8 +459,8 @@ if __name__ == "__main__":
 
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
         print(f"Writing combined dataset with ensemble mean to {out_fp}...")
-        # use netcdf4 engine for better performance with compled merge operations
-        # h5netcdf engine is not as performant for writing large datasets
+        # use netcdf4 engine for better performance with complex merge operations
+        # h5netcdf engine is not as performant for writing large datasets, tends to duplicate dims
         ds.to_netcdf(out_fp, engine="netcdf4")
 
         end_time = datetime.now()
