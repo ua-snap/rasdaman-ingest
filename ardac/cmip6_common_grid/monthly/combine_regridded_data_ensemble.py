@@ -17,7 +17,6 @@ from pathlib import Path
 from datetime import datetime
 from dask.distributed import Client
 import numpy as np
-from time import time
 from luts import (
     cmip6_models,
     cmip6_scenarios,
