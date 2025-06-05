@@ -189,18 +189,15 @@ def preprocess_ds(ds):
 
 
 def reindex_and_rechunk(ds, chunks):
-    """Reindex the dataset to include all models and scenarios, and rechunk it for efficient processing.
-    This is necessary because the dataset may not have all models and scenarios present,
-    and rechunking is needed to prevent automatic rechunking which results in many very
-    small chunks and inefficient processing."""
+    """Reindex the dataset to include all models and scenarios, and rechunk it for efficient processing."""
 
     all_models = ds["model"].values
     all_scenarios = ds["scenario"].values
     for var in ds.data_vars:
         ds[var] = ds[var].reindex(model=all_models, scenario=all_scenarios)
         # explicitly rechunk to align dask chunks for all variables
-        chunks["model"] = 1
-        chunks["scenario"] = 1
+        chunks["model"] = len(all_models)
+        chunks["scenario"] = len(all_scenarios)
         ds[var] = ds[var].chunk(chunks)
 
     print("Dataset opened and combined successfully with chunks:")
@@ -417,9 +414,6 @@ if __name__ == "__main__":
 
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
-    fps = list_all_files(vars, models, scenarios, frequency, regrid_dir)
-
-    print(f"Combining files ...")
     with Client(
         n_workers=14,  # 14 workers × 2 threads = 28 cores
         threads_per_worker=2,
@@ -427,20 +421,29 @@ if __name__ == "__main__":
         dashboard_address=":8787",
     ) as client:
 
-        print(f"View progress on the client dashboard at {client.dashboard_link}")
+        var_datasets = []
 
-        ds = xr.open_mfdataset(
-            fps,
-            drop_variables=["spatial_ref", "height", "type"],
-            preprocess=preprocess_ds,
-            parallel=True,
-            combine="by_coords",
-            engine="netcdf4",
-            decode_cf=True,
-            coords="minimal",
-            compat="no_conflicts",
-            chunks=chunks,
-        )
+        for var in vars:
+            print(f"Combining files for {var} ...")
+            fps = list_all_files([var], models, scenarios, frequency, regrid_dir)
+
+            var_ds = xr.open_mfdataset(
+                fps,
+                drop_variables=["spatial_ref", "height", "type"],
+                preprocess=preprocess_ds,
+                parallel=True,
+                combine="by_coords",
+                engine="h5netcdf",  # use h5netcdf for better performance with reading large datasets
+                decode_cf=True,
+                coords="minimal",
+                compat="no_conflicts",
+                chunks=chunks,
+            )
+
+            var_datasets.append(var_ds)
+
+        print("Merging variable datasets...")
+        ds = xr.merge(var_datasets, compat="no_conflicts", combine_attrs="override")
 
         ds = reindex_and_rechunk(ds, chunks)
         ds = compute_ensemble_mean(ds)
@@ -455,11 +458,13 @@ if __name__ == "__main__":
 
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
         print(f"Writing combined dataset with ensemble mean to {out_fp}...")
-        ds.to_netcdf(out_fp, engine="netcdf4", format="NETCDF4")
+        # use netcdf4 engine for better performance with compled merge operations
+        # h5netcdf engine is not as performant for writing large datasets
+        ds.to_netcdf(out_fp, engine="netcdf4")
 
         end_time = datetime.now()
         print("Done ... ended at : ", end_time.isoformat())
-        print("Elapsed time: ", (end_time - start_time).isoformat())
+        print("Elapsed time: ", str(end_time - start_time))
         print("Dataset written to disk at: ", out_fp)
 
         ds.close()
