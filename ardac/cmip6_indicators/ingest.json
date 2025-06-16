@@ -2,16 +2,13 @@
   "config": {
     "service_url": "https://localhost/rasdaman/ows",
     "tmp_directory": "/tmp/",
-    "default_null_values": [
-      "-9999"
-    ],
     "mock": false,
     "automated": true
   },
   "input": {
-    "coverage_id": "cmip6_indicators",
+    "coverage_id": "cmip6_indicators_cf",
     "paths": [
-      "cmip6_indicators.nc"
+      "cmip6_indicators_ensemble.nc"
     ]
   },
   "recipe": {
@@ -21,89 +18,95 @@
       "import_order": "ascending",
       "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/4326",
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"time\"@EPSG/0/4326",
         "metadata": {
           "type": "xml",
-          "global": {
-            "Title": "'CMIP6 Indicators'"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "0": "CESM2",
-                "1": "CNRM-CM6-1-HR",
-                "2": "EC-Earth3-Veg",
-                "3": "GFDL-ESM4",
-                "4": "HadGEM-GC31-LL",
-                "5": "HadGEM-GC31-MM",
-                "6": "KACE-1-0-G",
-                "7": "MIROC6",
-                "8": "MPI-ESM1-2-LR",
-                "9": "MRI-ESM2-0",
-                "10": "NorESM2-MM",
-                "11": "TaiESM1"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "ssp126",
-                "2": "ssp245",
-                "3": "ssp370",
-                "4": "ssp585"
-              },
-              "indicator": {
-                "0": "dw",
-                "1": "ftc",
-                "2": "rx1day",
-                "3": "su"
-              }
-            }
-          }
+          "global": "auto"
         },
         "slicer": {
           "type": "netcdf",
           "pixelIsPoint": true,
           "bands": [
             {
+              "name": "cd",
+              "identifier": "cd",
+              "nilValue": "nan"
+            },
+            {
+              "name": "cdd",
+              "identifier": "cdd",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "csdi",
+              "identifier": "csdi",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "cwd",
+              "identifier": "cwd",
+              "nilValue": "-9999"
+            },
+            {
               "name": "dw",
               "identifier": "dw",
-              "nilValue": "-9999.0"
+              "nilValue": "-9999"
             },
             {
               "name": "ftc",
               "identifier": "ftc",
-              "nilValue": "-9999.0"
+              "nilValue": "-9999"
+            },
+            {
+              "name": "hd",
+              "identifier": "hd",
+              "nilValue": "nan"
+            },
+            {
+              "name": "r10mm",
+              "identifier": "r10mm",
+              "nilValue": "-9999"
             },
             {
               "name": "rx1day",
               "identifier": "rx1day",
-              "nilValue": "-9999.0"
+              "nilValue": "-9999"
+            },
+            {
+              "name": "rx5day",
+              "identifier": "rx5day",
+              "nilValue": "-9999"
             },
             {
               "name": "su",
               "identifier": "su",
-              "nilValue": "-9999.0"
+              "nilValue": "-9999"
+            },
+            {
+              "name": "wsdi",
+              "identifier": "wsdi",
+              "nilValue": "-9999"
             }
           ],
           "axes": {
-            "scenario": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
-              "min": "luts.scenarios['historical']",
-              "max": "luts.scenarios['ssp585']",
-              "directPositions": "list(luts.scenarios.values())",
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "directPositions": "${netcdf:variable:model}",
               "irregular": true,
               "gridOrder": 0
             },
-            "model": {
-              "min": "luts.models['CESM2']",
-              "max": "luts.models['TaiESM1']",
-              "directPositions": "list(luts.models.values())",
+            "scenario": {
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "directPositions": "${netcdf:variable:scenario}",
               "irregular": true,
               "gridOrder": 1
             },
-            "year": {
-              "min": "${netcdf:variable:year:min}",
-              "max": "${netcdf:variable:year:max}",
-              "directPositions": "${netcdf:variable:year}",
+            "time": {
+              "min": "${netcdf:variable:time:min}",
+              "max": "${netcdf:variable:time:max}",
+              "directPositions": "${netcdf:variable:time}",
               "irregular": true,
               "gridOrder": 2
             },
@@ -111,91 +114,18 @@
               "min": "${netcdf:variable:lat:min}",
               "max": "${netcdf:variable:lat:max}",
               "resolution": "${netcdf:variable:lat:resolution}",
-              "gridOrder": 4
+              "gridOrder": 3
             },
             "lon": {
               "min": "${netcdf:variable:lon:min}",
               "max": "${netcdf:variable:lon:max}",
               "resolution": "${netcdf:variable:lon:resolution}",
-              "gridOrder": 3
+              "gridOrder": 4
             }
           }
         }
       }
     }
-  },
-  "hooks": [
-    {
-      "description": "Create Historical Summer Days WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_su_historical_era&ABSTRACT=Historical%20Summer%20Days%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2830%3A59%29%20using%20%24c%5Byear%28%24y%29%5D%29.su%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[244,212,180,255],\\\"5\\\":[244,188,143,255],\\\"10\\\":[245,165,112,255],\\\"20\\\":[229,128,87,255],\\\"40\\\":[184,105,77,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Mid-Century Summer Days WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_su_midcentury_era&ABSTRACT=Mid-Century%20Summer%20Days%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2890%3A119%29%20using%20%24c%5Byear%28%24y%29%5D%29.su%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[244,212,180,255],\\\"5\\\":[244,188,143,255],\\\"10\\\":[245,165,112,255],\\\"20\\\":[229,128,87,255],\\\"40\\\":[184,105,77,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Late-Century Summer Days WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_su_latecentury_era&ABSTRACT=Late-Century%20Summer%20Days%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%28120%3A149%29%20using%20%24c%5Byear%28%24y%29%5D%29.su%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[244,212,180,255],\\\"5\\\":[244,188,143,255],\\\"10\\\":[245,165,112,255],\\\"20\\\":[229,128,87,255],\\\"40\\\":[184,105,77,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Historical Freeze/Thaw Cycle WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_ftc_historical_era&ABSTRACT=Historical%20Freeze/Thaw%20Cycle%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2830%3A59%29%20using%20%24c%5Byear%28%24y%29%5D%29.ftc%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[239,239,239,255],\\\"20\\\":[221,221,221,255],\\\"40\\\":[171,171,171,255],\\\"60\\\":[135,135,135,255],\\\"80\\\":[92,92,92,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Mid-Century Freeze/Thaw Cycle WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_ftc_midcentury_era&ABSTRACT=Mid-Century%20Freeze/Thaw%20Cycle%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2890%3A119%29%20using%20%24c%5Byear%28%24y%29%5D%29.ftc%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[239,239,239,255],\\\"20\\\":[221,221,221,255],\\\"40\\\":[171,171,171,255],\\\"60\\\":[135,135,135,255],\\\"80\\\":[92,92,92,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Late-Century Freeze/Thaw Cycle WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_ftc_latecentury_era&ABSTRACT=Late-Century%20Freeze/Thaw%20Cycle%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%28120%3A149%29%20using%20%24c%5Byear%28%24y%29%5D%29.ftc%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[239,239,239,255],\\\"20\\\":[221,221,221,255],\\\"40\\\":[171,171,171,255],\\\"60\\\":[135,135,135,255],\\\"80\\\":[92,92,92,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Historical Deep Winter Days WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_dw_historical_era&ABSTRACT=Historical%20Deep%20Winter%20Days%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2830%3A59%29%20using%20%24c%5Byear%28%24y%29%5D%29.dw%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[205,220,233,255],\\\"10\\\":[177,208,224,255],\\\"20\\\":[143,188,216,255],\\\"40\\\":[105,157,199,255],\\\"80\\\":[80,123,176,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Mid-Century Deep Winter Days WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_dw_midcentury_era&ABSTRACT=Mid-Century%20Deep%20Winter%20Days%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2890%3A119%29%20using%20%24c%5Byear%28%24y%29%5D%29.dw%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[205,220,233,255],\\\"10\\\":[177,208,224,255],\\\"20\\\":[143,188,216,255],\\\"40\\\":[105,157,199,255],\\\"80\\\":[80,123,176,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Late-Century Deep Winter Days WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_dw_latecentury_era&ABSTRACT=Late-Century%20Deep%20Winter%20Days%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%28120%3A149%29%20using%20%24c%5Byear%28%24y%29%5D%29.dw%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[205,220,233,255],\\\"10\\\":[177,208,224,255],\\\"20\\\":[143,188,216,255],\\\"40\\\":[105,157,199,255],\\\"80\\\":[80,123,176,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Historical Maximum 1-day Precipitation WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_rx1day_historical_era&ABSTRACT=Historical%20Maximum%201-day%20Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2830%3A59%29%20using%20%24c%5Byear%28%24y%29%5D%29.rx1day%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[233,240,242,255],\\\"10\\\":[192,225,226,255],\\\"20\\\":[141,203,181,255],\\\"30\\\":[106,179,133,255],\\\"40\\\":[84,143,98,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Mid-Century Maximum 1-day Precipitation WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_rx1day_midcentury_era&ABSTRACT=Mid-Century%20Maximum%201-day%20Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%2890%3A119%29%20using%20%24c%5Byear%28%24y%29%5D%29.rx1day%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[233,240,242,255],\\\"10\\\":[192,225,226,255],\\\"20\\\":[141,203,181,255],\\\"30\\\":[106,179,133,255],\\\"40\\\":[84,143,98,255]}}\"",
-      "abort_on_error": true
-    },
-    {
-      "description": "Create Late-Century Maximum 1-day Precipitation WMS style for ARDAC",
-      "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_indicators&STYLEID=ardac_indicator_rx1day_latecentury_era&ABSTRACT=Late-Century%20Maximum%201-day%20Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24y%20year%28120%3A149%29%20using%20%24c%5Byear%28%24y%29%5D%29.rx1day%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[233,240,242,255],\\\"10\\\":[192,225,226,255],\\\"20\\\":[141,203,181,255],\\\"30\\\":[106,179,133,255],\\\"40\\\":[84,143,98,255]}}\"",
-      "abort_on_error": true
-    }
-  ]
+  }
 }
+  
