@@ -5,7 +5,7 @@ directory structure: <model>/<scenario>/<indicator ID>/<filename>.
 The script will combine all files for supplied models, scenarios, and indicators into a single xarray dataset and write to disk.
 
 example usage:
-  python combine_indicators_ensemble.py --models 'all' --scenarios 'all' --indicators 'all' --indicators_dir /beegfs/CMIP6/jdpaul3/cmip6_indicators_test/cmip6_indicators/netcdf --rasda_dir /beegfs/CMIP6/jdpaul3/cmip6_indicators_for_rasdaman
+  python combine_indicators_ensemble.py --models 'all' --scenarios 'all' --indicators 'all' --indicators_dir /path/to/input/files --rasda_dir /path/to/output/files
 """
 
 import argparse
@@ -198,7 +198,11 @@ def enforce_dtypes_and_precision(ds, cmip6_indicator_attrs):
         if var not in ["spatial_ref"]:
             if "dtype" in cmip6_indicator_attrs[var]:
                 # validate that the dtype is OK - if not, skip the conversion but warn the user
-                if cmip6_indicator_attrs[var]["dtype"] not in ["int32", "float32", "float64"]:
+                if cmip6_indicator_attrs[var]["dtype"] not in [
+                    "int32",
+                    "float32",
+                    "float64",
+                ]:
                     print(
                         f"Warning: dtype {ds[var].encoding['dtype']} for variable {var} is not supported. Skipping conversion."
                     )
