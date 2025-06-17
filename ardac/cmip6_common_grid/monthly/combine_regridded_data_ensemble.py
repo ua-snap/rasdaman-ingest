@@ -7,7 +7,7 @@ The script will combine all files for supplied models, scenarios, temporal frequ
 !NOTE: Daily frequency has not yet been tested, and may require a different dask client configuration to manage memory usage.
 
 example usage:
-  python combine_regridded_data_ensemble.py --models 'all' --scenarios 'all' --vars 'all' --frequency 'mon' --regrid_dir /beegfs/CMIP6/jdpaul3/CMIP6_common_regrid/regrid --rasda_dir /beegfs/CMIP6/jdpaul3/cmip6_regrid_for_rasdaman
+  python combine_regridded_data_ensemble.py --models 'all' --scenarios 'all' --vars 'all' --frequency 'mon' --regrid_dir path/to/input/files --rasda_dir path/to/output/files
 """
 
 import argparse
