@@ -129,8 +129,6 @@ def pull_dims_from_source(ds):
     (This allows for datasets with generic variable names like "data" to be used,
     as long as their filepath starts with the variable id.)
     """
-    print(ds[var].encoding["source"])
-    print(ds.data_vars)
 
     var = list(ds.data_vars)[0]  # assume first var is the one we want
     src = ds[var].encoding["source"]
@@ -416,9 +414,9 @@ if __name__ == "__main__":
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
     with Client(
-        n_workers=14,  # 14 workers × 2 threads = 28 cores
-        threads_per_worker=2,
-        memory_limit="8GB",  # 14 × 8GB = 112GB, leaves some headroom for OS/other processes
+        n_workers=7,  # 7 workers × 4 threads = 28 cores (28 cores available on the node)
+        threads_per_worker=4,
+        memory_limit="17GB",  # 7 × 17GB = 119GB (128GB available), leaves some headroom for OS/other processes
         dashboard_address=":8787",
     ) as client:
 
