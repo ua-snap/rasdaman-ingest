@@ -14,6 +14,7 @@ import subprocess
 import xarray as xr
 import rioxarray
 import numpy as np
+import pandas as pd
 from pathlib import Path
 from datetime import datetime
 from dask.distributed import Client
