@@ -8,8 +8,6 @@ Clone the Github repository in a place with lots of storage. You can perform the
 
 Make a local copy of pre-existing indicator outputs, or compute the indicators using the [cmip6-utils/indicators](https://github.com/ua-snap/cmip6-utils/tree/main/indicators) repo.
 
-Run the `fix_time.ipynb` notebook to homogenize the time dimension of all input files. This will create a new version of the original files, so you can delete any local copies of the original indicator data after running this notebook.
-
 Run the `combine_indicators_ensemble.py` script to generate the single NetCDF file containing the historical and projected CMIP6 climate indicators. This generates the `cmip6_indicators_ensemble.nc` file containing all data.
 
 ## Transfer to Rasdaman server and ingest
