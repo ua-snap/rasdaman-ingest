@@ -455,11 +455,14 @@ if __name__ == "__main__":
         ds = transpose_dims(ds)
         ds = add_crs(ds, "EPSG:4326")
 
-        out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
+        #combine vars as "_" separated string
+        var_str = "_".join(sorted(vars)) 
+
+        out_fp = rasda_dir / f"cmip6_regrid_{frequency}_{var_str}_ensemble.nc"
         print(f"Writing combined dataset with ensemble mean to {out_fp}...")
         # use netcdf4 engine for better performance with complex merge operations
         # h5netcdf engine is not as performant for writing large datasets, tends to duplicate dims
-        ds.to_netcdf(out_fp, engine="netcdf4")
+        ds.to_netcdf(out_fp, engine="netcdf4", mode="w", format="NETCDF4")
 
         end_time = datetime.now()
         print("Done ... ended at : ", end_time.isoformat())
