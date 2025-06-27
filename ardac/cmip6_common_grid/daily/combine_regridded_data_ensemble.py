@@ -405,7 +405,7 @@ if __name__ == "__main__":
     start_time = datetime.now()
     print("Starting script at: ", start_time.isoformat())
 
-    chunks = {"time": 120}
+    chunks = {"time": 365}
 
     models, scenarios, vars, frequency, regrid_dir, rasda_dir = validate_all_args(
         **parse_args()
@@ -455,8 +455,8 @@ if __name__ == "__main__":
         ds = transpose_dims(ds)
         ds = add_crs(ds, "EPSG:4326")
 
-        #combine vars as "_" separated string
-        var_str = "_".join(sorted(vars)) 
+        # combine vars as "_" separated string
+        var_str = "_".join(sorted(vars))
 
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_{var_str}_ensemble.nc"
         print(f"Writing combined dataset with ensemble mean to {out_fp}...")
