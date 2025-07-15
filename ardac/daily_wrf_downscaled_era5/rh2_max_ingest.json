@@ -1,0 +1,61 @@
+{
+    "config": {
+      "service_url": "http://localhost:8080/rasdaman/ows",
+      "tmp_directory": "/tmp/",
+      "mock": false,
+      "automated": true
+    },
+    "input": {
+      "coverage_id": "era5_4km_daily_rh2_max",
+      "paths": [
+        "rh2_max/*.nc"
+      ]
+    },
+    "recipe": {
+      "name": "general_coverage",
+      "options": {
+        "wms_import": true,
+        "import_order": "ascending",
+        "tiling": "ALIGNED [0:*, 0:*, 0:*] tile size 4194304",
+        "coverage": {
+          "crs": "OGC/0/Index1D?axis-label=\"time\"@EPSG/0/3338",
+          "metadata": {
+            "type": "xml",
+            "global": "auto"
+          },
+          "slicer": {
+            "type": "netcdf",
+            "pixelIsPoint": true,
+            "bands": [
+              {
+                "name": "rh2_max",
+                "identifier": "rh2_max",
+                "nilValue": "nan"
+              }
+            ],
+            "axes": {
+              "X": {
+                "min": "${netcdf:variable:x:min}",
+                "max": "${netcdf:variable:x:max}",
+                "resolution": "${netcdf:variable:x:resolution}",
+                "gridOrder": 2
+              },
+              "Y": {
+                "min": "${netcdf:variable:y:min}",
+                "max": "${netcdf:variable:y:max}",
+                "resolution": "${netcdf:variable:y:resolution}",
+                "gridOrder": 1
+              },
+              "time": {
+                "min": "${netcdf:variable:time:min}",
+                "max": "${netcdf:variable:time:max}",
+                "irregular": true,
+                "directPositions": "${netcdf:variable:time}",
+                "gridOrder": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
