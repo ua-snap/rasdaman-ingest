@@ -14,7 +14,7 @@
       {
         "description": "Create Daily Maximum 2m Temperature WMS style for ARDAC",
         "when": "after_import",
-        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_daily_t2_max&STYLEID=ardac_t2_max_daily&ABSTRACT=Daily%20Maximum%202m%20Temperature%20(ERA5%204km)&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"0\\\":[255,255,255,255],\\\"20\\\":[255,255,255,255],\\\"40\\\":[255,255,255,255],\\\"60\\\":[255,255,255,255],\\\"70\\\":[255,255,255,255],\\\"80\\\":[255,255,255,255],\\\"90\\\":[255,255,255,255],\\\"100\\\":[255,255,255,255],\\\"9999\\\":[0,0,0,0]}}\"",
+        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_daily_t2_max&STYLEID=ardac_t2_max_daily&ABSTRACT=Daily%20Maximum%202m%20Temperature%20(ERA5%204km)&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"-40\\\":[59,76,192,255],\\\"-20\\\":[155,178,232,255],\\\"0\\\":[247,247,247,255],\\\"15\\\":[252,187,161,255],\\\"30\\\":[214,96,77,255],\\\"9999\\\":[0,0,0,0]}}\"",
         "abort_on_error": true
       }
     ],
