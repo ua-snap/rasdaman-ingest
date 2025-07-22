@@ -36,7 +36,7 @@ def merge_netcdfs_final(variable_name):
                 "Lazy dataset created successfully. Now starting Dask cluster for parallel write."
             )
 
-            # Fire up the Dask cluster to handle the I/O-heavy write operation in a fully parallel manner.
+            # Fire up the Dask cluster to handle the I/O-heavy write operation.
             cluster = LocalCluster(
                 n_workers=36, threads_per_worker=36, memory_limit="8GB"
             )
@@ -53,7 +53,7 @@ def merge_netcdfs_final(variable_name):
                                 366,
                                 128,
                                 128,
-                            )  # CP note: huge speedup with this
+                            )  # CP note: huge speedup with chunk scheme
                         }
                     },
                     compute=False,
