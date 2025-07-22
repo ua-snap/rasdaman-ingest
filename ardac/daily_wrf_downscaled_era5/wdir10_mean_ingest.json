@@ -10,6 +10,14 @@
       "mock": false,
       "automated": true
     },
+    "hooks": [
+      {
+        "description": "Create Daily Mean 10m Wind Direction WMS style for ARDAC",
+        "when": "after_import",
+        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_daily_wdir10_mean&STYLEID=ardac_wdir10_mean_daily&ABSTRACT=Daily%20Mean%2010m%20Wind%20Direction%20(ERA5%204km)&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"0\\\":[255,0,0,255],\\\"45\\\":[255,255,0,255],\\\"90\\\":[0,255,0,255],\\\"135\\\":[0,255,255,255],\\\"180\\\":[0,0,255,255],\\\"225\\\":[255,0,255,255],\\\"270\\\":[128,0,128,255],\\\"315\\\":[255,128,0,255],\\\"360\\\":[255,0,0,255],\\\"9999\\\":[0,0,0,0]}}\"",
+        "abort_on_error": true
+      }
+    ],
     "input": {
       "coverage_id": "era5_4km_daily_wdir10_mean",
       "paths": [
@@ -62,8 +70,8 @@
                 "gridOrder": 1
               }
             }
-          }
-        }
-      }
-    }
-  }
+           }
+         }
+       }
+     }
+}

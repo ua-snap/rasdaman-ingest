@@ -10,6 +10,14 @@
       "mock": false,
       "automated": true
     },
+    "hooks": [
+      {
+        "description": "Create Daily Maximum 10m Wind Speed WMS style for ARDAC",
+        "when": "after_import",
+        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_daily_wspd10_max&STYLEID=ardac_wspd10_max_daily&ABSTRACT=Daily%20Maximum%2010m%20Wind%20Speed%20(ERA5%204km)&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"0\\\":[255,255,255,255],\\\"20\\\":[255,255,255,255],\\\"40\\\":[255,255,255,255],\\\"60\\\":[255,255,255,255],\\\"70\\\":[255,255,255,255],\\\"80\\\":[255,255,255,255],\\\"90\\\":[255,255,255,255],\\\"100\\\":[255,255,255,255],\\\"9999\\\":[0,0,0,0]}}\"",
+        "abort_on_error": true
+      }
+    ],
     "input": {
       "coverage_id": "era5_4km_daily_wspd10_max",
       "paths": [
