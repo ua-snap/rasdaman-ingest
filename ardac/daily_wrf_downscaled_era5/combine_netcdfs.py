@@ -24,9 +24,7 @@ def merge_netcdfs(variable_name):
             print(f"Error: No NetCDF files found. Aborting.", file=sys.stderr)
             sys.exit(1)
 
-        print(
-            f"Found {len(file_list)} files. Opening sequentially..."
-        )
+        print(f"Found {len(file_list)} files. Opening sequentially...")
 
         if os.path.exists(output_file):
             print(f"Removing existing merged file: {output_file}")
@@ -68,7 +66,9 @@ def merge_netcdfs(variable_name):
                 print("Shutting down Dask client and cluster.")
                 client.close()
                 cluster.close()
-                time.sleep(10) # CP note: yeah I'm just sprinkling random sleeps in here for stability
+                time.sleep(
+                    10
+                )  # CP note: yeah I'm just sprinkling random sleeps in here for stability
 
         print("Preprocessing complete. Merged file created successfully.")
 
