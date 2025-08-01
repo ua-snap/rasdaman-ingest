@@ -10,6 +10,14 @@
       "mock": false,
       "automated": true
     },
+    "hooks": [
+      {
+        "description": "Create Daily Total Precipitation WMS style for ARDAC",
+        "when": "after_import",
+        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_daily_rainnc_sum&STYLEID=ardac_rainnc_sum_daily&ABSTRACT=Daily%20Total%202m%20Precipitation%20(ERA5%204km)&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"ramp\\\",\\\"colorTable\\\":{\\\"0\\\":[255,255,255,255],\\\"1\\\":[198,219,239,255],\\\"5\\\":[158,202,225,255],\\\"10\\\":[107,174,214,255],\\\"20\\\":[66,146,198,255],\\\"30\\\":[33,113,181,255],\\\"40\\\":[8,81,156,255],\\\"60\\\":[0,104,55,255],\\\"80\\\":[255,191,0,255],\\\"100\\\":[255,127,0,255],\\\"150\\\":[255,0,0,255],\\\"9999\\\":[0,0,0,0]}}\"",
+        "abort_on_error": true
+      }
+    ],
     "input": {
       "coverage_id": "era5_4km_daily_rainnc_sum",
       "paths": [
