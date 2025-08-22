@@ -1,0 +1,84 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "cmip6_downscaled_crstephenson",
+    "paths": [
+      "data/tasmax_HadGEM3-GC31-MM.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Downscaled CMPI6 test'"
+          },
+          "local": {
+            "Encoding": "{
+              'scenario': {
+                '0': 'historical',
+                '1': 'ssp126',
+                '2': 'ssp585'
+              }
+            }"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "tasmax",
+              "identifier": "tasmax",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "scenario": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.scenarios['historical']",
+              "max": "luts.scenarios['ssp585']",
+              "directPositions": "list(luts.scenarios.values())",
+              "irregular": true,
+              "gridOrder": 1
+            },
+	    "ansi": {
+              "statements": "from datetime import datetime; import netCDF4",
+              "min": "netCDF4.num2date(${netcdf:variable:time:min}, '${netcdf:variable:time:units}', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 3
+            },
+	    "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}
