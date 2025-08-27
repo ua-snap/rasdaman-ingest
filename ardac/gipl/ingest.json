@@ -28,7 +28,7 @@
           },
           "local": {
             "Encoding": "{\"model\": {\"0\": \"5ModelAvg\", \"1\": \"GFDL-CM3\", \"2\": \"NCAR-CCSM4\"}, \"scenario\": {\"0\": \"RCP 4.5\", \"1\": \"RCP 8.5\"}, \"variable\": {\"0\": \"magt0.5m\", \"1\": \"magt1m\", \"2\": \"magt2m\", \"3\": \"magt3m\", \"4\": \"magt4m\", \"5\": \"magt5m\", \"6\": \"magtsurface\", \"7\": \"permafrostbase\", \"8\": \"permafrosttop\", \"9\": \"talikthickness\"}}"
-             }
+          }
         },
         "slicer": {
           "type": "netcdf",
@@ -143,6 +143,17 @@
       "abort_on_error": true
     },
     {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in near century for the Arctic-EDS to match the legend.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=arctic_eds_gipl_magt1m_nearcentury2&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202021-2050&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%281%29%5D%29.magt1m_degC%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-20\\\": [94, 60, 153, 255],
+        \\\"-3.89\\\": [178, 171, 210, 255],
+        \\\"-1.11\\\": [247, 247, 247, 255],
+        \\\"1.67\\\": [253, 184, 99, 255],
+        \\\"4.44\\\": [230, 97, 1, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
       "description": "Create GIPL Mean Annual Ground Temperature Style in late century for the Arctic-EDS.",
       "when": "after_import",
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=arctic_eds_gipl_magt1m_latecentury&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202071-2100&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%2850%3A79%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%281%29%5D%29.magt1m_degC%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
@@ -154,6 +165,17 @@
       \\\"-0\\\": [253, 219, 199, 255],
       \\\"1\\\": [244, 165, 130, 255],
       \\\"2\\\": [214, 96, 77, 255] } }\"",
+      "abort_on_error": true
+    },
+    {
+      "description": "Create GIPL Mean Annual Ground Temperature Style in late century for the Arctic-EDS to match the legend.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=crrel_gipl_outputs_nc&STYLEID=arctic_eds_gipl_magt1m_latecentury2&ABSTRACT=Mean%20annual%20ground%20temperature%20at%201%20m%20depth%2C%20average%20of%20years%202071-2100&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24t%20year%280%3A29%29%20using%20%24c%5Byear%28%24t%29%2C%20model%280%29%2C%20scenario%281%29%5D%29.magt1m_degC%20%2F%2030&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"-9999\\\": [0, 0, 0, 0],
+        \\\"-20\\\": [94, 60, 153, 255],
+        \\\"-3.89\\\": [178, 171, 210, 255],
+        \\\"-1.11\\\": [247, 247, 247, 255],
+        \\\"1.67\\\": [253, 184, 99, 255],
+        \\\"4.44\\\": [230, 97, 1, 255] } }\"",
       "abort_on_error": true
     },
     {
