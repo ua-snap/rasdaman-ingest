@@ -3,3 +3,5 @@ iem/gipl2_4km/input_data/
 
 # pycache files from project imports
 **/__pycache__/
+
+.DS_STORE
