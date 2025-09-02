@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="WMS Experiment for Tiling of Chukchi Daily SLIE">
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="beaufortBaseX" elementType="Argument">
+            <stringProp name="Argument.name">beaufortBaseX</stringProp>
+            <stringProp name="Argument.value">-101906.2302232632</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="beaufortBaseY" elementType="Argument">
+            <stringProp name="Argument.name">beaufortBaseY</stringProp>
+            <stringProp name="Argument.value">2378889.3251093025</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="jitterX" elementType="Argument">
+            <stringProp name="Argument.name">jitterX</stringProp>
+            <stringProp name="Argument.value">50000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="jitterY" elementType="Argument">
+            <stringProp name="Argument.name">jitterY</stringProp>
+            <stringProp name="Argument.value">50000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="chukchiBaseX" elementType="Argument">
+            <stringProp name="Argument.name">chukchiBaseX</stringProp>
+            <stringProp name="Argument.value">-420748.75629385794</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="chukchiBaseY" elementType="Argument">
+            <stringProp name="Argument.name">chukchiBaseY</stringProp>
+            <stringProp name="Argument.value">1912753.6918766361</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Number of Users">
+        <intProp name="ThreadGroup.num_threads">5</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Existing">
+          <stringProp name="TestPlan.comments">Should be fast</stringProp>
+          <stringProp name="HTTPSampler.domain">zeus.snap.uaf.edu</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/rasdaman/ows</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="SERVICE" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">SERVICE</stringProp>
+                <stringProp name="Argument.value">WMS</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="VERSION" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">VERSION</stringProp>
+                <stringProp name="Argument.value">1.3.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="REQUEST" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">REQUEST</stringProp>
+                <stringProp name="Argument.value">GetMap</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="LAYERS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">LAYERS</stringProp>
+                <stringProp name="Argument.value">ardac_chukchi_daily_slie</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="BBOX" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">BBOX</stringProp>
+                <stringProp name="Argument.value">-900000,1750000,-180000,2450000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="CRS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">CRS</stringProp>
+                <stringProp name="Argument.value">EPSG:3338</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="time" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">time</stringProp>
+                <stringProp name="Argument.value">${RANDOM_TIME}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="WIDTH" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">1000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">WIDTH</stringProp>
+              </elementProp>
+              <elementProp name="HEIGHT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">860</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">HEIGHT</stringProp>
+              </elementProp>
+              <elementProp name="FORMAT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">image/png</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">FORMAT</stringProp>
+              </elementProp>
+              <elementProp name="TRANSPARENT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">TRANSPARENT</stringProp>
+              </elementProp>
+              <elementProp name="STYLES" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">STYLES</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Set RANDOM_TIME (Dec–May only)">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import java.time.*
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
+
+// Hardcoded bounds
+def start = OffsetDateTime.parse(&quot;1996-12-01T00:00:00.000Z&quot;).toLocalDate()
+def end   = OffsetDateTime.parse(&quot;2023-06-01T00:00:00.000Z&quot;).toLocalDate()
+
+// Months allowed: Dec–May
+def allowed = [1,2,3,4,5,12] as Set
+
+long min = start.toEpochDay()
+long max = end.toEpochDay()
+
+LocalDate picked = null
+
+// Try random picks up to 256 times
+for (int i = 0; i &lt; 256 &amp;&amp; picked == null; i++) {
+  long n = ThreadLocalRandom.current().nextLong(min, max + 1)
+  def d = LocalDate.ofEpochDay(n)
+  if (allowed.contains(d.getMonthValue())) picked = d
+}
+
+// Deterministic fallback scan if no random hit (edge cases)
+if (picked == null) {
+  def d = start
+  while (!d.isAfter(end)) {
+    if (allowed.contains(d.getMonthValue())) { picked = d; break }
+    d = d.plusDays(1)
+  }
+  if (picked == null) throw new IllegalStateException(&quot;No eligible dates in range&quot;)
+}
+
+// Always midnight UTC
+def iso = picked.atStartOfDay(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;))
+
+// Store for the sampler: use as ${RANDOM_TIME}
+vars.put(&quot;RANDOM_TIME&quot;, iso)
+
+// (optional) log to jmeter.log to verify
+log.info(&quot;RANDOM_TIME set to: &quot; + iso)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="WMS Leaning">
+          <stringProp name="HTTPSampler.domain">zeus.snap.uaf.edu</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/rasdaman/ows</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="SERVICE" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">SERVICE</stringProp>
+                <stringProp name="Argument.value">WMS</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="VERSION" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">VERSION</stringProp>
+                <stringProp name="Argument.value">1.3.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="REQUEST" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">REQUEST</stringProp>
+                <stringProp name="Argument.value">GetMap</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="LAYERS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">LAYERS</stringProp>
+                <stringProp name="Argument.value">maplean_tiled_ardac_chukchi_daily_slie</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="BBOX" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">BBOX</stringProp>
+                <stringProp name="Argument.value">-900000,1750000,-180000,2450000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="CRS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">CRS</stringProp>
+                <stringProp name="Argument.value">EPSG:3338</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="time" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">time</stringProp>
+                <stringProp name="Argument.value">${RANDOM_TIME}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="WIDTH" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">1000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">WIDTH</stringProp>
+              </elementProp>
+              <elementProp name="HEIGHT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">860</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">HEIGHT</stringProp>
+              </elementProp>
+              <elementProp name="FORMAT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">image/png</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">FORMAT</stringProp>
+              </elementProp>
+              <elementProp name="TRANSPARENT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">TRANSPARENT</stringProp>
+              </elementProp>
+              <elementProp name="STYLES" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">STYLES</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Set RANDOM_TIME (Dec–May only)">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import java.time.*
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
+
+// Hardcoded bounds
+def start = OffsetDateTime.parse(&quot;1996-12-01T00:00:00.000Z&quot;).toLocalDate()
+def end   = OffsetDateTime.parse(&quot;2023-06-01T00:00:00.000Z&quot;).toLocalDate()
+
+// Months allowed: Dec–May
+def allowed = [1,2,3,4,5,12] as Set
+
+long min = start.toEpochDay()
+long max = end.toEpochDay()
+
+LocalDate picked = null
+
+// Try random picks up to 256 times
+for (int i = 0; i &lt; 256 &amp;&amp; picked == null; i++) {
+  long n = ThreadLocalRandom.current().nextLong(min, max + 1)
+  def d = LocalDate.ofEpochDay(n)
+  if (allowed.contains(d.getMonthValue())) picked = d
+}
+
+// Deterministic fallback scan if no random hit (edge cases)
+if (picked == null) {
+  def d = start
+  while (!d.isAfter(end)) {
+    if (allowed.contains(d.getMonthValue())) { picked = d; break }
+    d = d.plusDays(1)
+  }
+  if (picked == null) throw new IllegalStateException(&quot;No eligible dates in range&quot;)
+}
+
+// Always midnight UTC
+def iso = picked.atStartOfDay(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;))
+
+// Store for the sampler: use as ${RANDOM_TIME}
+vars.put(&quot;RANDOM_TIME&quot;, iso)
+
+// (optional) log to jmeter.log to verify
+log.info(&quot;RANDOM_TIME set to: &quot; + iso)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="WCS Optimized" enabled="false">
+          <stringProp name="TestPlan.comments">VERY LONG RUNNING!</stringProp>
+          <stringProp name="HTTPSampler.domain">zeus.snap.uaf.edu</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/rasdaman/ows</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="SERVICE" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">SERVICE</stringProp>
+                <stringProp name="Argument.value">WMS</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="VERSION" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">VERSION</stringProp>
+                <stringProp name="Argument.value">1.3.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="REQUEST" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">REQUEST</stringProp>
+                <stringProp name="Argument.value">GetMap</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="LAYERS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">LAYERS</stringProp>
+                <stringProp name="Argument.value">time_tiled_ardac_chukchi_daily_slie</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="BBOX" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">BBOX</stringProp>
+                <stringProp name="Argument.value">-900000,1750000,-180000,2450000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="CRS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">CRS</stringProp>
+                <stringProp name="Argument.value">EPSG:3338</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="time" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">time</stringProp>
+                <stringProp name="Argument.value">${RANDOM_TIME}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="WIDTH" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">1000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">WIDTH</stringProp>
+              </elementProp>
+              <elementProp name="HEIGHT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">860</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">HEIGHT</stringProp>
+              </elementProp>
+              <elementProp name="FORMAT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">image/png</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">FORMAT</stringProp>
+              </elementProp>
+              <elementProp name="TRANSPARENT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">TRANSPARENT</stringProp>
+              </elementProp>
+              <elementProp name="STYLES" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">STYLES</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Set RANDOM_TIME (Dec–May only)">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import java.time.*
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
+
+// Hardcoded bounds
+def start = OffsetDateTime.parse(&quot;1996-12-01T00:00:00.000Z&quot;).toLocalDate()
+def end   = OffsetDateTime.parse(&quot;2023-06-01T00:00:00.000Z&quot;).toLocalDate()
+
+// Months allowed: Dec–May
+def allowed = [1,2,3,4,5,12] as Set
+
+long min = start.toEpochDay()
+long max = end.toEpochDay()
+
+LocalDate picked = null
+
+// Try random picks up to 256 times
+for (int i = 0; i &lt; 256 &amp;&amp; picked == null; i++) {
+  long n = ThreadLocalRandom.current().nextLong(min, max + 1)
+  def d = LocalDate.ofEpochDay(n)
+  if (allowed.contains(d.getMonthValue())) picked = d
+}
+
+// Deterministic fallback scan if no random hit (edge cases)
+if (picked == null) {
+  def d = start
+  while (!d.isAfter(end)) {
+    if (allowed.contains(d.getMonthValue())) { picked = d; break }
+    d = d.plusDays(1)
+  }
+  if (picked == null) throw new IllegalStateException(&quot;No eligible dates in range&quot;)
+}
+
+// Always midnight UTC
+def iso = picked.atStartOfDay(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;))
+
+// Store for the sampler: use as ${RANDOM_TIME}
+vars.put(&quot;RANDOM_TIME&quot;, iso)
+
+// (optional) log to jmeter.log to verify
+log.info(&quot;RANDOM_TIME set to: &quot; + iso)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="WMS Optimized">
+          <stringProp name="HTTPSampler.domain">zeus.snap.uaf.edu</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/rasdaman/ows</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="SERVICE" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">SERVICE</stringProp>
+                <stringProp name="Argument.value">WMS</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="VERSION" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">VERSION</stringProp>
+                <stringProp name="Argument.value">1.3.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="REQUEST" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">REQUEST</stringProp>
+                <stringProp name="Argument.value">GetMap</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="LAYERS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">LAYERS</stringProp>
+                <stringProp name="Argument.value">wms_optimized_tiled_ardac_chukchi_daily_slie</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="BBOX" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">BBOX</stringProp>
+                <stringProp name="Argument.value">-900000,1750000,-180000,2450000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="CRS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">CRS</stringProp>
+                <stringProp name="Argument.value">EPSG:3338</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="time" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">time</stringProp>
+                <stringProp name="Argument.value">${RANDOM_TIME}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="WIDTH" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">1000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">WIDTH</stringProp>
+              </elementProp>
+              <elementProp name="HEIGHT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">860</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">HEIGHT</stringProp>
+              </elementProp>
+              <elementProp name="FORMAT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">image/png</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">FORMAT</stringProp>
+              </elementProp>
+              <elementProp name="TRANSPARENT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">TRANSPARENT</stringProp>
+              </elementProp>
+              <elementProp name="STYLES" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">STYLES</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Set RANDOM_TIME (Dec–May only)">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import java.time.*
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
+
+// Hardcoded bounds
+def start = OffsetDateTime.parse(&quot;1996-12-01T00:00:00.000Z&quot;).toLocalDate()
+def end   = OffsetDateTime.parse(&quot;2023-06-01T00:00:00.000Z&quot;).toLocalDate()
+
+// Months allowed: Dec–May
+def allowed = [1,2,3,4,5,12] as Set
+
+long min = start.toEpochDay()
+long max = end.toEpochDay()
+
+LocalDate picked = null
+
+// Try random picks up to 256 times
+for (int i = 0; i &lt; 256 &amp;&amp; picked == null; i++) {
+  long n = ThreadLocalRandom.current().nextLong(min, max + 1)
+  def d = LocalDate.ofEpochDay(n)
+  if (allowed.contains(d.getMonthValue())) picked = d
+}
+
+// Deterministic fallback scan if no random hit (edge cases)
+if (picked == null) {
+  def d = start
+  while (!d.isAfter(end)) {
+    if (allowed.contains(d.getMonthValue())) { picked = d; break }
+    d = d.plusDays(1)
+  }
+  if (picked == null) throw new IllegalStateException(&quot;No eligible dates in range&quot;)
+}
+
+// Always midnight UTC
+def iso = picked.atStartOfDay(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;))
+
+// Store for the sampler: use as ${RANDOM_TIME}
+vars.put(&quot;RANDOM_TIME&quot;, iso)
+
+// (optional) log to jmeter.log to verify
+log.info(&quot;RANDOM_TIME set to: &quot; + iso)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Neutral">
+          <stringProp name="HTTPSampler.domain">zeus.snap.uaf.edu</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/rasdaman/ows</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="SERVICE" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">SERVICE</stringProp>
+                <stringProp name="Argument.value">WMS</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="VERSION" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">VERSION</stringProp>
+                <stringProp name="Argument.value">1.3.0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="REQUEST" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">REQUEST</stringProp>
+                <stringProp name="Argument.value">GetMap</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="LAYERS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">LAYERS</stringProp>
+                <stringProp name="Argument.value">neutral_tiled_ardac_chukchi_daily_slie</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="BBOX" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">BBOX</stringProp>
+                <stringProp name="Argument.value">-900000,1750000,-180000,2450000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="CRS" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">CRS</stringProp>
+                <stringProp name="Argument.value">EPSG:3338</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="time" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">time</stringProp>
+                <stringProp name="Argument.value">${RANDOM_TIME}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="WIDTH" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">1000</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">WIDTH</stringProp>
+              </elementProp>
+              <elementProp name="HEIGHT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">860</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">HEIGHT</stringProp>
+              </elementProp>
+              <elementProp name="FORMAT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">image/png</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">FORMAT</stringProp>
+              </elementProp>
+              <elementProp name="TRANSPARENT" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">TRANSPARENT</stringProp>
+              </elementProp>
+              <elementProp name="STYLES" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">STYLES</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Set RANDOM_TIME (Dec–May only)">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import java.time.*
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.ThreadLocalRandom
+
+// Hardcoded bounds
+def start = OffsetDateTime.parse(&quot;1996-12-01T00:00:00.000Z&quot;).toLocalDate()
+def end   = OffsetDateTime.parse(&quot;2023-06-01T00:00:00.000Z&quot;).toLocalDate()
+
+// Months allowed: Dec–May
+def allowed = [1,2,3,4,5,12] as Set
+
+long min = start.toEpochDay()
+long max = end.toEpochDay()
+
+LocalDate picked = null
+
+// Try random picks up to 256 times
+for (int i = 0; i &lt; 256 &amp;&amp; picked == null; i++) {
+  long n = ThreadLocalRandom.current().nextLong(min, max + 1)
+  def d = LocalDate.ofEpochDay(n)
+  if (allowed.contains(d.getMonthValue())) picked = d
+}
+
+// Deterministic fallback scan if no random hit (edge cases)
+if (picked == null) {
+  def d = start
+  while (!d.isAfter(end)) {
+    if (allowed.contains(d.getMonthValue())) { picked = d; break }
+    d = d.plusDays(1)
+  }
+  if (picked == null) throw new IllegalStateException(&quot;No eligible dates in range&quot;)
+}
+
+// Always midnight UTC
+def iso = picked.atStartOfDay(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;&quot;))
+
+// Store for the sampler: use as ${RANDOM_TIME}
+vars.put(&quot;RANDOM_TIME&quot;, iso)
+
+// (optional) log to jmeter.log to verify
+log.info(&quot;RANDOM_TIME set to: &quot; + iso)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+        </hashTree>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Returned Results">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">returned_results.csv</stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>true</responseData>
+              <samplerData>true</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename">summary_report.csv</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
