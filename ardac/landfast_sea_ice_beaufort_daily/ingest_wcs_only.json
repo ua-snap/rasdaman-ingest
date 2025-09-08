@@ -10,21 +10,8 @@
       "mock": false,
       "automated": true
     },
-    "hooks": [
-        {
-        "description": "Create ARDAC Daily SLIE Style.",
-        "when": "after_import",
-        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_beaufort_daily_slie&STYLEID=ardac_daily_slie&ABSTRACT=ARDAC%20Daily%20SLIE&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 255],
-        \\\"32\\\": [191, 212, 212, 128],
-        \\\"64\\\": [230, 230, 230, 128],
-        \\\"111\\\": [255, 255, 255, 0],
-        \\\"128\\\": [204, 230, 204, 255],
-        \\\"255\\\": [204, 204, 255, 255] } }\"",
-        "abort_on_error": true
-        }
-    ],
     "input": {
-      "coverage_id": "ardac_beaufort_daily_slie",
+      "coverage_id": "ardac_beaufort_daily_slie_wcs",
       "paths": [
         "Beaufort_NetCDFs/*.nc"
       ]
@@ -32,8 +19,7 @@
     "recipe": {
       "name": "general_coverage",
       "options": {
-        "wms_import": true,
-	"tiling": "ALIGNED [0:*, 0:*, 0:*] tile size 4194304",
+	"tiling": "ALIGNED [0:8091, 0:31, 0:31] tile size 16777216",
         "import_order": "ascending",
         "coverage": {
           "crs": "OGC/0/AnsiDate@EPSG/0/3338",
