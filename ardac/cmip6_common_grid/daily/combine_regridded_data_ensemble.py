@@ -2,10 +2,19 @@
 This will combine all CMIP6 daily files into one netCDF, storing variables as data_vars and computing an ensemble mean for all variables.
 It is assumed that the data has already been regridded and is stored in the following
 directory structure: <model>/<scenario>/<frequency (table ID)>/<variable ID>/<filename>.
-The script will combine all files for supplied models, scenarios, temporal frequency, variables into a single xarray dataset and write to disk.
+The script uses a cascading merge approach optimized for high-performance compute nodes (24-28 cores, 128GB RAM)
+by creating intermediate files in parallel and then merging them, avoiding memory issues with thousands of input files.
 
 example usage:
-  python combine_regridded_data_ensemble.py --models 'all' --scenarios 'all' --vars 'pr tasmin tasmax' --frequency 'day' --regrid_dir /beegfs/CMIP6/jdpaul3/cmip6_regrid_timefix --rasda_dir /beegfs/CMIP6/jdpaul3/cmip6_regrid_for_rasdaman
+  python combine_regridded_data_ensemble.py \
+    --models 'all' \
+    --scenarios 'all' \
+    --vars 'pr tasmin tasmax' \
+    --frequency 'day' \
+    --regrid_dir /beegfs/CMIP6/jdpaul3/cmip6_regrid_timefix \
+    --rasda_dir /beegfs/CMIP6/jdpaul3/cmip6_daily_for_rasdaman \
+    --batch_size 50 \
+    --time_chunk_size 100
 """
 
 import argparse
@@ -14,9 +23,12 @@ import subprocess
 import xarray as xr
 import rioxarray
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 from dask.distributed import Client
 import numpy as np
+import gc
+import psutil
+import time
 from luts import (
     cmip6_models,
     cmip6_scenarios,
@@ -199,8 +211,8 @@ def reindex_and_rechunk(ds, chunks):
         chunks["scenario"] = len(all_scenarios)
         ds[var] = ds[var].chunk(chunks)
 
-    print("Dataset opened and combined successfully with chunks:")
-    print(ds.chunks)
+    #print("Dataset opened and combined successfully with chunks:")
+    #print(ds.chunks)
 
     return ds
 
@@ -342,6 +354,232 @@ def add_crs(ds, crs):
     return ds
 
 
+def process_batch(batch, intermediate_fp, var_id, models, scenarios, frequency, 
+                 cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs, chunks):
+    """Process a single batch of files."""
+    batch_start_time = time.time()
+    
+    try:
+        # Open and process this batch
+        ds = xr.open_mfdataset(
+            batch,
+            drop_variables=["spatial_ref", "height", "type"],
+            preprocess=preprocess_ds,
+            parallel=True,
+            combine="by_coords",
+            engine="h5netcdf",
+            decode_cf=True,
+            coords="minimal",
+            compat="no_conflicts",
+            chunks=chunks,
+        )
+        
+        # Apply processing pipeline
+        ds = reindex_and_rechunk(ds, chunks)
+        ds = compute_ensemble_mean(ds)
+        ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
+        ds = map_integers(ds, cmip6_models, cmip6_scenarios)
+        ds = replace_var_attrs(ds, cmip6_var_attrs)
+        ds.attrs = global_attrs
+        ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+        ds = replace_lat_lon_attrs(ds)
+        ds = transpose_dims(ds)
+        ds = add_crs(ds, "EPSG:4326")
+        
+        # Write intermediate file
+        ds.to_netcdf(intermediate_fp, engine="netcdf4", mode="w", format="NETCDF4")
+        file_size = intermediate_fp.stat().st_size
+        ds.close()
+        
+        # Force garbage collection
+        gc.collect()
+        
+        batch_time = time.time() - batch_start_time
+        return intermediate_fp, file_size, batch_time
+        
+    except Exception as e:
+        # Clean up any partial intermediate files
+        if intermediate_fp.exists():
+            intermediate_fp.unlink()
+        raise Exception(f"Error processing batch: {e}")
+
+
+def cascade_merge_files_sequential(fps, intermediate_dir, var_id, models, scenarios, frequency, 
+                                 cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs, 
+                                 batch_size=50, chunks=None):
+    """Sequential cascade merge approach using Dask's built-in parallelization."""
+    
+    if chunks is None:
+        chunks = {"time": 100}  # Smaller chunks for better memory management
+    
+    # Create intermediate directory
+    intermediate_dir.mkdir(exist_ok=True)
+    
+    # Split files into batches
+    file_batches = [fps[i:i+batch_size] for i in range(0, len(fps), batch_size)]
+    print(f"Processing {len(fps)} files in {len(file_batches)} batches of ~{batch_size} files each...")
+    print(f"Using Dask's built-in parallelization for batch processing...")
+    
+    # Process batches sequentially (but each batch uses Dask parallelization internally)
+    completed_files = []
+    total_intermediate_size = 0
+    var_start_time = time.time()
+    
+    print(f"\n🚀 Starting sequential batch processing for {var_id}")
+    print(f"   Total files: {len(fps):,}")
+    print(f"   Batches: {len(file_batches)}")
+    
+    for batch_idx, batch in enumerate(file_batches):
+        intermediate_fp = intermediate_dir / f"intermediate_{var_id}_{batch_idx:03d}.nc"
+        
+        print(f"\n📦 Processing batch {batch_idx+1}/{len(file_batches)} for {var_id}")
+        print(f"   Files in batch: {len(batch)}")
+        
+        try:
+            # Process this batch
+            result_fp, file_size, batch_time = process_batch(
+                batch, intermediate_fp, var_id, models, scenarios, frequency,
+                cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs, chunks
+            )
+            
+            completed_files.append(result_fp)
+            total_intermediate_size += file_size
+            
+            # Print progress
+            elapsed = time.time() - var_start_time
+            files_processed = (batch_idx + 1) * batch_size
+            if files_processed > len(fps):
+                files_processed = len(fps)
+            
+            print(f"✅ Batch {batch_idx+1}/{len(file_batches)} completed for {var_id}")
+            print(f"   Files processed: {files_processed:,}/{len(fps):,}")
+            print(f"   Intermediate file: {intermediate_fp}")
+            print(f"   Batch size: {format_bytes(file_size)}")
+            print(f"   Batch time: {format_duration(batch_time)}")
+            print(f"   Total intermediate: {format_bytes(total_intermediate_size)}")
+            print(f"   Elapsed: {format_duration(elapsed)}")
+            
+            # Calculate ETA
+            if batch_idx > 0:
+                avg_time_per_batch = elapsed / (batch_idx + 1)
+                remaining_batches = len(file_batches) - (batch_idx + 1)
+                eta = remaining_batches * avg_time_per_batch
+                print(f"   ETA: {format_duration(eta)}")
+            
+            # Memory info
+            memory_info = get_memory_info()
+            print(f"   Memory: {memory_info['used_gb']:.1f}GB ({memory_info['percent']:.1f}%)")
+            
+        except Exception as e:
+            print(f"❌ Error processing batch {batch_idx+1} for {var_id}: {e}")
+            raise
+    
+    var_total_time = time.time() - var_start_time
+    print(f"\n🎉 Completed {var_id}: {len(completed_files)} batches in {format_duration(var_total_time)}")
+    print(f"   Total intermediate size: {format_bytes(total_intermediate_size)}")
+    print(f"   Processing speed: {len(fps)/var_total_time:.1f} files/second")
+    
+    return completed_files
+
+
+def cascade_merge_files(fps, intermediate_dir, var_id, models, scenarios, frequency, 
+                       cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs, 
+                       batch_size=50, chunks=None, parallel=True):
+    """Cascade merge approach for large datasets using Dask's built-in parallelization."""
+    
+    # Always use sequential batch processing (but each batch uses Dask parallelization internally)
+    return cascade_merge_files_sequential(fps, intermediate_dir, var_id, models, scenarios, frequency,
+                                        cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs,
+                                        batch_size, chunks)
+
+
+def format_bytes(bytes_value):
+    """Format bytes into human readable format."""
+    for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+        if bytes_value < 1024.0:
+            return f"{bytes_value:.1f} {unit}"
+        bytes_value /= 1024.0
+    return f"{bytes_value:.1f} PB"
+
+
+def format_duration(seconds):
+    """Format duration in seconds to human readable format."""
+    if seconds < 60:
+        return f"{seconds:.1f}s"
+    elif seconds < 3600:
+        minutes = int(seconds // 60)
+        secs = seconds % 60
+        return f"{minutes}m {secs:.1f}s"
+    else:
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = seconds % 60
+        return f"{hours}h {minutes}m {secs:.1f}s"
+
+
+def get_memory_info():
+    """Get current memory usage information."""
+    memory = psutil.virtual_memory()
+    return {
+        'used_gb': memory.used / (1024**3),
+        'available_gb': memory.available / (1024**3),
+        'total_gb': memory.total / (1024**3),
+        'percent': memory.percent
+    }
+
+
+def print_progress_header():
+    """Print a header for progress monitoring."""
+    print("=" * 80)
+    print("CMIP6 DATA COMBINATION PROGRESS MONITOR")
+    print("=" * 80)
+
+
+def print_batch_progress(var_id, batch_num, total_batches, batch_size, start_time, 
+                        files_processed=0, intermediate_size=0):
+    """Print progress for batch processing."""
+    elapsed = time.time() - start_time
+    memory_info = get_memory_info()
+    
+    print(f"\n📁 VARIABLE: {var_id}")
+    print(f"   Batch {batch_num}/{total_batches} ({batch_size} files)")
+    print(f"   Files processed: {files_processed}")
+    print(f"   Intermediate size: {format_bytes(intermediate_size)}")
+    print(f"   Elapsed time: {format_duration(elapsed)}")
+    print(f"   Memory: {memory_info['used_gb']:.1f}GB used ({memory_info['percent']:.1f}%)")
+    
+    if batch_num > 1:
+        avg_time = elapsed / batch_num
+        remaining_batches = total_batches - batch_num
+        eta = remaining_batches * avg_time
+        print(f"   ETA: {format_duration(eta)}")
+
+
+def print_final_progress(total_files, total_size, total_time, output_size):
+    """Print final processing summary."""
+    print("\n" + "=" * 80)
+    print("PROCESSING COMPLETE")
+    print("=" * 80)
+    print(f"Total files processed: {total_files:,}")
+    print(f"Total input size: {format_bytes(total_size)}")
+    print(f"Final output size: {format_bytes(output_size)}")
+    print(f"Total processing time: {format_duration(total_time)}")
+    print(f"Processing speed: {total_files/total_time:.1f} files/second")
+    print(f"Compression ratio: {total_size/output_size:.1f}x")
+    print("=" * 80)
+
+
+def cleanup_intermediate_files(intermediate_files):
+    """Clean up intermediate files after successful merge."""
+    print("\n🧹 Cleaning up intermediate files...")
+    total_size = 0
+    for fp in intermediate_files:
+        if fp.exists():
+            total_size += fp.stat().st_size
+            fp.unlink()
+    print(f"✅ Cleaned up {len(intermediate_files)} intermediate files ({format_bytes(total_size)})")
+
+
 def run_cf_checks(fp):
     """Run CF checks on the dataset, and print output to a text file."""
     print("Running CF checks on the output file...")
@@ -387,6 +625,20 @@ def parse_args():
         type=str,
         help="Directory where combined data will be written to disk.",
     )
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=50,
+        help="Number of files to process in each intermediate batch (default: 50).",
+    )
+    parser.add_argument(
+        "--time_chunk_size",
+        type=int,
+        default=100,
+        help="Time dimension chunk size for dask arrays (default: 100).",
+    )
+    # Note: Parallel processing now uses Dask's built-in parallelization
+    # No additional command line arguments needed for batch processing
 
     args = parser.parse_args()
 
@@ -397,6 +649,8 @@ def parse_args():
         "frequency": args.frequency,
         "regrid_dir": Path(args.regrid_dir),
         "rasda_dir": Path(args.rasda_dir),
+        "batch_size": args.batch_size,
+        "time_chunk_size": args.time_chunk_size,
     }
 
 
@@ -405,45 +659,119 @@ if __name__ == "__main__":
     start_time = datetime.now()
     print("Starting script at: ", start_time.isoformat())
 
-    chunks = {"time": 365}
+    # Parse command line arguments
+    args = parse_args()
+    
+    # Optimized chunk sizes for high-performance compute node
+    chunks = {"time": args["time_chunk_size"]}  # Configurable time chunk size
+    batch_size = args["batch_size"]  # Configurable file batch size
+    
+    print_progress_header()
+    print(f"Hardware optimization: Using {8} workers with {3} threads each")
+    print(f"Total memory allocation: {8 * 14}GB out of 128GB available")
+    print(f"File batch size: {batch_size} files per intermediate batch")
+    print(f"Time chunk size: {args['time_chunk_size']} time steps per dask chunk")
+    print(f"Batch processing: Sequential batches with Dask parallelization")
+    
+    # Get initial memory info
+    initial_memory = get_memory_info()
+    print(f"Initial memory: {initial_memory['used_gb']:.1f}GB used ({initial_memory['percent']:.1f}%)")
+    print("=" * 80)
 
     models, scenarios, vars, frequency, regrid_dir, rasda_dir = validate_all_args(
-        **parse_args()
+        models=args["models"],
+        scenarios=args["scenarios"],
+        vars=args["vars"],
+        frequency=args["frequency"],
+        regrid_dir=args["regrid_dir"],
+        rasda_dir=args["rasda_dir"]
     )
 
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
+    # Create intermediate directory for cascade processing
+    intermediate_dir = rasda_dir / "intermediate_files"
+    intermediate_dir.mkdir(exist_ok=True)
+
     with Client(
-        n_workers=7,  # 7 workers × 4 threads = 28 cores (28 cores available on the node)
-        threads_per_worker=4,
-        memory_limit="17GB",  # 7 × 17GB = 119GB (128GB available), leaves some headroom for OS/other processes
-        dashboard_address=":8787",
+        n_workers=8,  # Optimized for 24-28 core system (8 workers × 3-3.5 threads = 24-28 cores)
+        threads_per_worker=3,  # 3 threads per worker for optimal CPU utilization
+        memory_limit="14GB",  # 8 × 14GB = 112GB (leaves 16GB for OS and overhead)
+        #dashboard_address=":8787",  # Dashboard disabled - using terminal progress monitoring
+        processes=True,  # Use processes instead of threads for better parallelism
     ) as client:
 
-        var_datasets = []
+        all_intermediate_files = []
+        total_input_files = 0
+        total_input_size = 0
+        processing_start_time = time.time()
 
-        for var in vars:
-            print(f"Combining files for {var} ...")
+        # Process each variable with cascading approach
+        for var_idx, var in enumerate(vars):
+            print(f"\n{'='*60}")
+            print(f"PROCESSING VARIABLE {var_idx+1}/{len(vars)}: {var}")
+            print(f"{'='*60}")
+            
             fps = list_all_files([var], models, scenarios, frequency, regrid_dir)
-
-            var_ds = xr.open_mfdataset(
-                fps,
-                drop_variables=["spatial_ref", "height", "type"],
-                preprocess=preprocess_ds,
-                parallel=True,
-                combine="by_coords",
-                engine="h5netcdf",  # use h5netcdf for better performance with reading large datasets
-                decode_cf=True,
-                coords="minimal",
-                compat="no_conflicts",
-                chunks=chunks,
+            total_input_files += len(fps)
+            
+            # Calculate total input size for this variable
+            var_input_size = sum(fp.stat().st_size for fp in fps if fp.exists())
+            total_input_size += var_input_size
+            
+            print(f"📊 Variable {var} statistics:")
+            print(f"   Files: {len(fps):,}")
+            print(f"   Input size: {format_bytes(var_input_size)}")
+            print(f"   Estimated batches: {(len(fps) + batch_size - 1) // batch_size}")
+            
+            # Use cascading merge for this variable
+            var_intermediate_files = cascade_merge_files(
+                fps, intermediate_dir, var, models, scenarios, frequency,
+                cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs,
+                batch_size=batch_size, chunks=chunks
             )
+            
+            all_intermediate_files.extend(var_intermediate_files)
+            
+            # Progress summary
+            elapsed = time.time() - processing_start_time
+            vars_completed = var_idx + 1
+            vars_remaining = len(vars) - vars_completed
+            
+            print(f"\n📈 Overall Progress:")
+            print(f"   Variables completed: {vars_completed}/{len(vars)}")
+            print(f"   Variables remaining: {vars_remaining}")
+            print(f"   Total files processed: {total_input_files:,}")
+            print(f"   Total input size: {format_bytes(total_input_size)}")
+            print(f"   Elapsed time: {format_duration(elapsed)}")
+            
+            if vars_remaining > 0:
+                avg_time_per_var = elapsed / vars_completed
+                eta = avg_time_per_var * vars_remaining
+                print(f"   ETA: {format_duration(eta)}")
 
-            var_datasets.append(var_ds)
+        print(f"\n{'='*60}")
+        print(f"FINAL MERGE PHASE")
+        print(f"{'='*60}")
+        print(f"Merging {len(all_intermediate_files)} intermediate files into final dataset...")
+        
+        merge_start_time = time.time()
+        
+        # Final merge of all intermediate files
+        ds = xr.open_mfdataset(
+            all_intermediate_files,
+            parallel=True,
+            combine="by_coords",
+            engine="h5netcdf",
+            decode_cf=True,
+            coords="minimal",
+            compat="no_conflicts",
+            chunks=chunks,
+        )
 
-        print("Merging variable datasets...")
-        ds = xr.merge(var_datasets, compat="no_conflicts", combine_attrs="override")
-
+        print("🔄 Applying final processing steps...")
+        
+        # Final processing steps
         ds = reindex_and_rechunk(ds, chunks)
         ds = compute_ensemble_mean(ds)
         ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
@@ -459,17 +787,49 @@ if __name__ == "__main__":
         var_str = "_".join(sorted(vars))
 
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_{var_str}_ensemble.nc"
-        print(f"Writing combined dataset with ensemble mean to {out_fp}...")
+        print(f"💾 Writing final combined dataset with ensemble mean to {out_fp}...")
+        
+        write_start_time = time.time()
         # use netcdf4 engine for better performance with complex merge operations
-        # h5netcdf engine is not as performant for writing large datasets, tends to duplicate dims
         ds.to_netcdf(out_fp, engine="netcdf4", mode="w", format="NETCDF4")
-
-        end_time = datetime.now()
-        print("Done ... ended at : ", end_time.isoformat())
-        print("Elapsed time: ", str(end_time - start_time))
-        print("Dataset written to disk at: ", out_fp)
-
+        write_time = time.time() - write_start_time
+        
+        # Get final file size
+        final_size = out_fp.stat().st_size
+        
         ds.close()
+
+        # Calculate total processing time
+        total_processing_time = time.time() - processing_start_time
+        merge_time = time.time() - merge_start_time
+        
+        print(f"✅ Final dataset written successfully!")
+        print(f"   Write time: {format_duration(write_time)}")
+        print(f"   Final size: {format_bytes(final_size)}")
+
+        # Clean up intermediate files
+        cleanup_intermediate_files(all_intermediate_files)
+        
+        # Remove intermediate directory if empty
+        try:
+            intermediate_dir.rmdir()
+            print("🗂️ Intermediate directory removed.")
+        except OSError:
+            print("⚠️ Intermediate directory not empty, leaving in place.")
+
+        # Final progress summary
+        end_time = datetime.now()
+        print_final_progress(total_input_files, total_input_size, total_processing_time, final_size)
+        
+        print(f"\n📅 Started: {start_time.isoformat()}")
+        print(f"📅 Finished: {end_time.isoformat()}")
+        print(f"📁 Output file: {out_fp}")
+        print(f"⏱️ Total elapsed time: {format_duration(total_processing_time)}")
+        
+        # Memory summary
+        final_memory = get_memory_info()
+        print(f"🧠 Final memory: {final_memory['used_gb']:.1f}GB used ({final_memory['percent']:.1f}%)")
+        print(f"🧠 Memory change: {final_memory['used_gb'] - initial_memory['used_gb']:+.1f}GB")
 
     # run CF checks on the output file
     run_cf_checks(out_fp)
