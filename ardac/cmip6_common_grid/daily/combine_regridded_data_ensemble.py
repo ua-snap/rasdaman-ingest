@@ -1006,166 +1006,166 @@ if __name__ == "__main__":
         else:
             # Process each variable with cascading approach
             for var_idx, var in enumerate(vars):
-            print(f"\n{'='*60}")
-            print(f"PROCESSING VARIABLE {var_idx+1}/{len(vars)}: {var}")
-            print(f"{'='*60}")
-            
-            fps = list_all_files([var], models, scenarios, frequency, regrid_dir)
-            total_input_files += len(fps)
-            
-            # Calculate total input size for this variable
-            var_input_size = sum(fp.stat().st_size for fp in fps if fp.exists())
-            total_input_size += var_input_size
-            
-            print(f"📊 Variable {var} statistics:")
-            print(f"   Files: {len(fps):,}")
-            print(f"   Input size: {format_bytes(var_input_size)}")
-            print(f"   Estimated batches: {(len(fps) + batch_size - 1) // batch_size}")
-            
-            # Use cascading merge for this variable
-            var_intermediate_files = cascade_merge_files(
-                fps, intermediate_dir, var, models, scenarios, frequency,
-                cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs,
-                batch_size=batch_size, chunks=chunks
-            )
-            
-            all_intermediate_files.extend(var_intermediate_files)
-            
-            # Progress summary
-            elapsed = time.time() - processing_start_time
-            vars_completed = var_idx + 1
-            vars_remaining = len(vars) - vars_completed
-            
-            print(f"\n📈 Overall Progress:")
-            print(f"   Variables completed: {vars_completed}/{len(vars)}")
-            print(f"   Variables remaining: {vars_remaining}")
-            print(f"   Total files processed: {total_input_files:,}")
-            print(f"   Total input size: {format_bytes(total_input_size)}")
-            print(f"   Elapsed time: {format_duration(elapsed)}")
-            
-            if vars_remaining > 0:
-                avg_time_per_var = elapsed / vars_completed
-                eta = avg_time_per_var * vars_remaining
-                print(f"   ETA: {format_duration(eta)}")
+                print(f"\n{'='*60}")
+                print(f"PROCESSING VARIABLE {var_idx+1}/{len(vars)}: {var}")
+                print(f"{'='*60}")
+                
+                fps = list_all_files([var], models, scenarios, frequency, regrid_dir)
+                total_input_files += len(fps)
+                
+                # Calculate total input size for this variable
+                var_input_size = sum(fp.stat().st_size for fp in fps if fp.exists())
+                total_input_size += var_input_size
+                
+                print(f"📊 Variable {var} statistics:")
+                print(f"   Files: {len(fps):,}")
+                print(f"   Input size: {format_bytes(var_input_size)}")
+                print(f"   Estimated batches: {(len(fps) + batch_size - 1) // batch_size}")
+                
+                # Use cascading merge for this variable
+                var_intermediate_files = cascade_merge_files(
+                    fps, intermediate_dir, var, models, scenarios, frequency,
+                    cmip6_var_attrs, cmip6_models, cmip6_scenarios, global_attrs,
+                    batch_size=batch_size, chunks=chunks
+                )
+                
+                all_intermediate_files.extend(var_intermediate_files)
+                
+                # Progress summary
+                elapsed = time.time() - processing_start_time
+                vars_completed = var_idx + 1
+                vars_remaining = len(vars) - vars_completed
+                
+                print(f"\n📈 Overall Progress:")
+                print(f"   Variables completed: {vars_completed}/{len(vars)}")
+                print(f"   Variables remaining: {vars_remaining}")
+                print(f"   Total files processed: {total_input_files:,}")
+                print(f"   Total input size: {format_bytes(total_input_size)}")
+                print(f"   Elapsed time: {format_duration(elapsed)}")
+                
+                if vars_remaining > 0:
+                    avg_time_per_var = elapsed / vars_completed
+                    eta = avg_time_per_var * vars_remaining
+                    print(f"   ETA: {format_duration(eta)}")
 
-            print(f"\n{'='*60}")
-            print(f"FINAL MERGE PHASE FOR {var.upper()}")
-            print(f"{'='*60}")
-            print(f"Merging {len(var_intermediate_files)} intermediate files for {var}...")
-            
-            merge_start_time = time.time()
-            
-            # Create empty NetCDF file with correct structure and append data from intermediate files
-            print("📂 Creating empty output file with correct structure...")
-            
-            # First, load one intermediate file to get the structure and dimensions
-            sample_ds = xr.open_dataset(var_intermediate_files[0], engine="h5netcdf")
-            
-            # Get all unique models, scenarios, and time steps from this variable's intermediate files
-            all_models = set()
-            all_scenarios = set()
-            all_times = set()
-            
-            print("🔍 Scanning intermediate files to determine final dimensions...")
-            for i, file_path in enumerate(var_intermediate_files):
-                print(f"   Scanning file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
-                temp_ds = xr.open_dataset(file_path, engine="h5netcdf")
-                all_models.update(temp_ds.model.values)
-                all_scenarios.update(temp_ds.scenario.values)
-                all_times.update(temp_ds.time.values)
-                temp_ds.close()
-            
-            # Sort the coordinates
-            all_models = sorted(list(all_models))
-            all_scenarios = sorted(list(all_scenarios))
-            all_times = sorted(list(all_times))
-            
-            print(f"   Final dimensions: {len(all_models)} models (includes Ensemble), {len(all_scenarios)} scenarios, {len(all_times)} time steps")
-            
-            # Create empty NetCDF file with correct structure (no data allocation)
-            output_file = rasda_dir / f"{var}_{frequency}_ensemble.nc"
-            print(f"📝 Creating empty output file: {output_file}")
-            create_empty_netcdf_file(output_file, sample_ds, all_models, all_scenarios, all_times)
-            sample_ds.close()
-            
-            # Now append data from each intermediate file
-            print("📝 Appending data from intermediate files (this may take a while)...")
-            for i, file_path in enumerate(var_intermediate_files):
-                print(f"   Appending file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
-                append_to_netcdf(output_file, file_path, all_models, all_scenarios, all_times)
+                print(f"\n{'='*60}")
+                print(f"FINAL MERGE PHASE FOR {var.upper()}")
+                print(f"{'='*60}")
+                print(f"Merging {len(var_intermediate_files)} intermediate files for {var}...")
+                
+                merge_start_time = time.time()
+                
+                # Create empty NetCDF file with correct structure and append data from intermediate files
+                print("📂 Creating empty output file with correct structure...")
+                
+                # First, load one intermediate file to get the structure and dimensions
+                sample_ds = xr.open_dataset(var_intermediate_files[0], engine="h5netcdf")
+                
+                # Get all unique models, scenarios, and time steps from this variable's intermediate files
+                all_models = set()
+                all_scenarios = set()
+                all_times = set()
+                
+                print("🔍 Scanning intermediate files to determine final dimensions...")
+                for i, file_path in enumerate(var_intermediate_files):
+                    print(f"   Scanning file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
+                    temp_ds = xr.open_dataset(file_path, engine="h5netcdf")
+                    all_models.update(temp_ds.model.values)
+                    all_scenarios.update(temp_ds.scenario.values)
+                    all_times.update(temp_ds.time.values)
+                    temp_ds.close()
+                
+                # Sort the coordinates
+                all_models = sorted(list(all_models))
+                all_scenarios = sorted(list(all_scenarios))
+                all_times = sorted(list(all_times))
+                
+                print(f"   Final dimensions: {len(all_models)} models (includes Ensemble), {len(all_scenarios)} scenarios, {len(all_times)} time steps")
+                
+                # Create empty NetCDF file with correct structure (no data allocation)
+                output_file = rasda_dir / f"{var}_{frequency}_ensemble.nc"
+                print(f"📝 Creating empty output file: {output_file}")
+                create_empty_netcdf_file(output_file, sample_ds, all_models, all_scenarios, all_times)
+                sample_ds.close()
+                
+                # Now append data from each intermediate file
+                print("📝 Appending data from intermediate files (this may take a while)...")
+                for i, file_path in enumerate(var_intermediate_files):
+                    print(f"   Appending file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
+                    append_to_netcdf(output_file, file_path, all_models, all_scenarios, all_times)
 
-        
-        # Load the final dataset for this variable
-        print("📂 Loading final dataset...")
-        ds = xr.open_dataset(output_file, engine="h5netcdf", chunks=chunks)
-        
-        print(f"✅ Final dataset shape: {dict(ds.sizes)}")
-        print(f"   Models: {len(ds.model)} (including 1 ensemble)")
-        print(f"   Scenarios: {len(ds.scenario)}")
-        print(f"   Time steps: {len(ds.time)}")
-
-        print("🔄 Applying final processing steps...")
-        
-        # Final processing steps (no duplicate - this is the only place it happens now)
-        ds = reindex_and_rechunk(ds, chunks)
-        ds = compute_ensemble_mean(ds)
-        ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
-        # Note: map_integers moved to after replace_var_attrs to keep model names as strings longer
-        ds = replace_var_attrs(ds, cmip6_var_attrs)
-        ds.attrs = global_attrs
-        ds = map_integers(ds, cmip6_models, cmip6_scenarios)  # Convert to integers last
-        ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
-        ds = replace_lat_lon_attrs(ds)
-        ds = transpose_dims(ds)
-        ds = add_crs(ds, "EPSG:4326")
-
-        # Create final output filename for this variable
-        final_output_file = rasda_dir / f"cmip6_regrid_{frequency}_{var}_ensemble.nc"
-        print(f"💾 Writing final dataset for {var} to {final_output_file}...")
-        
-        write_start_time = time.time()
-        
-        # Set up compression encoding for all data variables
-        encoding = {}
-        for var_name in ds.data_vars:
-            var = ds[var_name]
-            # Determine optimal chunk sizes based on variable dimensions
-            var_chunks = {}
-            for dim_name, dim_size in ds[var_name].dims.items():
-                if dim_name == 'time':
-                    var_chunks[dim_name] = min(1000, dim_size)  # Smaller time chunks
-                elif dim_name in ['lat', 'lon']:
-                    var_chunks[dim_name] = dim_size  # Full spatial dimensions
-                else:
-                    var_chunks[dim_name] = min(10, dim_size)  # Small chunks for other dims
             
-            encoding[var_name] = {
-                'zlib': True,           # Enable compression
-                'complevel': 6,         # Compression level (1-9, 6 is good balance)
-                'shuffle': True,        # Enable byte shuffling for better compression
-                'chunksizes': tuple(var_chunks.get(dim, 1) for dim in var.dims),
-                'fletcher32': True,     # Enable checksum for data integrity
-            }
-        
-        # use netcdf4 engine with compression for better performance and smaller files
-        ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
-        write_time = time.time() - write_start_time
-        
-        # Get final file size
-        final_size = final_output_file.stat().st_size
-        
-        ds.close()
+            # Load the final dataset for this variable
+            print("📂 Loading final dataset...")
+            ds = xr.open_dataset(output_file, engine="h5netcdf", chunks=chunks)
+            
+            print(f"✅ Final dataset shape: {dict(ds.sizes)}")
+            print(f"   Models: {len(ds.model)} (including 1 ensemble)")
+            print(f"   Scenarios: {len(ds.scenario)}")
+            print(f"   Time steps: {len(ds.time)}")
 
-        print(f"✅ Final dataset for {var} written successfully!")
-        print(f"   Write time: {format_duration(write_time)}")
-        print(f"   Final size: {format_bytes(final_size)}")
+            print("🔄 Applying final processing steps...")
+            
+            # Final processing steps (no duplicate - this is the only place it happens now)
+            ds = reindex_and_rechunk(ds, chunks)
+            ds = compute_ensemble_mean(ds)
+            ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
+            # Note: map_integers moved to after replace_var_attrs to keep model names as strings longer
+            ds = replace_var_attrs(ds, cmip6_var_attrs)
+            ds.attrs = global_attrs
+            ds = map_integers(ds, cmip6_models, cmip6_scenarios)  # Convert to integers last
+            ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+            ds = replace_lat_lon_attrs(ds)
+            ds = transpose_dims(ds)
+            ds = add_crs(ds, "EPSG:4326")
 
-        # Clean up intermediate files for this variable
-        cleanup_intermediate_files(all_intermediate_files)
-        
-        # Run CF checks on this variable's output file
-        print(f"🔍 Running CF compliance checks on {final_output_file}...")
-        run_cf_checks(final_output_file)
+            # Create final output filename for this variable
+            final_output_file = rasda_dir / f"cmip6_regrid_{frequency}_{var}_ensemble.nc"
+            print(f"💾 Writing final dataset for {var} to {final_output_file}...")
+            
+            write_start_time = time.time()
+            
+            # Set up compression encoding for all data variables
+            encoding = {}
+            for var_name in ds.data_vars:
+                var = ds[var_name]
+                # Determine optimal chunk sizes based on variable dimensions
+                var_chunks = {}
+                for dim_name, dim_size in ds[var_name].dims.items():
+                    if dim_name == 'time':
+                        var_chunks[dim_name] = min(1000, dim_size)  # Smaller time chunks
+                    elif dim_name in ['lat', 'lon']:
+                        var_chunks[dim_name] = dim_size  # Full spatial dimensions
+                    else:
+                        var_chunks[dim_name] = min(10, dim_size)  # Small chunks for other dims
+                
+                encoding[var_name] = {
+                    'zlib': True,           # Enable compression
+                    'complevel': 6,         # Compression level (1-9, 6 is good balance)
+                    'shuffle': True,        # Enable byte shuffling for better compression
+                    'chunksizes': tuple(var_chunks.get(dim, 1) for dim in var.dims),
+                    'fletcher32': True,     # Enable checksum for data integrity
+                }
+            
+            # use netcdf4 engine with compression for better performance and smaller files
+            ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
+            write_time = time.time() - write_start_time
+            
+            # Get final file size
+            final_size = final_output_file.stat().st_size
+            
+            ds.close()
+
+            print(f"✅ Final dataset for {var} written successfully!")
+            print(f"   Write time: {format_duration(write_time)}")
+            print(f"   Final size: {format_bytes(final_size)}")
+
+            # Clean up intermediate files for this variable
+            cleanup_intermediate_files(var_intermediate_files)
+            
+            # Run CF checks on this variable's output file
+            print(f"🔍 Running CF compliance checks on {final_output_file}...")
+            run_cf_checks(final_output_file)
 
         # Remove intermediate directory if empty (only if not skipping generation)
         if not args["skip_intermediate_generation"]:
