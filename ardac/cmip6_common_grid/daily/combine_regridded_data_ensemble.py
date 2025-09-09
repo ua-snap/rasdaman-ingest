@@ -773,6 +773,11 @@ def parse_args():
         default=100,
         help="Time dimension chunk size for dask arrays (default: 100).",
     )
+    parser.add_argument(
+        "--skip_intermediate_generation",
+        action="store_true",
+        help="Skip intermediate file generation and start from merge step (for testing).",
+    )
     # Note: Parallel processing now uses Dask's built-in parallelization
     # No additional command line arguments needed for batch processing
 
@@ -787,6 +792,7 @@ def parse_args():
         "rasda_dir": Path(args.rasda_dir),
         "batch_size": args.batch_size,
         "time_chunk_size": args.time_chunk_size,
+        "skip_intermediate_generation": args.skip_intermediate_generation,
     }
 
 
@@ -852,8 +858,154 @@ if __name__ == "__main__":
         total_input_size = 0
         processing_start_time = time.time()
 
-        # Process each variable with cascading approach
-        for var_idx, var in enumerate(vars):
+        if args["skip_intermediate_generation"]:
+            print(f"\n{'='*60}")
+            print(f"SKIPPING INTERMEDIATE GENERATION - STARTING FROM MERGE STEP")
+            print(f"{'='*60}")
+            print("Looking for existing intermediate files...")
+            
+            # Find existing intermediate files for each variable
+            for var_idx, var in enumerate(vars):
+                print(f"\nLooking for intermediate files for {var}...")
+                var_intermediate_files = list(intermediate_dir.glob(f"intermediate_{var}_*.nc"))
+                
+                if not var_intermediate_files:
+                    print(f"❌ No intermediate files found for {var}!")
+                    print(f"   Expected files like: intermediate_{var}_000.nc, intermediate_{var}_001.nc, etc.")
+                    print(f"   Please run without --skip_intermediate_generation first.")
+                    exit(1)
+                
+                print(f"✅ Found {len(var_intermediate_files)} intermediate files for {var}")
+                all_intermediate_files.extend(var_intermediate_files)
+            
+            print(f"\n✅ Total intermediate files found: {len(all_intermediate_files)}")
+            
+            # Process each variable's intermediate files for merging
+            for var_idx, var in enumerate(vars):
+                print(f"\n{'='*60}")
+                print(f"FINAL MERGE PHASE FOR {var.upper()}")
+                print(f"{'='*60}")
+                
+                # Get intermediate files for this variable
+                var_intermediate_files = list(intermediate_dir.glob(f"intermediate_{var}_*.nc"))
+                print(f"Merging {len(var_intermediate_files)} intermediate files for {var}...")
+                
+                merge_start_time = time.time()
+                
+                # Create empty NetCDF file with correct structure and append data from intermediate files
+                print("📂 Creating empty output file with correct structure...")
+                
+                # First, load one intermediate file to get the structure and dimensions
+                sample_ds = xr.open_dataset(var_intermediate_files[0], engine="h5netcdf")
+                
+                # Get all unique models, scenarios, and time steps from this variable's intermediate files
+                all_models = set()
+                all_scenarios = set()
+                all_times = set()
+                
+                print("🔍 Scanning intermediate files to determine final dimensions...")
+                for i, file_path in enumerate(var_intermediate_files):
+                    print(f"   Scanning file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
+                    temp_ds = xr.open_dataset(file_path, engine="h5netcdf")
+                    all_models.update(temp_ds.model.values)
+                    all_scenarios.update(temp_ds.scenario.values)
+                    all_times.update(temp_ds.time.values)
+                    temp_ds.close()
+                
+                # Sort the coordinates
+                all_models = sorted(list(all_models))
+                all_scenarios = sorted(list(all_scenarios))
+                all_times = sorted(list(all_times))
+                
+                print(f"   Final dimensions: {len(all_models)} models (includes Ensemble), {len(all_scenarios)} scenarios, {len(all_times)} time steps")
+                
+                # Create empty NetCDF file with correct structure (no data allocation)
+                output_file = rasda_dir / f"{var}_{frequency}_ensemble.nc"
+                print(f"📝 Creating empty output file: {output_file}")
+                create_empty_netcdf_file(output_file, sample_ds, all_models, all_scenarios, all_times)
+                sample_ds.close()
+                
+                # Now append data from each intermediate file
+                print("📝 Appending data from intermediate files (this may take a while)...")
+                for i, file_path in enumerate(var_intermediate_files):
+                    print(f"   Appending file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
+                    append_to_netcdf(output_file, file_path, all_models, all_scenarios, all_times)
+                
+                # Load the final dataset for this variable
+                print("📂 Loading final dataset...")
+                ds = xr.open_dataset(output_file, engine="h5netcdf", chunks=chunks)
+                
+                print(f"✅ Final dataset shape: {dict(ds.sizes)}")
+                print(f"   Models: {len(ds.model)} (including 1 ensemble)")
+                print(f"   Scenarios: {len(ds.scenario)}")
+                print(f"   Time steps: {len(ds.time)}")
+
+                print("🔄 Applying final processing steps...")
+                
+                # Final processing steps (no duplicate - this is the only place it happens now)
+                ds = reindex_and_rechunk(ds, chunks)
+                ds = compute_ensemble_mean(ds)
+                ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
+                # Note: map_integers moved to after replace_var_attrs to keep model names as strings longer
+                ds = replace_var_attrs(ds, cmip6_var_attrs)
+                ds.attrs = global_attrs
+                ds = map_integers(ds, cmip6_models, cmip6_scenarios)  # Convert to integers last
+                ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+                ds = replace_lat_lon_attrs(ds)
+                ds = transpose_dims(ds)
+                ds = add_crs(ds, "EPSG:4326")
+
+                # Create final output filename for this variable
+                final_output_file = rasda_dir / f"cmip6_regrid_{frequency}_{var}_ensemble.nc"
+                print(f"💾 Writing final dataset for {var} to {final_output_file}...")
+                
+                write_start_time = time.time()
+                
+                # Set up compression encoding for all data variables
+                encoding = {}
+                for var_name in ds.data_vars:
+                    var = ds[var_name]
+                    # Determine optimal chunk sizes based on variable dimensions
+                    var_chunks = {}
+                    for dim_name, dim_size in ds[var_name].dims.items():
+                        if dim_name == 'time':
+                            var_chunks[dim_name] = min(1000, dim_size)  # Smaller time chunks
+                        elif dim_name in ['lat', 'lon']:
+                            var_chunks[dim_name] = dim_size  # Full spatial dimensions
+                        else:
+                            var_chunks[dim_name] = min(10, dim_size)  # Small chunks for other dims
+                    
+                    encoding[var_name] = {
+                        'zlib': True,           # Enable compression
+                        'complevel': 6,         # Compression level (1-9, 6 is good balance)
+                        'shuffle': True,        # Enable byte shuffling for better compression
+                        'chunksizes': tuple(var_chunks.get(dim, 1) for dim in var.dims),
+                        'fletcher32': True,     # Enable checksum for data integrity
+                    }
+                
+                # use netcdf4 engine with compression for better performance and smaller files
+                ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
+                write_time = time.time() - write_start_time
+                
+                # Get final file size
+                final_size = final_output_file.stat().st_size
+                
+                ds.close()
+
+                print(f"✅ Final dataset for {var} written successfully!")
+                print(f"   Write time: {format_duration(write_time)}")
+                print(f"   Final size: {format_bytes(final_size)}")
+
+                # Clean up intermediate files for this variable
+                cleanup_intermediate_files(var_intermediate_files)
+                
+                # Run CF checks on this variable's output file
+                print(f"🔍 Running CF compliance checks on {final_output_file}...")
+                run_cf_checks(final_output_file)
+                
+        else:
+            # Process each variable with cascading approach
+            for var_idx, var in enumerate(vars):
             print(f"\n{'='*60}")
             print(f"PROCESSING VARIABLE {var_idx+1}/{len(vars)}: {var}")
             print(f"{'='*60}")
@@ -1015,12 +1167,13 @@ if __name__ == "__main__":
         print(f"🔍 Running CF compliance checks on {final_output_file}...")
         run_cf_checks(final_output_file)
 
-    # Remove intermediate directory if empty
-    try:
-        intermediate_dir.rmdir()
-        print("🗂️ Intermediate directory removed.")
-    except OSError:
-        print("⚠️ Intermediate directory not empty, leaving in place.")
+        # Remove intermediate directory if empty (only if not skipping generation)
+        if not args["skip_intermediate_generation"]:
+            try:
+                intermediate_dir.rmdir()
+                print("🗂️ Intermediate directory removed.")
+            except OSError:
+                print("⚠️ Intermediate directory not empty, leaving in place.")
 
     # Final progress summary
     end_time = datetime.now()
