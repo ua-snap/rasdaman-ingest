@@ -17,8 +17,6 @@ from pathlib import Path
 from datetime import datetime
 from dask.distributed import Client
 import numpy as np
-import os
-import zarr
 from luts import (
     cmip6_models,
     cmip6_scenarios,
@@ -390,54 +388,6 @@ def parse_args():
         help="Directory where combined data will be written to disk.",
     )
 
-    # Optional performance/flow controls
-    parser.add_argument(
-        "--zarr_dir",
-        type=str,
-        default=None,
-        help="Directory for intermediate Zarr store (defaults beside NetCDF output).",
-    )
-    parser.add_argument(
-        "--temp_dir",
-        type=str,
-        default=None,
-        help="Temporary directory for rechunk operations.",
-    )
-    parser.add_argument(
-        "--slab_days",
-        type=int,
-        default=365,
-        help="Number of days per time-slab when appending to NetCDF.",
-    )
-    parser.add_argument(
-        "--rechunk_for_netcdf",
-        action="store_true",
-        help="If set, attempt to rechunk Zarr for NetCDF-friendly layout before export.",
-    )
-    parser.add_argument(
-        "--compress",
-        action="store_true",
-        help="If set, apply modest compression when writing NetCDF (default is no compression).",
-    )
-    parser.add_argument(
-        "--dask_workers",
-        type=int,
-        default=8,
-        help="Dask number of workers (processes). Default 8.",
-    )
-    parser.add_argument(
-        "--dask_threads",
-        type=int,
-        default=1,
-        help="Threads per worker. Default 1 (recommended for HDF5 I/O).",
-    )
-    parser.add_argument(
-        "--dask_mem",
-        type=str,
-        default="14GB",
-        help="Memory limit per worker, e.g. '14GB'.",
-    )
-
     args = parser.parse_args()
 
     return {
@@ -447,14 +397,6 @@ def parse_args():
         "frequency": args.frequency,
         "regrid_dir": Path(args.regrid_dir),
         "rasda_dir": Path(args.rasda_dir),
-        "zarr_dir": Path(args.zarr_dir) if args.zarr_dir else None,
-        "temp_dir": Path(args.temp_dir) if args.temp_dir else None,
-        "slab_days": args.slab_days,
-        "rechunk_for_netcdf": args.rechunk_for_netcdf,
-        "compress": args.compress,
-        "dask_workers": args.dask_workers,
-        "dask_threads": args.dask_threads,
-        "dask_mem": args.dask_mem,
     }
 
 
@@ -463,30 +405,18 @@ if __name__ == "__main__":
     start_time = datetime.now()
     print("Starting script at: ", start_time.isoformat())
 
-    # Safer default chunking for large daily data
-    # Keep lat fully chunked (43), reduce lon to 144 to keep chunk size modest, time to ~120
-    chunks = {"time": 120, "lat": 43, "lon": 144}
+    chunks = {"time": 365}
 
-    parsed = parse_args()
     models, scenarios, vars, frequency, regrid_dir, rasda_dir = validate_all_args(
-        parsed["models"],
-        parsed["scenarios"],
-        parsed["vars"],
-        parsed["frequency"],
-        parsed["regrid_dir"],
-        parsed["rasda_dir"],
+        **parse_args()
     )
 
     global_attrs = update_global_attrs(global_attrs, models, scenarios, vars, frequency)
 
-    # Avoid HDF5 file locking issues on shared filesystems
-    os.environ.setdefault("HDF5_USE_FILE_LOCKING", "FALSE")
-
-    # Dask: prefer processes with 1 thread to avoid HDF5 contention
     with Client(
-        n_workers=parsed["dask_workers"],
-        threads_per_worker=parsed["dask_threads"],
-        memory_limit=parsed["dask_mem"],
+        n_workers=7,  # 7 workers × 4 threads = 28 cores (28 cores available on the node)
+        threads_per_worker=4,
+        memory_limit="17GB",  # 7 × 17GB = 119GB (128GB available), leaves some headroom for OS/other processes
         dashboard_address=":8787",
     ) as client:
 
@@ -502,7 +432,7 @@ if __name__ == "__main__":
                 preprocess=preprocess_ds,
                 parallel=True,
                 combine="by_coords",
-                engine="netcdf4",
+                engine="h5netcdf",  # use h5netcdf for better performance with reading large datasets
                 decode_cf=True,
                 coords="minimal",
                 compat="no_conflicts",
@@ -528,7 +458,6 @@ if __name__ == "__main__":
         # combine vars as "_" separated string
         var_str = "_".join(sorted(vars))
 
-        # Paths
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_{var_str}_ensemble.nc"
         print(f"Writing combined dataset with ensemble mean to {out_fp}...")
         # use netcdf4 engine for better performance with complex merge operations
