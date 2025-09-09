@@ -26,11 +26,9 @@
           "metadata": {
             "type": "xml",
             "global": {
-              "Title": "'Chukchi Daily SLIE'",
-              "Encoding": {
-                }
-              }
-            },
+              "Title": "'Chukchi Daily SLIE'"
+            }
+          },
           "slicer": {
             "type": "netcdf",
             "pixelIsPoint": true,

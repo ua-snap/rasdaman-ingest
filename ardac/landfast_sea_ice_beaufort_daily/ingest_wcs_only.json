@@ -26,11 +26,9 @@
           "metadata": {
             "type": "xml",
             "global": {
-              "Title": "'Beaufort Daily SLIE'",
-              "Encoding": {
-                }
-              }
-            },
+              "Title": "'Beaufort Daily SLIE'"
+            }
+          },
           "slicer": {
             "type": "netcdf",
             "pixelIsPoint": true,
