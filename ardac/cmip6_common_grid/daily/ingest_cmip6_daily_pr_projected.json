@@ -1,0 +1,79 @@
+{
+    "config": {
+      "service_url": "https://localhost/rasdaman/ows",
+      "tmp_directory": "/tmp/",
+      "default_null_values": [
+        "nan"
+      ],
+      "mock": false,
+      "automated": true
+    },
+    "input": {
+      "coverage_id": "cmip6_daily_pr_projected",
+      "paths": [
+        "cmip6_regrid_day_pr_ssp126_ssp245_ssp370_ssp585_ensemble.nc"
+      ]
+    },
+    "recipe": {
+      "name": "general_coverage",
+      "options": {
+        "wms_import": true,
+        "import_order": "ascending",
+        "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+        "coverage": {
+          "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"time\"@EPSG/0/4326",
+          "metadata": {
+            "type": "xml",
+            "global": "auto"
+            },
+          "slicer": {
+            "type": "netcdf",
+            "pixelIsPoint": true,
+            "bands": [
+              {
+                "name": "pr",
+                "identifier": "pr",
+                "nilValue": "nan"
+              }
+            ],
+            "axes": {
+              "model": {
+                "min": "${netcdf:variable:model:min}",
+                "max": "${netcdf:variable:model:max}",
+                "directPositions": "${netcdf:variable:model}",
+                "irregular": true,
+                "gridOrder": 0
+              },
+              "scenario": {
+                "min": "${netcdf:variable:scenario:min}",
+                "max": "${netcdf:variable:scenario:max}",
+                "directPositions": "${netcdf:variable:scenario}",
+                "irregular": true,
+                "gridOrder": 1
+              },
+              "time": {
+                "min": "${netcdf:variable:time:min}",
+                "max": "${netcdf:variable:time:max}",
+                "directPositions": "${netcdf:variable:time}",
+                "irregular": true,
+                "gridOrder": 2
+              },
+              "lat": {
+                "min": "${netcdf:variable:lat:min}",
+                "max": "${netcdf:variable:lat:max}",
+                "resolution": "${netcdf:variable:lat:resolution}",
+                "gridOrder": 3
+              },
+              "lon": {
+                "min": "${netcdf:variable:lon:min}",
+                "max": "${netcdf:variable:lon:max}",
+                "resolution": "${netcdf:variable:lon:resolution}",
+                "gridOrder": 4
+              }
+  
+            }
+          }
+        }
+      }
+    }
+  }
