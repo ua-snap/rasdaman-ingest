@@ -30,6 +30,7 @@ import gc
 import psutil
 import time
 import dask
+from dask.diagnostics import ProgressBar
 import warnings
 from luts import (
     cmip6_models,
@@ -390,20 +391,10 @@ def process_batch(batch, intermediate_fp, var_id, models, scenarios, frequency,
             chunks=chunks,
         )
         
-        # Apply processing pipeline
-        ds = reindex_and_rechunk(ds, chunks)
-        ds = compute_ensemble_mean(ds)
-        ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
-        # Note: Keep model names as strings in intermediate files, convert to integers only in final processing
-        ds = replace_var_attrs(ds, cmip6_var_attrs)
-        ds.attrs = global_attrs
-        ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
-        ds = replace_lat_lon_attrs(ds)
-        ds = transpose_dims(ds)
-        ds = add_crs(ds, "EPSG:4326")
-        
-        # Write intermediate file
-        ds.to_netcdf(intermediate_fp, engine="netcdf4", mode="w", format="NETCDF4")
+        # Write intermediate file (no processing - just raw merged data)
+        print(f"   💾 Writing intermediate file: {intermediate_fp.name}")
+        with ProgressBar():
+            ds.to_netcdf(intermediate_fp, engine="netcdf4", mode="w", format="NETCDF4")
         file_size = intermediate_fp.stat().st_size
         ds.close()
         
@@ -931,28 +922,37 @@ if __name__ == "__main__":
                     print(f"   Appending file {i+1}/{len(var_intermediate_files)}: {file_path.name}")
                     append_to_netcdf(output_file, file_path, all_models, all_scenarios, all_times)
                 
-                # Load the final dataset for this variable
-                print("📂 Loading final dataset...")
+                # Load the pre-ensemble dataset for this variable
+                print("📂 Loading pre-ensemble dataset...")
                 ds = xr.open_dataset(output_file, engine="h5netcdf", chunks=chunks)
                 
-                print(f"✅ Final dataset shape: {dict(ds.sizes)}")
-                print(f"   Models: {len(ds.model)} (including 1 ensemble)")
+                print(f"✅ Pre-ensemble dataset shape: {dict(ds.sizes)}")
+                print(f"   Models: {len(ds.model)}")
                 print(f"   Scenarios: {len(ds.scenario)}")
                 print(f"   Time steps: {len(ds.time)}")
 
                 print("🔄 Applying final processing steps...")
                 
                 # Final processing steps (no duplicate - this is the only place it happens now)
-                ds = reindex_and_rechunk(ds, chunks)
+                #ds = reindex_and_rechunk(ds, chunks)
+                print("     > Computing ensemble mean...")
                 ds = compute_ensemble_mean(ds)
+                print("     > Enforcing data types and precision...")
                 ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
+                print("     > Replacing variable attributes...")
                 # Note: map_integers moved to after replace_var_attrs to keep model names as strings longer
                 ds = replace_var_attrs(ds, cmip6_var_attrs)
+                print("     > Updating global attributes...")
                 ds.attrs = global_attrs
+                print("     > Mapping integers...")
                 ds = map_integers(ds, cmip6_models, cmip6_scenarios)  # Convert to integers last
+                print("     > Replacing model & scenario attributes...")
                 ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+                print("     > Replacing latitude & longitude attributes...")
                 ds = replace_lat_lon_attrs(ds)
+                print("     > Transposing dimensions...")
                 ds = transpose_dims(ds)
+                print("     > Adding CRS...")
                 ds = add_crs(ds, "EPSG:4326")
 
                 # Create final output filename for this variable
@@ -984,7 +984,8 @@ if __name__ == "__main__":
                     }
                 
                 # use netcdf4 engine with compression for better performance and smaller files
-                ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
+                with ProgressBar():
+                    ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
                 write_time = time.time() - write_start_time
                 
                 # Get final file size
@@ -1036,7 +1037,7 @@ if __name__ == "__main__":
                 vars_completed = var_idx + 1
                 vars_remaining = len(vars) - vars_completed
                 
-                print(f"\n📈 Overall Progress:")
+                print(f"\n📈 Progress creating Intermediate Files:")
                 print(f"   Variables completed: {vars_completed}/{len(vars)}")
                 print(f"   Variables remaining: {vars_remaining}")
                 print(f"   Total files processed: {total_input_files:,}")
@@ -1095,85 +1096,95 @@ if __name__ == "__main__":
                     append_to_netcdf(output_file, file_path, all_models, all_scenarios, all_times)
 
             
-            # Load the final dataset for this variable
-            print("📂 Loading final dataset...")
-            ds = xr.open_dataset(output_file, engine="h5netcdf", chunks=chunks)
-            
-            print(f"✅ Final dataset shape: {dict(ds.sizes)}")
-            print(f"   Models: {len(ds.model)} (including 1 ensemble)")
-            print(f"   Scenarios: {len(ds.scenario)}")
-            print(f"   Time steps: {len(ds.time)}")
-
-            print("🔄 Applying final processing steps...")
-            
-            # Final processing steps (no duplicate - this is the only place it happens now)
-            ds = reindex_and_rechunk(ds, chunks)
-            ds = compute_ensemble_mean(ds)
-            ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
-            # Note: map_integers moved to after replace_var_attrs to keep model names as strings longer
-            ds = replace_var_attrs(ds, cmip6_var_attrs)
-            ds.attrs = global_attrs
-            ds = map_integers(ds, cmip6_models, cmip6_scenarios)  # Convert to integers last
-            ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
-            ds = replace_lat_lon_attrs(ds)
-            ds = transpose_dims(ds)
-            ds = add_crs(ds, "EPSG:4326")
-
-            # Create final output filename for this variable
-            final_output_file = rasda_dir / f"cmip6_regrid_{frequency}_{var}_ensemble.nc"
-            print(f"💾 Writing final dataset for {var} to {final_output_file}...")
-            
-            write_start_time = time.time()
-            
-            # Set up compression encoding for all data variables
-            encoding = {}
-            for var_name in ds.data_vars:
-                var = ds[var_name]
-                # Determine optimal chunk sizes based on variable dimensions
-                var_chunks = {}
-                for dim_name, dim_size in ds[var_name].dims.items():
-                    if dim_name == 'time':
-                        var_chunks[dim_name] = min(1000, dim_size)  # Smaller time chunks
-                    elif dim_name in ['lat', 'lon']:
-                        var_chunks[dim_name] = dim_size  # Full spatial dimensions
-                    else:
-                        var_chunks[dim_name] = min(10, dim_size)  # Small chunks for other dims
+                # Load the final dataset for this variable
+                print("📂 Loading final dataset...")
+                ds = xr.open_dataset(output_file, engine="h5netcdf", chunks=chunks)
                 
-                encoding[var_name] = {
-                    'zlib': True,           # Enable compression
-                    'complevel': 6,         # Compression level (1-9, 6 is good balance)
-                    'shuffle': True,        # Enable byte shuffling for better compression
-                    'chunksizes': tuple(var_chunks.get(dim, 1) for dim in var.dims),
-                    'fletcher32': True,     # Enable checksum for data integrity
-                }
-            
-            # use netcdf4 engine with compression for better performance and smaller files
-            ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
-            write_time = time.time() - write_start_time
-            
-            # Get final file size
-            final_size = final_output_file.stat().st_size
-            
-            ds.close()
+                print(f"✅ Final dataset shape: {dict(ds.sizes)}")
+                print(f"   Models: {len(ds.model)} (including 1 ensemble)")
+                print(f"   Scenarios: {len(ds.scenario)}")
+                print(f"   Time steps: {len(ds.time)}")
 
-            print(f"✅ Final dataset for {var} written successfully!")
-            print(f"   Write time: {format_duration(write_time)}")
-            print(f"   Final size: {format_bytes(final_size)}")
-
-            # Clean up intermediate files for this variable
-            cleanup_intermediate_files(var_intermediate_files)
+                print("🔄 Applying final processing steps...")
             
-            # Run CF checks on this variable's output file
-            print(f"🔍 Running CF compliance checks on {final_output_file}...")
-            run_cf_checks(final_output_file)
+                # Final processing steps (no duplicate - this is the only place it happens now)
+                #ds = reindex_and_rechunk(ds, chunks)
+                print("     > Computing ensemble mean...")
+                ds = compute_ensemble_mean(ds)
+                print("     > Enforcing data types and precision...")
+                ds = enforce_dtypes_and_precision(ds, cmip6_var_attrs)
+                # Note: map_integers moved to after replace_var_attrs to keep model names as strings longer
+                print("     > Replacing variable attributes...")
+                ds = replace_var_attrs(ds, cmip6_var_attrs)
+                print("     > Updating global attributes...")
+                ds.attrs = global_attrs
+                print("     > Mapping integers...")
+                ds = map_integers(ds, cmip6_models, cmip6_scenarios)  # Convert to integers last
+                print("     > Replacing model & scenario attributes...")
+                ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
+                print("     > Replacing latitude & longitude attributes...")
+                ds = replace_lat_lon_attrs(ds)
+                print("     > Transposing dimensions...")
+                ds = transpose_dims(ds)
+                print("     > Adding CRS...")
+                ds = add_crs(ds, "EPSG:4326")
 
-        # Remove intermediate directory if empty (only if not skipping generation)
-        if not args["skip_intermediate_generation"]:
-            try:
-                intermediate_dir.rmdir()
-                print("🗂️ Intermediate directory removed.")
-            except OSError:
-                print("⚠️ Intermediate directory not empty, leaving in place.")
+                # Create final output filename for this variable
+                final_output_file = rasda_dir / f"cmip6_regrid_{frequency}_{var}_ensemble.nc"
+                print(f"💾 Writing final dataset for {var} to {final_output_file}...")
+            
+                write_start_time = time.time()
+            
+                # Set up compression encoding for all data variables
+                encoding = {}
+                for var_name in ds.data_vars:
+                    var = ds[var_name]
+                    # Determine optimal chunk sizes based on variable dimensions
+                    var_chunks = {}
+                    for dim_name, dim_size in var.sizes.items():
+                        if dim_name == 'time':
+                            var_chunks[dim_name] = min(1000, dim_size)  # Smaller time chunks
+                        elif dim_name in ['lat', 'lon']:
+                            var_chunks[dim_name] = dim_size  # Full spatial dimensions
+                        else:
+                            var_chunks[dim_name] = min(10, dim_size)  # Small chunks for other dims
+                    
+                    encoding[var_name] = {
+                        'zlib': True,           # Enable compression
+                        'complevel': 6,         # Compression level (1-9, 6 is good balance)
+                        'shuffle': True,        # Enable byte shuffling for better compression
+                        'chunksizes': tuple(var_chunks.get(dim, 1) for dim in var.dims),
+                        'fletcher32': True,     # Enable checksum for data integrity
+                    }
+            
+                # use netcdf4 engine with compression for better performance and smaller files
+                with ProgressBar():
+                    ds.to_netcdf(final_output_file, engine="netcdf4", mode="w", format="NETCDF4", encoding=encoding)
+                write_time = time.time() - write_start_time
+                
+                # Get final file size
+                final_size = final_output_file.stat().st_size
+                
+                ds.close()
+
+                print(f"✅ Final dataset for {var} written successfully!")
+                print(f"   Write time: {format_duration(write_time)}")
+                print(f"   Final size: {format_bytes(final_size)}")
+
+                # Clean up intermediate files for this variable
+                cleanup_intermediate_files(var_intermediate_files)
+                
+                # Run CF checks on this variable's output file
+                print(f"🔍 Running CF compliance checks on {final_output_file}...")
+                run_cf_checks(final_output_file)
+
+        # # Remove intermediate directory if empty (only if not skipping generation)
+        # if not args["skip_intermediate_generation"]:
+        #     try:
+        #         intermediate_dir.rmdir()
+        #         print("🗂️ Intermediate directory removed.")
+        #     except OSError:
+        #         print("⚠️ Intermediate directory not empty, leaving in place.")
 
     # Final progress summary
     end_time = datetime.now()
