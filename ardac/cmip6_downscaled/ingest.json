@@ -8,9 +8,9 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "cmip6_downscaled_crstephenson",
+    "coverage_id": "cmip6_downscaled_tasmax_MRI_ESM2_0_crstephenson",
     "paths": [
-      "data/tasmax_HadGEM3-GC31-MM.nc"
+      "netcdf_atomic/tasmax_MRI-ESM2-0*.nc"
     ]
   },
   "recipe": {
@@ -18,7 +18,7 @@
     "options": {
       "wms_import": true,
       "import_order": "ascending",
-      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "tiling": "ALIGNED [0:*, 0:1, 0:31, 0:31] tile size 16777216",
       "coverage": {
         "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/AnsiDate@EPSG/0/3338",
         "metadata": {
@@ -31,7 +31,9 @@
               'scenario': {
                 '0': 'historical',
                 '1': 'ssp126',
-                '2': 'ssp585'
+                '2': 'ssp245',
+                '3': 'ssp370',
+                '4': 'ssp585'
               }
             }"
           }
@@ -48,11 +50,10 @@
           ],
           "axes": {
             "scenario": {
-              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
-              "min": "luts.scenarios['historical']",
-              "max": "luts.scenarios['ssp585']",
-              "directPositions": "list(luts.scenarios.values())",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH')); regex_str = 'tasmax_MRI-ESM2-0_(.*)_adjusted.nc';",
+	      "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
+	      "dataBound": false,
               "gridOrder": 1
             },
 	    "ansi": {
