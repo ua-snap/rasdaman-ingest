@@ -9,7 +9,7 @@
   "input": {
     "coverage_id": "beetle_risk",
     "paths": [
-      "risk_class/*.tif"
+      "/opt/rasdaman-storage/coverage_data/beetle_risk/risk_class/*.tif"
     ]
   },
   "hooks": [
@@ -32,38 +32,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Spruce Beetle Risk"
-          },
-          "local": {
-            "Encoding": {
-              "era": {
-                "0": "1988-2017",
-                "1": "2010-2039",
-                "2": "2040-2069",
-                "3": "2070-2099"
-              },
-              "model": {
-                "0": "daymet",
-                "2": "GFDL-ESM2M",
-                "3": "HadGEM2-ES",
-                "4": "MRI-CGCM3",
-                "1": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp85"
-              },
-              "snowpack": {
-                "0": "low",
-                "1": "medium"
-              },
-              "risk": {
-                "1": "low",
-                "2": "medium",
-                "3": "high"
-              }
-            }
+            "Title": "Spruce Beetle Risk",
+            "Encoding": "{\"era\":{\"0\":\"1988-2017\",\"1\":\"2010-2039\",\"2\":\"2040-2069\",\"3\":\"2070-2099\"},\"model\":{\"0\":\"daymet\",\"2\":\"GFDL-ESM2M\",\"3\":\"HadGEM2-ES\",\"4\":\"MRI-CGCM3\",\"1\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp85\"},\"snowpack\":{\"0\":\"low\",\"1\":\"medium\"},\"risk\":{\"1\":\"low\",\"2\":\"medium\",\"3\":\"high\"}}"
           }
         },
         "slicer": {
