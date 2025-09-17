@@ -9,7 +9,7 @@
   "input": {
     "coverage_id": "iem_cru_2km_taspr_seasonal",
     "paths": [
-      "cru_seasonal_data/*cru*.tif"
+      "/opt/rasdaman-storage/coverage_data/iem_cru_2km_taspr_seasonal/*cru*.tif"
     ]
   },
   "recipe": {
