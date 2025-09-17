@@ -11,7 +11,7 @@
   "input": {
     "coverage_id": "dot_precip",
     "paths": [
-      "undiff/pcpt_*.nc"
+      "/opt/rasdaman-storage/coverage_data/dot_precip/pcpt_*.nc"
     ]
   },
   "recipe": {
@@ -24,40 +24,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'DOT Precipitation data'"
-          },
-          "local": {
-            "Encoding": {
-              "pf": "1/1000 inches",
-              "pf_upper": "1/1000 inches",
-              "pf_lower": "1/1000 inches",
-              "models": {
-                "0": "gfdlcm3",
-                "1": "ncarccsm4"
-              },
-              "durations": {
-                "12": "60m",
-                "5": "2h",
-                "8": "3h",
-                "13": "6h",
-                "1": "12h",
-                "3": "24h",
-                "4": "2d",
-                "7": "3d",
-                "10": "4d",
-                "14": "7d",
-                "0": "10d",
-                "2": "20d",
-                "6": "30d",
-                "9": "45d",
-                "11": "60d"
-              },
-              "eras": {
-                "0": "2020-2049",
-                "1": "2050-2079",
-                "2": "2080-2099"
-              }
-            }
+            "Title": "'DOT Precipitation data'",
+            "Encoding": "{\"pf\":\"1/1000 inches\",\"pf_upper\":\"1/1000 inches\",\"pf_lower\":\"1/1000 inches\",\"models\":{\"0\":\"gfdlcm3\",\"1\":\"ncarccsm4\"},\"durations\":{\"12\":\"60m\",\"5\":\"2h\",\"8\":\"3h\",\"13\":\"6h\",\"1\":\"12h\",\"3\":\"24h\",\"4\":\"2d\",\"7\":\"3d\",\"10\":\"4d\",\"14\":\"7d\",\"0\":\"10d\",\"2\":\"20d\",\"6\":\"30d\",\"9\":\"45d\",\"11\":\"60d\"},\"eras\":{\"0\":\"2020-2049\",\"1\":\"2050-2079\",\"2\":\"2080-2099\"}}"
           }
         },
         "slicer": {
