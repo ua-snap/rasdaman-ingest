@@ -58,7 +58,7 @@
               "gridOrder": 0
             },
             "year": {
-	      "min": " luts.years[str(regex_extract('${file:name}', regex_str, 2))]",
+	      "min": "luts.years[str(regex_extract('${file:name}', regex_str, 2))]",
               "irregular": true,
 	      "dataBound": false,
               "gridOrder": 1
