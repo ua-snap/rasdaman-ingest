@@ -51,7 +51,7 @@
           ],
           "axes": {
             "scenario": {
-              "statements": "import imp, os; luts = imp.load_source('wms_luts', os.getenv('LUTS_PATH')); regex_str = 'tasmin_7ModelAvg_(.*)_mean_(.*)-01.nc';",
+              "statements": "import imp, os; luts = imp.load_source('wms_luts', os.getenv('LUTS_PATH')); regex_str = 'tasmin_7ModelAvg_(.*)_(.*)-01.nc';",
 	      "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
 	      "dataBound": false,
