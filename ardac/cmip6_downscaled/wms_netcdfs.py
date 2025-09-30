@@ -55,7 +55,7 @@ for varname, configs in layers.items():
         else:
             date_range = f"{start_date[:7]}-{end_date[:7]}"
 
-        output_filename = f"{varname}_{model}_{scenario}_mean_{date_range}.nc"
+        output_filename = f"{varname}_{model}_{scenario}_{date_range}.nc"
         output_filepath = os.path.join(output_dir, output_filename)
 
         ds_aggr.to_netcdf(output_filepath)
