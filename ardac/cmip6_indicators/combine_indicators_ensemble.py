@@ -174,6 +174,8 @@ def convert_time(ds):
     ds["time"].attrs["calendar"] = "standard"
     ds["time"].attrs["long_name"] = "time"
     ds["time"].attrs["standard_name"] = "time"
+    ds["time"].attrs["min_value"] = ds["time"].min().values
+    ds["time"].attrs["max_value"] = ds["time"].max().values
 
     return ds
 
