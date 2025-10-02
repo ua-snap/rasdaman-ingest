@@ -182,8 +182,6 @@ def standardize_time(ds):
         times = pd.to_datetime(time_values)
         times = pd.to_datetime({"year": times.year, "month": times.month, "day": 15})
     
-    # normalize times to midnight (times is already normalized when created with day=15)
-    # No need to call normalize() since we're already setting specific date components
     # Calculate days since reference date
     days_since_ref = (times - ref_date).dt.days
     # Assign new coordinate values to 'time'
