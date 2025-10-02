@@ -19,6 +19,8 @@ from pathlib import Path
 from datetime import datetime
 from dask.distributed import Client
 import numpy as np
+import pandas as pd
+import cftime
 from luts import (
     cmip6_models,
     cmip6_scenarios,
@@ -150,6 +152,46 @@ def pull_dims_from_source(ds):
 
     # add model and scenario to dataset as dimensions using an array with one value each
     ds = ds.expand_dims({"model": [fp_model], "scenario": [fp_scenario]})
+
+    return ds
+
+
+def standardize_time(ds):
+    """Standardize the CF-compliant 'time' coordinate. Time format may vary between datasets,
+    so this function ensures that the time coordinate is in 'days since 1950-01-01' format.
+    Time values from each dataset corresponding to monthly means, but the day of month may be
+    different between datasets (e.g. 1st, 15th, 30th). This function converts all time values to
+    the year + month only, sets the day to the 15th, and then calculates days since 1950-01-01.
+    """
+
+    # Reference date for CF time
+    ref_date = pd.Timestamp("1950-01-01")
+
+    # Get the time values from the dataset
+    time_values = ds["time"].values
+    
+    # Check if we're dealing with CFTime objects
+    if len(time_values) > 0 and hasattr(time_values[0], 'year') and not isinstance(time_values[0], (np.datetime64, pd.Timestamp)):
+        # Handle CFTime objects (cftime datetime objects)
+        years = [t.year for t in time_values]
+        months = [t.month for t in time_values]
+        # Create pandas datetime objects from year/month, setting day to 15th
+        times = pd.to_datetime({"year": years, "month": months, "day": 15})
+    else:
+        # Handle numpy datetime64 or pandas datetime objects
+        times = pd.to_datetime(time_values)
+        times = pd.to_datetime({"year": times.year, "month": times.month, "day": 15})
+    
+    # Calculate days since reference date
+    days_since_ref = (times - ref_date).dt.days
+    # Assign new coordinate values to 'time'
+    ds = ds.assign_coords(time=("time", days_since_ref))
+    ds["time"].attrs["units"] = "days since 1950-01-01 00:00:00"
+    ds["time"].attrs["calendar"] = "standard"
+    ds["time"].attrs["long_name"] = "time"
+    ds["time"].attrs["standard_name"] = "time"
+    ds["time"].attrs["min_value"] = ds["time"].min().values
+    ds["time"].attrs["max_value"] = ds["time"].max().values
 
     return ds
 
@@ -436,6 +478,7 @@ if __name__ == "__main__":
                 combine="by_coords",
                 engine="h5netcdf",  # use h5netcdf for better performance with reading large datasets
                 decode_cf=True,
+                decode_times=True,
                 coords="minimal",
                 compat="no_conflicts",
                 chunks=chunks,
@@ -455,6 +498,7 @@ if __name__ == "__main__":
         ds = replace_model_scenario_attrs(ds, cmip6_models, cmip6_scenarios)
         ds = replace_lat_lon_attrs(ds)
         ds = transpose_dims(ds)
+        ds = standardize_time(ds)
         ds = add_crs(ds, "EPSG:4326")
 
         out_fp = rasda_dir / f"cmip6_regrid_{frequency}_ensemble.nc"
