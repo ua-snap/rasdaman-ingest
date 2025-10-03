@@ -10,7 +10,7 @@
   "input": {
     "coverage_id": "crrel_gipl_outputs_nc",
     "paths": [
-      "gipl_outputs_optimized.nc"
+      "/opt/rasdaman-storage/coverage_data/gipl/gipl_outputs_optimized.nc"
     ]
   },
   "recipe": {
@@ -24,32 +24,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "GIPL 2.0 Permafrost Model Output"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "0": "5ModelAvg",
-                "1": "GFDL-CM3",
-                "2": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "RCP 4.5",
-                "1": "RCP 8.5"
-              },
-              "variable": {
-                "0": "magt05m_degC",
-                "1": "magt1m_degC",
-                "2": "magt2m_degC",
-                "3": "magt3m_degC",
-                "4": "magt4m_degC",
-                "5": "magt5m_degC",
-                "6": "magtsurface_degC",
-                "7": "permafrostbase_m",
-                "8": "permafrosttop_m",
-                "9": "talikthickness_m"
-              }
-            }
+            "Title": "GIPL 2.0 Permafrost Model Output",
+            "Encoding": "{\"model\":{\"0\":\"5ModelAvg\",\"1\":\"GFDL-CM3\",\"2\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"RCP 4.5\",\"1\":\"RCP 8.5\"},\"variable\":{\"0\":\"magt05m_degC\",\"1\":\"magt1m_degC\",\"2\":\"magt2m_degC\",\"3\":\"magt3m_degC\",\"4\":\"magt4m_degC\",\"5\":\"magt5m_degC\",\"6\":\"magtsurface_degC\",\"7\":\"permafrostbase_m\",\"8\":\"permafrosttop_m\",\"9\":\"talikthickness_m\"}}"
           }
         },
         "slicer": {

@@ -23,7 +23,7 @@
   "input": {
     "coverage_id": "alfresco_vegetation_mode_statistic",
     "paths": [
-      "mode_vegetation_geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/alfresco_vegetation_mode_statistic/*.tif"
     ]
   },
   "recipe": {
@@ -35,31 +35,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "ALFRESCO Vegetation Mode Statistic"
-          },
-          "local": {
-            "Encoding": {
-              "era": {
-                "0": "1950-2008",
-                "1": "2010-2039",
-                "2": "2040-2069",
-                "3": "2070-2099"
-              },
-              "model": {
-                "0": "MODEL-SPINUP",
-                "1": "GFDL-CM3",
-                "2": "GISS-E2-R",
-                "3": "IPSL-CM5A-LR",
-                "4": "MRI-CGCM3",
-                "5": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp60",
-                "3": "rcp85"
-              }
-            }
+            "Title": "ALFRESCO Vegetation Mode Statistic",
+            "Encoding": "{\"era\":{\"0\":\"1950-2008\",\"1\":\"2010-2039\",\"2\":\"2040-2069\",\"3\":\"2070-2099\"},\"model\":{\"0\":\"MODEL-SPINUP\",\"1\":\"GFDL-CM3\",\"2\":\"GISS-E2-R\",\"3\":\"IPSL-CM5A-LR\",\"4\":\"MRI-CGCM3\",\"5\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp60\",\"3\":\"rcp85\"}}"
           }
         },
         "slicer": {

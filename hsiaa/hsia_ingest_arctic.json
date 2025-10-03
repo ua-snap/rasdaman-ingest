@@ -8,7 +8,7 @@
   "input": {
     "coverage_id": "hsia_arctic_production",
     "paths": [
-      "rasdaman_hsia_arctic_production_tifs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/hsiaa/hsia_arctic_production_tifs/*.tif"
     ]
   },
   "recipe": {

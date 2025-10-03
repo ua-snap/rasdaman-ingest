@@ -1,68 +1,68 @@
 {
-    "config": {
-      "service_url": "https://localhost/rasdaman/ows",
-      "tmp_directory": "/tmp/",
-      "crs_resolver": "http://localhost:8080/def/",
-      "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
-      "default_null_values": [
-        "111"
-      ],
-      "mock": false,
-      "automated": true
-    },
-    "input": {
-      "coverage_id": "ardac_chukchi_daily_slie_wcs",
-      "paths": [
-        "Chukchi_NetCDFs/*.nc"
-      ]
-    },
-    "recipe": {
-      "name": "general_coverage",
-      "options": {
-	"tiling": "ALIGNED [0:8091, 0:31, 0:31] tile size 16777216",
-        "import_order": "ascending",
-        "coverage": {
-          "crs": "OGC/0/AnsiDate@EPSG/0/3338",
-          "metadata": {
-            "type": "xml",
-            "global": {
-              "Title": "'Chukchi Daily SLIE'"
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": [
+      "111"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "ardac_chukchi_daily_slie_wcs",
+    "paths": [
+      "/opt/rasdaman-storage/coverage_data/landfast_sea_ice_chukchi_daily/Chukchi_NetCDFs/*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "ALIGNED [0:8091, 0:31, 0:31] tile size 16777216",
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/AnsiDate@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Chukchi Daily SLIE'"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "slie",
+              "identifier": "slie"
             }
-          },
-          "slicer": {
-            "type": "netcdf",
-            "pixelIsPoint": true,
-            "bands": [
-              {
-                "name": "slie",
-                "identifier": "slie"
-              }
-            ],
-            "axes": {
-              "ansi": {
-                "statements": "from datetime import datetime; import netCDF4",
-                "min": "netCDF4.num2date(${netcdf:variable:time:min}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
-                "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
-                "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
-                "gridOrder": 0,
-                "type": "ansidate",
-                "irregular": true
-               },
-	      "X": {
-                "min": "${netcdf:variable:x:min}",
-                "max": "${netcdf:variable:x:max}",
-                "resolution": "${netcdf:variable:x:resolution}",
-                "gridOrder": 2
-               },
-              "Y": {
-                "min": "${netcdf:variable:y:min}",
-                "max": "${netcdf:variable:y:max}",
-                "resolution": "${netcdf:variable:y:resolution}",
-                "gridOrder":1
-               }
-              }
+          ],
+          "axes": {
+            "ansi": {
+              "statements": "from datetime import datetime; import netCDF4",
+              "min": "netCDF4.num2date(${netcdf:variable:time:min}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 2
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 1
             }
+          }
         }
       }
     }
+  }
 }

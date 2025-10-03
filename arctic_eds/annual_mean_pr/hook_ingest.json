@@ -24,7 +24,7 @@
   "input": {
     "coverage_id": "annual_precip_totals_mm",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/annual_mean_pr/*.tif"
     ]
   },
   "recipe": {
@@ -36,26 +36,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Annual Mean Precipitation Totals (mm)"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "0": "CRU-TS",
-                "2": "GFDL-CM3",
-                "3": "GISS-E2-R",
-                "4": "IPSL-CM5A-LR",
-                "1": "5modelAvg",
-                "5": "MRI-CGCM3",
-                "6": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp60",
-                "3": "rcp85"
-              }
-            }
+            "Title": "Annual Mean Precipitation Totals (mm)",
+            "Encoding": "{\"model\":{\"0\":\"CRU-TS\",\"2\":\"GFDL-CM3\",\"3\":\"GISS-E2-R\",\"4\":\"IPSL-CM5A-LR\",\"1\":\"5modelAvg\",\"5\":\"MRI-CGCM3\",\"6\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp60\",\"3\":\"rcp85\"}}"
           }
         },
         "slicer": {

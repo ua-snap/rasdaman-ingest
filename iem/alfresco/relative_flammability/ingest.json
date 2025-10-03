@@ -25,18 +25,18 @@
       "when": "after_import",
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_relative_flammability_30yr&STYLEID=alaska_wildfire_explorer_historical&ABSTRACT=1950-2008%20flammability%20(Alaska%20Wildfire%20Explorer)&WCPSQUERYFRAGMENT=%28condense%20%2B%20over%20%24e%20era%280%3A1%29%20using%20%24c%5Bera%28%24e%29%5D%29%20%2F%202&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.000\\\":[254,240,217,255],\\\"0.002\\\":[253,204,138,255],\\\"0.005\\\":[252,141,89,255],\\\"0.010\\\":[227,74,51,255],\\\"0.020\\\":[179,0,0,255]}}\"",
       "abort_on_error": true
-},
-{
+    },
+    {
       "description": "Create projected Flammability WMS style for Alaska Wildfire Explorer",
       "when": "after_import",
       "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=alfresco_relative_flammability_30yr&STYLEID=alaska_wildfire_explorer_projected&ABSTRACT=2070-2099%20flammability%20(Alaska%20Wildfire%20Explorer)&WCPSQUERYFRAGMENT=%24c%5Bera%284%29%5D&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.000\\\":[254,240,217,255],\\\"0.002\\\":[253,204,138,255],\\\"0.005\\\":[252,141,89,255],\\\"0.010\\\":[227,74,51,255],\\\"0.020\\\":[179,0,0,255]}}\"",
       "abort_on_error": true
-}
+    }
   ],
   "input": {
     "coverage_id": "alfresco_relative_flammability_30yr",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/alfresco_relative_flammability/*.tif"
     ]
   },
   "recipe": {
@@ -48,33 +48,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "ALFRESCO Relative Flammability 30 Year Eras"
-          },
-          "local": {
-            "Encoding": {
-              "era": {
-                "0": "1950-1979",
-                "1": "1980-2008",
-                "2": "2010-2039",
-                "3": "2040-2069",
-                "4": "2070-2099"
-              },
-              "model": {
-                "0": "MODEL-SPINUP",
-                "2": "GFDL-CM3",
-                "3": "GISS-E2-R",
-                "4": "IPSL-CM5A-LR",
-                "1": "5modelAvg",
-                "5": "MRI-CGCM3",
-                "6": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp60",
-                "3": "rcp85"
-              }
-            }
+            "Title": "ALFRESCO Relative Flammability 30 Year Eras",
+            "Encoding": "{\"era\":{\"0\":\"1950-1979\",\"1\":\"1980-2008\",\"2\":\"2010-2039\",\"3\":\"2040-2069\",\"4\":\"2070-2099\"},\"model\":{\"0\":\"MODEL-SPINUP\",\"2\":\"GFDL-CM3\",\"3\":\"GISS-E2-R\",\"4\":\"IPSL-CM5A-LR\",\"1\":\"5modelAvg\",\"5\":\"MRI-CGCM3\",\"6\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp60\",\"3\":\"rcp85\"}}"
           }
         },
         "slicer": {

@@ -38,7 +38,7 @@
   "input": {
     "coverage_id": "mean_annual_dtr",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/annual_mean_dtr/*.tif"
     ]
   },
   "recipe": {
@@ -50,16 +50,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Mean Annual Diurnal Temperature Variation"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "1": "GFDL-CM3",
-                "0": "ERA-Interim",
-                "2": "NCAR-CCSM4"
-              }
-            }
+            "Title": "Mean Annual Diurnal Temperature Variation",
+            "Encoding": "{\"model\":{\"1\":\"GFDL-CM3\",\"0\":\"ERA-Interim\",\"2\":\"NCAR-CCSM4\"}}"
           }
         },
         "slicer": {

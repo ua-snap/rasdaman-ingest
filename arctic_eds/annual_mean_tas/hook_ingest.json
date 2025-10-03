@@ -24,7 +24,7 @@
   "input": {
     "coverage_id": "annual_mean_temp",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/annual_mean_tas/*.tif"
     ]
   },
   "recipe": {
@@ -36,26 +36,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Mean Annual Temperature"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "0": "CRU-TS",
-                "2": "GFDL-CM3",
-                "3": "GISS-E2-R",
-                "4": "IPSL-CM5A-LR",
-                "1": "5modelAvg",
-                "5": "MRI-CGCM3",
-                "6": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp60",
-                "3": "rcp85"
-              }
-            }
+            "Title": "Mean Annual Temperature",
+            "Encoding": "{\"model\":{\"0\":\"CRU-TS\",\"2\":\"GFDL-CM3\",\"3\":\"GISS-E2-R\",\"4\":\"IPSL-CM5A-LR\",\"1\":\"5modelAvg\",\"5\":\"MRI-CGCM3\",\"6\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp60\",\"3\":\"rcp85\"}}"
           }
         },
         "slicer": {

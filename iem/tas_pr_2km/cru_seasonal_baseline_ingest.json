@@ -9,7 +9,7 @@
   "input": {
     "coverage_id": "iem_cru_2km_taspr_seasonal_baseline_stats",
     "paths": [
-      "cru_baseline_data/*.tif"
+      "/opt/rasdaman-storage/coverage_data/iem_cru_2km_taspr_seasonal_baseline_stats/*.tif"
     ]
   },
   "recipe": {
@@ -21,31 +21,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Seasonal summaries of CRU TS 4.0 historical temperature and precipitation over the 2km IEM domain over 1950-2009'"
-          },
-          "local": {
-            "Encoding": {
-              "season": {
-                "0": "DJF",
-                "1": "JJA",
-                "2": "MAM",
-                "3": "SON"
-              },
-              "varname": {
-                "0": "pr",
-                "1": "tas"
-              },
-              "stat": {
-                "0": "hi_std",
-                "1": "lo_std",
-                "2": "max",
-                "3": "mean",
-                "4": "median",
-                "5": "min",
-                "6": "q1",
-                "7": "q3"
-              }
-            }
+            "Title": "'Seasonal summaries of CRU TS 4.0 historical temperature and precipitation over the 2km IEM domain over 1950-2009'",
+            "Encoding": "{\"season\":{\"0\":\"DJF\",\"1\":\"JJA\",\"2\":\"MAM\",\"3\":\"SON\"},\"varname\":{\"0\":\"pr\",\"1\":\"tas\"},\"stat\":{\"0\":\"hi_std\",\"1\":\"lo_std\",\"2\":\"max\",\"3\":\"mean\",\"4\":\"median\",\"5\":\"min\",\"6\":\"q1\",\"7\":\"q3\"}}"
           }
         },
         "slicer": {

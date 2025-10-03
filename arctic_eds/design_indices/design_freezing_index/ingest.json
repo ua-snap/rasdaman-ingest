@@ -27,7 +27,7 @@
   "input": {
     "coverage_id": "design_freezing_index",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/design_freezing_index/*.tif"
     ]
   },
   "recipe": {
@@ -39,21 +39,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Design Freezing Index"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "1": "GFDL-CM3",
-                "0": "ERA-Interim",
-                "2": "NCAR-CCSM4"
-              },
-              "era": {
-                "0": "1980-2009",
-                "1": "2040-2069",
-                "2": "2070-2099"
-              }
-            }
+            "Title": "Design Freezing Index",
+            "Encoding": "{\"model\":{\"1\":\"GFDL-CM3\",\"0\":\"ERA-Interim\",\"2\":\"NCAR-CCSM4\"},\"era\":{\"0\":\"1980-2009\",\"1\":\"2040-2069\",\"2\":\"2070-2099\"}}"
           }
         },
         "slicer": {

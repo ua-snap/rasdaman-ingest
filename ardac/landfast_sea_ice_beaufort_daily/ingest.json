@@ -1,84 +1,83 @@
 {
-    "config": {
-      "service_url": "https://localhost/rasdaman/ows",
-      "tmp_directory": "/tmp/",
-      "crs_resolver": "http://localhost:8080/def/",
-      "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
-      "default_null_values": [
-        "111"
-      ],
-      "mock": false,
-      "automated": true
-    },
-    "hooks": [
-        {
-        "description": "Create ARDAC Daily SLIE Style.",
-        "when": "after_import",
-        "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_beaufort_daily_slie&STYLEID=ardac_daily_slie&ABSTRACT=ARDAC%20Daily%20SLIE&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 255],
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "http://localhost:8080/def/",
+    "default_crs": "http://localhost:8080/def/crs/EPSG/0/3338",
+    "default_null_values": [
+      "111"
+    ],
+    "mock": false,
+    "automated": true
+  },
+  "hooks": [
+    {
+      "description": "Create ARDAC Daily SLIE Style.",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=ardac_beaufort_daily_slie&STYLEID=ardac_daily_slie&ABSTRACT=ARDAC%20Daily%20SLIE&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\": \\\"intervals\\\", \\\"colorTable\\\": {  \\\"0\\\": [255, 255, 255, 255],
         \\\"32\\\": [191, 212, 212, 128],
         \\\"64\\\": [230, 230, 230, 128],
         \\\"111\\\": [255, 255, 255, 0],
         \\\"128\\\": [204, 230, 204, 255],
         \\\"255\\\": [204, 204, 255, 255] } }\"",
-        "abort_on_error": true
-        }
-    ],
-    "input": {
-      "coverage_id": "ardac_beaufort_daily_slie",
-      "paths": [
-        "Beaufort_NetCDFs/*.nc"
-      ]
-    },
-    "recipe": {
-      "name": "general_coverage",
-      "options": {
-        "wms_import": true,
-	"tiling": "ALIGNED [0:*, 0:*, 0:*] tile size 4194304",
-        "import_order": "ascending",
-        "coverage": {
-          "crs": "OGC/0/AnsiDate@EPSG/0/3338",
-          "metadata": {
-            "type": "xml",
-            "global": {
-              "Title": "'Beaufort Daily SLIE'",
-              "Encoding": {
-                }
-              }
-            },
-          "slicer": {
-            "type": "netcdf",
-            "pixelIsPoint": true,
-            "bands": [
-              {
-                "name": "slie",
-                "identifier": "slie"
-              }
-            ],
-            "axes": {
-              "ansi": {
-                "statements": "from datetime import datetime; import netCDF4",
-                "min": "netCDF4.num2date(${netcdf:variable:time:min}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
-                "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
-                "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
-                "gridOrder": 0,
-                "type": "ansidate",
-                "irregular": true
-               },
-	      "X": {
-                "min": "${netcdf:variable:x:min}",
-                "max": "${netcdf:variable:x:max}",
-                "resolution": "${netcdf:variable:x:resolution}",
-                "gridOrder": 2
-               },
-              "Y": {
-                "min": "${netcdf:variable:y:min}",
-                "max": "${netcdf:variable:y:max}",
-                "resolution": "${netcdf:variable:y:resolution}",
-                "gridOrder":1
-               }
-              }
+      "abort_on_error": true
+    }
+  ],
+  "input": {
+    "coverage_id": "ardac_beaufort_daily_slie",
+    "paths": [
+      "/opt/rasdaman-storage/coverage_data/landfast_sea_ice_beaufort_daily/Beaufort_NetCDFs/*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "tiling": "ALIGNED [0:*, 0:*, 0:*] tile size 4194304",
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/AnsiDate@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "'Beaufort Daily SLIE'",
+            "Encoding": {}
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "slie",
+              "identifier": "slie"
             }
+          ],
+          "axes": {
+            "ansi": {
+              "statements": "from datetime import datetime; import netCDF4",
+              "min": "netCDF4.num2date(${netcdf:variable:time:min}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
+              "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
+              "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+              "gridOrder": 0,
+              "type": "ansidate",
+              "irregular": true
+            },
+            "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 2
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 1
+            }
+          }
         }
       }
     }
+  }
 }

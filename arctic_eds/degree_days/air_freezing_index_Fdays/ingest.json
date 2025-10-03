@@ -76,7 +76,7 @@
     "input": {
         "coverage_id": "air_freezing_index_Fdays",
         "paths": [
-            "air_freezing_index_Fdays.nc"
+            "/opt/rasdaman-storage/coverage_data/air_freezing_index_Fdays/air_freezing_index_Fdays.nc"
         ]
     },
     "recipe": {
@@ -90,28 +90,8 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Air Freezing Index (°F⋅days)'"
-                    },
-                    "local": {
-                        "Encoding": {
-                            "model": {
-                                "0": "daymet",
-                                "1": "ACCESS1-3",
-                                "2": "CCSM4",
-                                "3": "CSIRO-Mk3-6-0",
-                                "4": "CanESM2",
-                                "5": "GFDL-ESM2M",
-                                "6": "MIROC5",
-                                "7": "MPI-ESM-MR",
-                                "8": "MRI-CGCM3",
-                                "9": "inmcm4"
-                            },
-                            "scenario": {
-                                "0": "historical",
-                                "1": "rcp45",
-                                "2": "rcp85"
-                            }
-                        }
+                        "Title": "'Air Freezing Index (°F⋅days)'",
+                        "Encoding": "{\"model\":{\"0\":\"daymet\",\"1\":\"ACCESS1-3\",\"2\":\"CCSM4\",\"3\":\"CSIRO-Mk3-6-0\",\"4\":\"CanESM2\",\"5\":\"GFDL-ESM2M\",\"6\":\"MIROC5\",\"7\":\"MPI-ESM-MR\",\"8\":\"MRI-CGCM3\",\"9\":\"inmcm4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp85\"}}"
                     }
                 },
                 "slicer": {

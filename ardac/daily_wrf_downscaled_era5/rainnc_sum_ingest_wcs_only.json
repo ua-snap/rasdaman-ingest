@@ -13,7 +13,7 @@
   "input": {
     "coverage_id": "era5_4km_daily_rainnc_sum_wcs",
     "paths": [
-      "rainnc_sum_merged.nc"
+      "/opt/rasdaman-storage/coverage_data/wrf_downscaled_era5_4km/rainnc_sum/rainnc_sum_merged.nc"
     ]
   },
   "recipe": {

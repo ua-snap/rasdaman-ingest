@@ -9,7 +9,7 @@
   "input": {
     "coverage_id": "alfresco_vegetation_type_percentage",
     "paths": [
-      "veg_type_pct_geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/alfresco_vegetation_type_percentage/*.tif"
     ]
   },
   "recipe": {
@@ -21,42 +21,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "ALFRESCO Vegetation Type Percentage"
-          },
-          "local": {
-            "Encoding": {
-              "era": {
-                "0": "1950-2008",
-                "1": "2010-2039",
-                "2": "2040-2069",
-                "3": "2070-2099"
-              },
-              "model": {
-                "0": "MODEL-SPINUP",
-                "1": "GFDL-CM3",
-                "2": "GISS-E2-R",
-                "3": "IPSL-CM5A-LR",
-                "4": "MRI-CGCM3",
-                "5": "NCAR-CCSM4"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp60",
-                "3": "rcp85"
-              },
-              "veg_type": {
-                "0": "not_modeled",
-                "1": "black_spruce",
-                "2": "white_spruce",
-                "3": "deciduous_forest",
-                "4": "shrub_tundra",
-                "5": "graminoid_tundra",
-                "6": "wetland_tundra",
-                "7": "barren_lichen_moss",
-                "8": "temperate_rainforest"
-              }
-            }
+            "Title": "ALFRESCO Vegetation Type Percentage",
+            "Encoding": "{\"era\":{\"0\":\"1950-2008\",\"1\":\"2010-2039\",\"2\":\"2040-2069\",\"3\":\"2070-2099\"},\"model\":{\"0\":\"MODEL-SPINUP\",\"1\":\"GFDL-CM3\",\"2\":\"GISS-E2-R\",\"3\":\"IPSL-CM5A-LR\",\"4\":\"MRI-CGCM3\",\"5\":\"NCAR-CCSM4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp60\",\"3\":\"rcp85\"},\"veg_type\":{\"0\":\"not_modeled\",\"1\":\"black_spruce\",\"2\":\"white_spruce\",\"3\":\"deciduous_forest\",\"4\":\"shrub_tundra\",\"5\":\"graminoid_tundra\",\"6\":\"wetland_tundra\",\"7\":\"barren_lichen_moss\",\"8\":\"temperate_rainforest\"}}"
           }
         },
         "slicer": {

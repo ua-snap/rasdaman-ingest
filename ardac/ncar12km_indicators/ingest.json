@@ -78,7 +78,7 @@
   "input": {
     "coverage_id": "ncar12km_indicators_era_summaries",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/ncar12km_indicators_era_summaries/*.tif"
     ]
   },
   "recipe": {
@@ -90,44 +90,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "NCAR 12km Indicators"
-          },
-          "local": {
-            "Encoding": {
-              "indicator": {
-                "0": "cd",
-                "1": "cdd",
-                "2": "csdi",
-                "3": "cwd",
-                "4": "dw",
-                "5": "hd",
-                "6": "r10mm",
-                "7": "rx1day",
-                "8": "rx5day",
-                "9": "su",
-                "10": "wsdi"
-              },
-              "model": {
-                "0": "Daymet",
-                "1": "NCAR-CCSM4",
-                "2": "MRI-CGCM3"
-              },
-              "era": {
-                "0": "historical",
-                "1": "longterm",
-                "2": "midcentury"
-              },
-              "scenario": {
-                "0": "historical",
-                "1": "rcp45",
-                "2": "rcp85"
-              },
-              "stat": {
-                "0": "max",
-                "1": "mean",
-                "2": "min"
-              }
-            }
+            "Title": "NCAR 12km Indicators",
+            "Encoding": "{\"indicator\":{\"0\":\"cd\",\"1\":\"cdd\",\"2\":\"csdi\",\"3\":\"cwd\",\"4\":\"dw\",\"5\":\"hd\",\"6\":\"r10mm\",\"7\":\"rx1day\",\"8\":\"rx5day\",\"9\":\"su\",\"10\":\"wsdi\"},\"model\":{\"0\":\"Daymet\",\"1\":\"NCAR-CCSM4\",\"2\":\"MRI-CGCM3\"},\"era\":{\"0\":\"historical\",\"1\":\"longterm\",\"2\":\"midcentury\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp85\"},\"stat\":{\"0\":\"max\",\"1\":\"mean\",\"2\":\"min\"}}"
           }
         },
         "slicer": {
