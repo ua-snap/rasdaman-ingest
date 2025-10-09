@@ -86,7 +86,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Air Thawing$ Index °F⋅days'",
+                        "Title": "'Air Thawing Index °F⋅days'",
                         "Encoding": "{\"model\":{\"0\":\"daymet\",\"1\":\"ACCESS1-3\",\"2\":\"CCSM4\",\"3\":\"CSIRO-Mk3-6-0\",\"4\":\"CanESM2\",\"5\":\"GFDL-ESM2M\",\"6\":\"MIROC5\",\"7\":\"MPI-ESM-MR\",\"8\":\"MRI-CGCM3\",\"9\":\"inmcm4\"},\"scenario\":{\"0\":\"historical\",\"1\":\"rcp45\",\"2\":\"rcp85\"}}"
                     }
                 },
