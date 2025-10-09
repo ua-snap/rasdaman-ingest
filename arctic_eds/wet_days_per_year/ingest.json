@@ -42,7 +42,7 @@
   "input": {
     "coverage_id": "wet_days_per_year",
     "paths": [
-      "geotiffs/*.tif"
+      "/opt/rasdaman-storage/coverage_data/wet_days_per_year/*.tif"
     ]
   },
   "recipe": {
@@ -54,16 +54,8 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "Wet Days Per Year"
-          },
-          "local": {
-            "Encoding": {
-              "model": {
-                "1": "GFDL-CM3",
-                "0": "ERA-Interim",
-                "2": "NCAR-CCSM4"
-              }
-            }
+            "Title": "Wet Days Per Year",
+            "Encoding": "{\"model\":{\"1\":\"GFDL-CM3\",\"0\":\"ERA-Interim\",\"2\":\"NCAR-CCSM4\"}}"
           }
         },
         "slicer": {

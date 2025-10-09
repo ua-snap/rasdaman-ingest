@@ -8,7 +8,7 @@
   "input": {
     "coverage_id": "cmip6_monthly_cf",
     "paths": [
-      "cmip6_regrid_mon_ensemble.nc"
+      "/opt/rasdaman-storage/coverage_data/cmip6_monthly/cmip6_regrid_mon_ensemble_timefix.nc"
     ]
   },
   "recipe": {
