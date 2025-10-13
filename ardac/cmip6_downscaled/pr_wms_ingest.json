@@ -8,7 +8,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "cmip6_downscaled_pr_wms_crstephenson",
+    "coverage_id": "cmip6_downscaled_pr_wms",
     "paths": [
       "wms_netcdf/pr_*.nc"
     ]
@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Downscaled CMIP6 test'"
+            "Title": "'Downscaled CMIP6 pr WMS'"
           },
           "local": {
             "Encoding": "{
@@ -79,5 +79,13 @@
         }
       }
     }
-  }
+  },
+  "hooks": [
+    {
+      "description": "Create Precipitation style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_downscaled_pr_wms&STYLEID=ardac_pr&ABSTRACT=Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.2\\\":[233,240,242,255],\\\"50\\\":[192,225,226,255],\\\"100\\\":[141,203,181,255],\\\"150\\\":[106,179,133,255],\\\"200\\\":[84,143,98,255]}}\"",
+      "abort_on_error": true
+    }
+  ]
 }
