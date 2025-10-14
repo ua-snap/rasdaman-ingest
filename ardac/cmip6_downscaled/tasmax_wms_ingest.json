@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Downscaled CMIP6 tasmax WMS'"
+            "Title": "'Downscaled CMIP6 tasmax WMS (7-Model Average)'"
           },
           "local": {
             "Encoding": "{

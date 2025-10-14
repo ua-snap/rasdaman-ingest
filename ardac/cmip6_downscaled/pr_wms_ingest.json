@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Downscaled CMIP6 pr WMS'"
+            "Title": "'Downscaled CMIP6 pr WMS (7-Model Average)'"
           },
           "local": {
             "Encoding": "{
