@@ -8,7 +8,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "cmip6_downscaled_{varname}_{model}_{scenario}_crstephenson",
+    "coverage_id": "cmip6_downscaled_{varname}_{model}_{scenario}_wcs",
     "paths": [
       "../netcdf/{varname}_{model}_{scenario}_adjusted.nc"
     ]
@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Downscaled CMIP6 test'"
+            "Title": "'Downscaled CMIP6 {varname} ({model}, {scenario})'"
           },
           "local": {
             "Encoding": "{}"
