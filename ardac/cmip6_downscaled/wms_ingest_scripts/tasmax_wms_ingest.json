@@ -10,7 +10,7 @@
   "input": {
     "coverage_id": "cmip6_downscaled_tasmax_wms",
     "paths": [
-      "wms_netcdf/tasmax_*.nc"
+      "../wms_netcdfs/tasmax_*.nc"
     ]
   },
   "recipe": {
@@ -24,7 +24,7 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Downscaled CMIP6 tasmax WMS (7-Model Average)'"
+            "Title": "'Downscaled CMIP6 tasmax WMS (6-Model Average)'"
           },
           "local": {
             "Encoding": "{
@@ -51,7 +51,7 @@
           ],
           "axes": {
             "scenario": {
-              "statements": "import imp, os; luts = imp.load_source('wms_luts', os.getenv('LUTS_PATH')); regex_str = 'tasmax_7ModelAvg_(.*)_(.*)-07.nc';",
+              "statements": "import imp, os; luts = imp.load_source('wms_luts', os.getenv('LUTS_PATH')); regex_str = 'tasmax_6ModelAvg_(.*)_(.*)-07.nc';",
 	      "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 1)]",
               "irregular": true,
 	      "dataBound": false,

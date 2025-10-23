@@ -1,0 +1,70 @@
+{
+    "config": {
+        "service_url": "https://localhost/rasdaman/ows",
+        "tmp_directory": "/tmp/",
+        "blocking": true,
+        "mock": false,
+        "automated": true,
+        "track_files": false
+    },
+    "input": {
+        "coverage_id": "cmip6_downscaled_tasmax_HadGEM3_GC31_MM_ssp585_wcs",
+        "paths": [
+            "../netcdf/tasmax_HadGEM3-GC31-MM_ssp585_adjusted.nc"
+        ]
+    },
+    "recipe": {
+        "name": "general_coverage",
+        "options": {
+            "wms_import": true,
+            "import_order": "ascending",
+            "tiling": "ALIGNED [0:*, 0:31, 0:31] tile size 16777216",
+            "coverage": {
+                "crs": "OGC/0/AnsiDate@EPSG/0/3338",
+                "metadata": {
+                    "type": "xml",
+                    "global": {
+                        "Title": "'Downscaled CMIP6 {varname} ({model}, {scenario})'"
+                    },
+                    "local": {
+                        "Encoding": "{}"
+                    }
+                },
+                "slicer": {
+                    "type": "netcdf",
+                    "pixelIsPoint": true,
+                    "bands": [
+                        {
+                            "name": "tasmax",
+                            "identifier": "tasmax",
+                            "nilValue": "-9999.0"
+                        }
+                    ],
+                    "axes": {
+                        "ansi": {
+                            "statements": "from datetime import datetime; import netCDF4",
+                            "min": "netCDF4.num2date(${netcdf:variable:time:min}, '${netcdf:variable:time:units}', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+                            "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\")",
+                            "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='noleap').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
+                            "gridOrder": 0,
+                            "type": "ansidate",
+                            "irregular": true
+                        },
+                        "Y": {
+                            "min": "${netcdf:variable:y:min}",
+                            "max": "${netcdf:variable:y:max}",
+                            "resolution": "${netcdf:variable:y:resolution}",
+                            "gridOrder": 2
+                        },
+                        "X": {
+                            "min": "${netcdf:variable:x:min}",
+                            "max": "${netcdf:variable:x:max}",
+                            "resolution": "${netcdf:variable:x:resolution}",
+                            "gridOrder": 1
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
