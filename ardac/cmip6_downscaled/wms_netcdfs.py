@@ -1,26 +1,61 @@
 #!/usr/bin/env python3
 import xarray as xr
 import os
-import sys
 
-input_dir = "netcdf"
-output_dir = "wms_netcdf"
+input_dir = os.environ.get("NETCDF_DIR")
+output_dir = os.environ.get("WMS_DIR")
+os.makedirs(output_dir, exist_ok=True)
 
 layers = {
     "tasmax": [
-        {"model": "7ModelAvg", "scenario": "historical", "start_date": "2000-07-01", "end_date": "2000-07-31", "method": "mean"},
-        {"model": "7ModelAvg", "scenario": "ssp585", "start_date": "2100-07-01", "end_date": "2100-07-31", "method": "mean"},
+        {
+            "model": "6ModelAvg",
+            "scenario": "historical",
+            "start_date": "2000-07-01",
+            "end_date": "2000-07-31",
+            "method": "mean",
+        },
+        {
+            "model": "6ModelAvg",
+            "scenario": "ssp585",
+            "start_date": "2100-07-01",
+            "end_date": "2100-07-31",
+            "method": "mean",
+        },
     ],
     "tasmin": [
-        {"model": "7ModelAvg", "scenario": "historical", "start_date": "2000-01-01", "end_date": "2000-01-31", "method": "mean"},
-        {"model": "7ModelAvg", "scenario": "ssp585", "start_date": "2100-01-01", "end_date": "2100-01-31", "method": "mean"},
+        {
+            "model": "6ModelAvg",
+            "scenario": "historical",
+            "start_date": "2000-01-01",
+            "end_date": "2000-01-31",
+            "method": "mean",
+        },
+        {
+            "model": "6ModelAvg",
+            "scenario": "ssp585",
+            "start_date": "2100-01-01",
+            "end_date": "2100-01-31",
+            "method": "mean",
+        },
     ],
     "pr": [
-        {"model": "7ModelAvg", "scenario": "historical", "start_date": "2000-08-01", "end_date": "2000-08-31", "method": "sum"},
-        {"model": "7ModelAvg", "scenario": "ssp585", "start_date": "2100-08-01", "end_date": "2100-08-31", "method": "sum"},
+        {
+            "model": "6ModelAvg",
+            "scenario": "historical",
+            "start_date": "2000-08-01",
+            "end_date": "2000-08-31",
+            "method": "sum",
+        },
+        {
+            "model": "6ModelAvg",
+            "scenario": "ssp585",
+            "start_date": "2100-08-01",
+            "end_date": "2100-08-31",
+            "method": "sum",
+        },
     ],
 }
-
 
 for varname, configs in layers.items():
     for config in configs:
@@ -59,4 +94,4 @@ for varname, configs in layers.items():
         output_filepath = os.path.join(output_dir, output_filename)
 
         ds_aggr.to_netcdf(output_filepath)
-        print(f"Saved mean dataset to {output_filepath}")
+        print(f"Saved WMS NetCDF to {output_filepath}")

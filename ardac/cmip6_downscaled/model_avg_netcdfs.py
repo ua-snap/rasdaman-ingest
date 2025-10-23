@@ -4,26 +4,25 @@ import os
 import sys
 from pprint import pprint
 
-varname = sys.argv[1]
+input_dir = os.environ.get("NETCDF_DIR")
+output_dir = os.environ.get("MEAN_DIR")
+os.makedirs(output_dir, exist_ok=True)
 
-input_dir = "netcdf"
-output_dir = "netcdf_means"
+varnames = ["tasmax", "tasmin", "pr"]
+
+# These are the only models that have all possible variables/models/scenarios,
+# excluding GFDL-ESM4 which has known issues.
+models = [
+    "KACE-1-0-G",
+    "MIROC6",
+    "MPI-ESM1-2-HR",
+    "MRI-ESM2-0",
+    "NorESM2-MM",
+    "TaiESM1",
+]
 
 
-def calculate_and_write_model_means(input_dict, netcdf_dir):
-    # Example implementation: open each NetCDF file, compute mean, and save to netcdf
-    for scenario, files in input_dict.items():
-        datasets = [xr.open_dataset(f) for f in files]
-        combined = xr.concat(datasets, dim="model")
-        mean_ds = combined.mean(dim="model")
-        out_path = os.path.join(
-            netcdf_dir, f"{varname}_7ModelAvg_{scenario}_adjusted.nc"
-        )
-        mean_ds.to_netcdf(out_path)
-        print(f"Saved mean for scenario '{scenario}' to {out_path}")
-
-
-if __name__ == "__main__":
+def generate_input_file_dict(varname, input_dir):
     # Get a list of all *.nc files in input_dir.
     nc_files = [
         os.path.join(input_dir, f)
@@ -31,8 +30,12 @@ if __name__ == "__main__":
         if f.startswith(f"{varname}_") and f.endswith(".nc")
     ]
 
-    nc_files = [f for f in nc_files if not os.path.basename(f).startswith("dtr") and not os.path.basename(f).startswith("pr_CESM2")]
-    print(nc_files)
+    nc_files = [
+        f
+        for f in nc_files
+        if not os.path.basename(f).startswith("dtr")
+        and not os.path.basename(f).startswith("pr_CESM2")
+    ]
 
     input_dict = {}
     for file in nc_files:
@@ -49,6 +52,9 @@ if __name__ == "__main__":
         if len(model_files) < 5:
             continue
 
+        if model not in models:
+            continue
+
         if scenario not in input_dict:
             input_dict[scenario] = []
         input_dict[scenario].append(file)
@@ -57,6 +63,25 @@ if __name__ == "__main__":
     for scenario in input_dict:
         input_dict[scenario] = sorted(input_dict[scenario])
 
-    pprint(input_dict)
+    return input_dict
 
-    calculate_and_write_model_means(input_dict, output_dir)
+
+def calculate_and_write_model_means(input_dict, netcdf_dir):
+    num_models = len(input_dict["historical"])
+
+    # Example implementation: open each NetCDF file, compute mean, and save to netcdf
+    for scenario, files in input_dict.items():
+        datasets = [xr.open_dataset(f) for f in files]
+        combined = xr.concat(datasets, dim="model")
+        mean_ds = combined.mean(dim="model")
+        out_path = os.path.join(
+            netcdf_dir, f"{varname}_{num_models}ModelAvg_{scenario}_adjusted.nc"
+        )
+        mean_ds.to_netcdf(out_path)
+        print(f"Saved mean for scenario '{scenario}' to {out_path}")
+
+
+if __name__ == "__main__":
+    for varname in varnames:
+        input_dict = generate_input_file_dict(varname, input_dir)
+        calculate_and_write_model_means(input_dict, output_dir)

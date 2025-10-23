@@ -12,7 +12,7 @@ def generate_script(varname, model, scenario):
         "scenario": scenario
     }
 
-    with open("ingest_template.json", "r") as file:
+    with open("wcs_ingest_template.json", "r") as file:
         data = json.load(file)
 
     coverage_id = data["input"]["coverage_id"].format(**kwargs).replace("-", "_")

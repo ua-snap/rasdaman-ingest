@@ -10,8 +10,9 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-zarr_dir = "adjusted"
-netcdf_dir = "netcdf"
+zarr_dir = os.environ.get("ADJUSTED_DIR")
+netcdf_dir = os.environ.get("NETCDF_DIR")
+os.makedirs(netcdf_dir, exist_ok=True)
 
 
 def fix_time(ds):
