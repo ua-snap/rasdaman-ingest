@@ -3,7 +3,7 @@ import json
 import os
 
 netcdf_dir = "netcdf"
-output_dir = "ingest_scripts"
+output_dir = "wcs_ingest_scripts"
 
 def generate_script(varname, model, scenario):
     kwargs = {
