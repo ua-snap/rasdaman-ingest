@@ -41,12 +41,11 @@ varnames = [
 ]
 
 models = [
-    "7ModelAvg",
+    "6ModelAvg",
     "CESM2",
     "CNRM-CM6-1-HR",
     "E3SM-2-0",
     "EC-Earth3-Veg",
-    "GFDL-ESM4",
     "HadGEM3-GC31-LL",
     "HadGEM3-GC31-MM",
     "KACE-1-0-G",
