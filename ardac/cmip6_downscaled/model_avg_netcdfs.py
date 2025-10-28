@@ -34,7 +34,6 @@ def generate_input_file_dict(varname, input_dir):
         f
         for f in nc_files
         if not os.path.basename(f).startswith("dtr")
-        and not os.path.basename(f).startswith("pr_CESM2")
     ]
 
     input_dict = {}
