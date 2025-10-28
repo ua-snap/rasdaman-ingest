@@ -1,10 +1,10 @@
 # CMIP6 downscaled data formatting & ingest scripts
 
-This README contains information on the handful of post-processing scripts needed to format bias-adjusted Zarr outputs produced by the CMIP6 downscale pipeline into the files ready to ingest into Rasdaman. **Unless otherwise stated, these scripts are intended to run on Chinook, not Zeus, because they deal with massive datasets and could put unnecessary strain on Zeus.**
+This README contains information on the handful of post-processing scripts needed to format bias-adjusted Zarr outputs produced by the CMIP6 downscale pipeline into files ready to ingest into Rasdaman. **Unless otherwise stated, these scripts are intended to run on Chinook, not Zeus, because they deal with massive datasets and could put unnecessary strain on Zeus.**
 
 ## zarr_to_netcdf.py
 
-This script converts the final bias-adjusted ("adjusted" directory) outputs from Zarr format to NetCDF. It also:
+This script converts the final bias-adjusted outputs from Zarr stores to NetCDF files. It also:
 
 - fills any pockets of missing days with NaN
 - converts CESM2 model outputs to use 12:00 as the time instead of 00:00
@@ -33,7 +33,7 @@ conda activate cmip6-utils
 python model_avg_netcdfs.py
 ```
 
-If model average NetCDFs in your `OUTPUT_DIR` look good, you'll probably want to copy them into the same `NETCDF_DIR` directory with all of the other NetCDF files so they're all together in one place. The `wms_netcdfs.py` instructions below assume you have done so.
+Then, copy the NetCDF files written to `MEAN_DIR` into the `NETCDF_DIR` directory with all of the other NetCDF files. The `wms_netcdfs.py` instructions in the next section assume you have done so.
 
 ```
 mv $MEAN_DIR/* $NETCDF_DIR/
@@ -41,7 +41,7 @@ mv $MEAN_DIR/* $NETCDF_DIR/
 
 ## wms_netcdfs.py
 
-This script generates time-slice aggregate NetCDFs for use as highly-performance WMS coverages. Time slice specifications are currently hard-coded in the script itself.
+This script generates time-slice aggregate NetCDF files for use as highly-performant WMS coverages. Time slice specifications are currently hard-coded in the script itself.
 
 Run this script on Chinook like so:
 
@@ -55,7 +55,7 @@ python wms_netcdfs.py
 
 ## generate_wcs_ingest_scripts.py
 
-It's safe to run this script directly on Zeus. It generates a WCS-performance Rasdaman ingest script for every combination of model/scenario/variable so that each coverage is around 15gb - 26gb and highly performant.
+It's safe to run this script directly on Zeus. It generates a WCS-optimized Rasdaman ingest script for every combination of model/scenario/variable so that each coverage is around 15gb - 26gb and highly performant.
 
 Run the script like so:
 
