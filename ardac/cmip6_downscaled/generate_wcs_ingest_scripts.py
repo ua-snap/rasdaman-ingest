@@ -26,6 +26,9 @@ def generate_script(varname, model, scenario):
     band_identifier = data["recipe"]["options"]["coverage"]["slicer"]["bands"][0]["identifier"].format(**kwargs)
     data["recipe"]["options"]["coverage"]["slicer"]["bands"][0]["identifier"] = band_identifier
 
+    title = data["recipe"]["options"]["coverage"]["metadata"]["global"]["Title"].format(**kwargs)
+    data["recipe"]["options"]["coverage"]["metadata"]["global"]["Title"] = title
+
     output_file = "{varname}_{model}_{scenario}_adjusted.json".format(**kwargs)
     output_path = output_dir + "/" + output_file
 

@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 {varname} ({model}, {scenario})'"
+                        "Title": "'Downscaled CMIP6 pr (MPI-ESM1-2-HR, ssp245)'"
                     },
                     "local": {
                         "Encoding": "{}"
