@@ -40,7 +40,7 @@ cmip6_var_attrs = {
         "units": "kg m-2 s-1",
         "standard_name": "water_evapotranspiration_flux",
         "long_name": "Evapotranspiration Including Sublimation and Transpiration",
-        "description": "Evaporation at surface (also known as evapotranspiration): flux of water into the atmosphere due to conversion of both liquid and solid phases to vapor (from underlying surface and vegetation)",
+        "description": "Evaporation at surface (also known as evapotranspiration).",
         "_FillValue": np.nan,
         "dtype": "float32",
         "precision": 15,
