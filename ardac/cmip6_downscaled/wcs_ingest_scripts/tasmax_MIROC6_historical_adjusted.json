@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmax (MIROC6, historical)'"
+                        "Title": "Downscaled CMIP6 tasmax (MIROC6, historical)"
                     },
                     "local": {
                         "Encoding": "{}"

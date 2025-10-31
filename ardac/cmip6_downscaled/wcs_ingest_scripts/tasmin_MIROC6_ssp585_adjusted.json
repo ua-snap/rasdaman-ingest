@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmin (MIROC6, ssp585)'"
+                        "Title": "Downscaled CMIP6 tasmin (MIROC6, ssp585)"
                     },
                     "local": {
                         "Encoding": "{}"

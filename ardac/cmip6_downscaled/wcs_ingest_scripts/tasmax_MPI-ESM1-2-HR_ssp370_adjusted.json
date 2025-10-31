@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmax (MPI-ESM1-2-HR, ssp370)'"
+                        "Title": "Downscaled CMIP6 tasmax (MPI-ESM1-2-HR, ssp370)"
                     },
                     "local": {
                         "Encoding": "{}"

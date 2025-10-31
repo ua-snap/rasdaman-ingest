@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmax (KACE-1-0-G, ssp585)'"
+                        "Title": "Downscaled CMIP6 tasmax (KACE-1-0-G, ssp585)"
                     },
                     "local": {
                         "Encoding": "{}"

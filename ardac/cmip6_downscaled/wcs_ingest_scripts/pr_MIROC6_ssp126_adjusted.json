@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 pr (MIROC6, ssp126)'"
+                        "Title": "Downscaled CMIP6 pr (MIROC6, ssp126)"
                     },
                     "local": {
                         "Encoding": "{}"

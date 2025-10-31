@@ -24,7 +24,8 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmax (6ModelAvg, ssp126)'"
+                        "Title": "Downscaled CMIP6 tasmax (6ModelAvg, ssp126)",
+                        "Abstract": "6ModelAvg is an equal-weighted mean of: KACE-1-0-G, MIROC6, MPI-ESM1-2-HR, MRI-ESM2-0, NorESM2-MM, TaiESM1"
                     },
                     "local": {
                         "Encoding": "{}"

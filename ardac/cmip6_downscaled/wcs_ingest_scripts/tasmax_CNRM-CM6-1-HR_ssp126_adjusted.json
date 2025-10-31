@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmax (CNRM-CM6-1-HR, ssp126)'"
+                        "Title": "Downscaled CMIP6 tasmax (CNRM-CM6-1-HR, ssp126)"
                     },
                     "local": {
                         "Encoding": "{}"

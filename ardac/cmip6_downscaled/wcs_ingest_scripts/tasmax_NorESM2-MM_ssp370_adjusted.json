@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmax (NorESM2-MM, ssp370)'"
+                        "Title": "Downscaled CMIP6 tasmax (NorESM2-MM, ssp370)"
                     },
                     "local": {
                         "Encoding": "{}"

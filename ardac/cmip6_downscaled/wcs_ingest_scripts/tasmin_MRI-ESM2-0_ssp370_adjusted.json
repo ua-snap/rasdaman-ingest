@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmin (MRI-ESM2-0, ssp370)'"
+                        "Title": "Downscaled CMIP6 tasmin (MRI-ESM2-0, ssp370)"
                     },
                     "local": {
                         "Encoding": "{}"

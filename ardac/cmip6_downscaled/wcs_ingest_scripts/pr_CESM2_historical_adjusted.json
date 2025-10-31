@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 pr (CESM2, historical)'"
+                        "Title": "Downscaled CMIP6 pr (CESM2, historical)"
                     },
                     "local": {
                         "Encoding": "{}"

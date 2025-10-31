@@ -24,7 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "'Downscaled CMIP6 tasmin (TaiESM1, historical)'"
+                        "Title": "Downscaled CMIP6 tasmin (TaiESM1, historical)"
                     },
                     "local": {
                         "Encoding": "{}"
