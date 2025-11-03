@@ -22,6 +22,20 @@ layers = {
             "end_date": "2100-07-31",
             "method": "mean",
         },
+        {
+            "model": "CNRM-CM6-1-HR",
+            "scenario": "historical",
+            "start_date": "2000-07-01",
+            "end_date": "2000-07-31",
+            "method": "mean",
+        },
+        {
+            "model": "CNRM-CM6-1-HR",
+            "scenario": "ssp585",
+            "start_date": "2100-07-01",
+            "end_date": "2100-07-31",
+            "method": "mean",
+        },
     ],
     "tasmin": [
         {
@@ -38,6 +52,20 @@ layers = {
             "end_date": "2100-01-31",
             "method": "mean",
         },
+        {
+            "model": "CNRM-CM6-1-HR",
+            "scenario": "historical",
+            "start_date": "2000-01-01",
+            "end_date": "2000-01-31",
+            "method": "mean",
+        },
+        {
+            "model": "CNRM-CM6-1-HR",
+            "scenario": "ssp585",
+            "start_date": "2100-01-01",
+            "end_date": "2100-01-31",
+            "method": "mean",
+        },
     ],
     "pr": [
         {
@@ -49,6 +77,20 @@ layers = {
         },
         {
             "model": "6ModelAvg",
+            "scenario": "ssp585",
+            "start_date": "2100-08-01",
+            "end_date": "2100-08-31",
+            "method": "sum",
+        },
+        {
+            "model": "CNRM-CM6-1-HR",
+            "scenario": "historical",
+            "start_date": "2000-08-01",
+            "end_date": "2000-08-31",
+            "method": "sum",
+        },
+        {
+            "model": "CNRM-CM6-1-HR",
             "scenario": "ssp585",
             "start_date": "2100-08-01",
             "end_date": "2100-08-31",
