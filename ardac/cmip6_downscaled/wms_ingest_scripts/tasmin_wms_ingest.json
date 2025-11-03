@@ -28,7 +28,7 @@
           },
           "local": {
             "Encoding": "{
-              'models': {
+              'model': {
                 '0': '6ModelAvg',
                 '1': 'CNRM-CM6-1-HR'
               },
