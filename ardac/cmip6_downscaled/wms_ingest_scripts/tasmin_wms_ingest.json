@@ -8,7 +8,7 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "cmip6_downscaled_tasmin_wms_test",
+    "coverage_id": "cmip6_downscaled_tasmin_wms",
     "paths": [
       "../wms_netcdfs/tasmin_*.nc"
     ]
@@ -94,7 +94,7 @@
     {
       "description": "Create Minimum Near-surface Air Temperature style for ARDAC",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_downscaled_tasmin_wms_test&STYLEID=ardac_tasmin&ABSTRACT=Minimum%20Near-surface%20Air%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[100,104,172,255],\\\"-20\\\":[115,148,193,255],\\\"-15\\\":[148,188,213,255],\\\"-10\\\":[186,218,229,255],\\\"-5\\\":[224,236,241,255],\\\"0\\\":[244,224,169,255],\\\"5\\\":[244,188,136,255],\\\"10\\\":[239,144,115,255],\\\"15\\\":[220,105,97,255],\\\"20\\\":[186,80,94,255],\\\"9999\\\":[0,0,0,0]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_downscaled_tasmin_wms&STYLEID=ardac_tasmin&ABSTRACT=Minimum%20Near-surface%20Air%20Temperature%20(ARDAC)&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-50\\\":[100,104,172,255],\\\"-20\\\":[115,148,193,255],\\\"-15\\\":[148,188,213,255],\\\"-10\\\":[186,218,229,255],\\\"-5\\\":[224,236,241,255],\\\"0\\\":[244,224,169,255],\\\"5\\\":[244,188,136,255],\\\"10\\\":[239,144,115,255],\\\"15\\\":[220,105,97,255],\\\"20\\\":[186,80,94,255],\\\"9999\\\":[0,0,0,0]}}\"",
       "abort_on_error": true
     }
   ]
