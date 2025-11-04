@@ -1,5 +1,3 @@
-import numpy as np
-
 models = {
     "6ModelAvg": 0,
     "CNRM-CM6-1-HR": 1
