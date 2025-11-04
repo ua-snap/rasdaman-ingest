@@ -25,9 +25,6 @@
                     "type": "xml",
                     "global": {
                         "Title": "Downscaled CMIP6 pr (KACE-1-0-G, ssp245)"
-                    },
-                    "local": {
-                        "Encoding": "{}"
                     }
                 },
                 "slicer": {

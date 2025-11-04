@@ -25,9 +25,6 @@
                     "type": "xml",
                     "global": {
                         "Title": "Downscaled CMIP6 pr (EC-Earth3-Veg, historical)"
-                    },
-                    "local": {
-                        "Encoding": "{}"
                     }
                 },
                 "slicer": {

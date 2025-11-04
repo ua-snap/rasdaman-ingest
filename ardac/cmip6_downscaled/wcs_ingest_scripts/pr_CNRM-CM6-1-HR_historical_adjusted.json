@@ -25,9 +25,6 @@
                     "type": "xml",
                     "global": {
                         "Title": "Downscaled CMIP6 pr (CNRM-CM6-1-HR, historical)"
-                    },
-                    "local": {
-                        "Encoding": "{}"
                     }
                 },
                 "slicer": {

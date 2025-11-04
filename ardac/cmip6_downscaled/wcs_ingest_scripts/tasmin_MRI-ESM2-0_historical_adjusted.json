@@ -25,9 +25,6 @@
                     "type": "xml",
                     "global": {
                         "Title": "Downscaled CMIP6 tasmin (MRI-ESM2-0, historical)"
-                    },
-                    "local": {
-                        "Encoding": "{}"
                     }
                 },
                 "slicer": {

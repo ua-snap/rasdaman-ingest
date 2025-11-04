@@ -25,9 +25,6 @@
           "type": "xml",
           "global": {
             "Title": "Downscaled CMIP6 {varname} ({model}, {scenario})"
-          },
-          "local": {
-            "Encoding": "{}"
           }
         },
         "slicer": {

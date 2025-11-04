@@ -25,9 +25,6 @@
                     "type": "xml",
                     "global": {
                         "Title": "Downscaled CMIP6 tasmin (NorESM2-MM, ssp245)"
-                    },
-                    "local": {
-                        "Encoding": "{}"
                     }
                 },
                 "slicer": {
