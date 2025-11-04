@@ -2,7 +2,6 @@
 import xarray as xr
 import os
 import sys
-from pprint import pprint
 
 input_dir = os.environ.get("NETCDF_DIR")
 output_dir = os.environ.get("MEAN_DIR")
@@ -30,12 +29,6 @@ def generate_input_file_dict(varname, input_dir):
         os.path.join(input_dir, f)
         for f in os.listdir(input_dir)
         if f.startswith(f"{varname}_") and f.endswith(".nc")
-    ]
-
-    nc_files = [
-        f
-        for f in nc_files
-        if not os.path.basename(f).startswith("dtr")
     ]
 
     input_dict = {}
