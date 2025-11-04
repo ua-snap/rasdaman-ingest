@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_tasmin_KACE_1_0_G_historical_wcs",
         "paths": [
-            "../netcdf/tasmin_KACE-1-0-G_historical_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/tasmin_KACE-1-0-G_historical_adjusted.nc"
         ]
     },
     "recipe": {

@@ -2,7 +2,7 @@
 import json
 import os
 
-netcdf_dir = "netcdf"
+netcdf_dir = "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs"
 output_dir = "wcs_ingest_scripts"
 
 ensemble_models = [
@@ -84,7 +84,7 @@ scenarios = [
 for varname in varnames:
     for model in models:
         for scenario in scenarios:
-            netcdf_path = f"netcdf/{varname}_{model}_{scenario}_adjusted.nc"
+            netcdf_path = f"{netcdf_dir}/{varname}_{model}_{scenario}_adjusted.nc"
             if os.path.exists(netcdf_path):
                 generate_script(varname, model, scenario)
 

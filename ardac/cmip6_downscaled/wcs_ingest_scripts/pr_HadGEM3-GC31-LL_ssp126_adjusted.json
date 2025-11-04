@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_pr_HadGEM3_GC31_LL_ssp126_wcs",
         "paths": [
-            "../netcdf/pr_HadGEM3-GC31-LL_ssp126_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_HadGEM3-GC31-LL_ssp126_adjusted.nc"
         ]
     },
     "recipe": {

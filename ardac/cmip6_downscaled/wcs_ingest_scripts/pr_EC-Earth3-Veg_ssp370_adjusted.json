@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_pr_EC_Earth3_Veg_ssp370_wcs",
         "paths": [
-            "../netcdf/pr_EC-Earth3-Veg_ssp370_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_EC-Earth3-Veg_ssp370_adjusted.nc"
         ]
     },
     "recipe": {

@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_pr_NorESM2_MM_historical_wcs",
         "paths": [
-            "../netcdf/pr_NorESM2-MM_historical_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_NorESM2-MM_historical_adjusted.nc"
         ]
     },
     "recipe": {

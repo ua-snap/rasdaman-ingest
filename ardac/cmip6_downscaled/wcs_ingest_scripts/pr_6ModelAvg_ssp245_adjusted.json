@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_pr_6ModelAvg_ssp245_wcs",
         "paths": [
-            "../netcdf/pr_6ModelAvg_ssp245_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_6ModelAvg_ssp245_adjusted.nc"
         ]
     },
     "recipe": {

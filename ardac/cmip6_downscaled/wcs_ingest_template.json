@@ -10,7 +10,7 @@
   "input": {
     "coverage_id": "cmip6_downscaled_{varname}_{model}_{scenario}_wcs",
     "paths": [
-      "../netcdf/{varname}_{model}_{scenario}_adjusted.nc"
+      "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/{varname}_{model}_{scenario}_adjusted.nc"
     ]
   },
   "recipe": {

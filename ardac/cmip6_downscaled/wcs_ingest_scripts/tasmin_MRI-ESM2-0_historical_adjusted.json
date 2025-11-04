@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_tasmin_MRI_ESM2_0_historical_wcs",
         "paths": [
-            "../netcdf/tasmin_MRI-ESM2-0_historical_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/tasmin_MRI-ESM2-0_historical_adjusted.nc"
         ]
     },
     "recipe": {

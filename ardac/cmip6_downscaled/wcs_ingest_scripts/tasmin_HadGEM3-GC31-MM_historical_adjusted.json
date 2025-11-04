@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_tasmin_HadGEM3_GC31_MM_historical_wcs",
         "paths": [
-            "../netcdf/tasmin_HadGEM3-GC31-MM_historical_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/tasmin_HadGEM3-GC31-MM_historical_adjusted.nc"
         ]
     },
     "recipe": {

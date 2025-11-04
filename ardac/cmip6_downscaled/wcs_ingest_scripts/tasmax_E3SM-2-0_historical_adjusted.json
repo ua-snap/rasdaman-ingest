@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_tasmax_E3SM_2_0_historical_wcs",
         "paths": [
-            "../netcdf/tasmax_E3SM-2-0_historical_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/tasmax_E3SM-2-0_historical_adjusted.nc"
         ]
     },
     "recipe": {

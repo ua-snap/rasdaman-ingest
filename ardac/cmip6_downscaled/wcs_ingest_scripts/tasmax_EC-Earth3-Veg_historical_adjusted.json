@@ -10,7 +10,7 @@
     "input": {
         "coverage_id": "cmip6_downscaled_tasmax_EC_Earth3_Veg_historical_wcs",
         "paths": [
-            "../netcdf/tasmax_EC-Earth3-Veg_historical_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/tasmax_EC-Earth3-Veg_historical_adjusted.nc"
         ]
     },
     "recipe": {
