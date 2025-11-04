@@ -11,7 +11,9 @@ os.makedirs(output_dir, exist_ok=True)
 varnames = ["tasmax", "tasmin", "pr"]
 
 # These are the only models that have all possible variables/models/scenarios,
-# excluding GFDL-ESM4 which has known issues.
+# excluding GFDL-ESM4 which has known issues. Include only models with all
+# scenarios present so comparisons between *ModelAvg scenarios is
+# apples-to-apples (the mean of the same set of models).
 models = [
     "KACE-1-0-G",
     "MIROC6",
@@ -45,14 +47,18 @@ def generate_input_file_dict(varname, input_dir):
         scenario = parts[2]
         key = f"{varname}_{scenario}"
 
+        if model not in models:
+            continue
+
         # Get list of all files with model as substring in them.
         model_files = [f for f in nc_files if model in f]
 
+        # All models specified in "models" variable should have five scenarios:
+        # historical, ssp126, ssp245, ssp370, ssp585. Abort script if any
+        # scenarios are missing because this will impact the means.
         if len(model_files) < 5:
-            continue
-
-        if model not in models:
-            continue
+            print(f"Files missing for {model} model. Aborting.")
+            exit(1)
 
         if scenario not in input_dict:
             input_dict[scenario] = []
