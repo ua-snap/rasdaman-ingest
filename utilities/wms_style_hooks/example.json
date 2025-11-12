@@ -1,0 +1,18 @@
+[
+    {
+        "cmd_description": "Create Cloud Area Fraction style for ARDAC",
+        "coverage": "cmip6_monthly",
+        "name": "ardac_clt",
+        "abstract": "Cloud Area Fraction (ARDAC)",
+        "wcps": "$c[varname(0)]",
+        "colormap": "{ \"type\": \"intervals\", \"colorTable\": { \"0\": [80,130,165,255], \"60\": [103,164,199,255], \"70\": [148,185,212,255], \"80\": [199,207,224,255], \"90\": [235,233,240,255], \"9999\": [0,0,0,0] } }"
+    },
+    {
+        "cmd_description": "Create Evaporation style for ARDAC",
+        "coverage": "cmip6_monthly",
+        "name": "ardac_evspsbl",
+        "abstract": "Evaporation (ARDAC)",
+        "wcps": "$c[varname(1)]",
+        "colormap": "{ \"type\": \"intervals\", \"colorTable\": { \"-0.1\": [83,139,105,255], \"0.00000\": [110,180,126,255], \"0.00001\": [152,205,151,255], \"0.00002\": [187,222,166,255], \"0.00003\": [219,235,181,255], \"0.00004\": [245,245,209,255], \"9999\": [0,0,0,0] } }"
+    }
+]
