@@ -169,9 +169,13 @@ def standardize_time(ds):
 
     # Get the time values from the dataset
     time_values = ds["time"].values
-    
+
     # Check if we're dealing with CFTime objects
-    if len(time_values) > 0 and hasattr(time_values[0], 'year') and not isinstance(time_values[0], (np.datetime64, pd.Timestamp)):
+    if (
+        len(time_values) > 0
+        and hasattr(time_values[0], "year")
+        and not isinstance(time_values[0], (np.datetime64, pd.Timestamp))
+    ):
         # Handle CFTime objects (cftime datetime objects)
         years = [t.year for t in time_values]
         months = [t.month for t in time_values]
@@ -181,7 +185,7 @@ def standardize_time(ds):
         # Handle numpy datetime64 or pandas datetime objects
         times = pd.to_datetime(time_values)
         times = pd.to_datetime({"year": times.year, "month": times.month, "day": 15})
-    
+
     # Calculate days since reference date
     days_since_ref = (times - ref_date).dt.days
     # Assign new coordinate values to 'time'
@@ -369,10 +373,12 @@ def replace_lat_lon_attrs(ds):
 
 
 def transpose_dims(ds):
-    """Transpose the dataset dimensions to have the order: model, scenario, time, lat, lon.
-    This is necessary for CF conventions."""
+    """Transpose the dataset dimensions to have the order: model, scenario, time, lon, lat.
+    Lon, lat order is necessary Rasdaman WMS styles to work. Also sort latitude in descending order.
+    """
 
-    ds = ds.transpose("model", "scenario", "time", "lat", "lon")
+    ds = ds.transpose("model", "scenario", "time", "lon", "lat")
+    ds = ds.sortby(ds.lat, ascending=False)
 
     return ds
 
