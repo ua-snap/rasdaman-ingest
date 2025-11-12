@@ -2,6 +2,9 @@
 import json
 import sys
 
+if len(sys.argv) < 2:
+    print('Usage: encode_style_ingest.py <json-file>')
+    sys.exit(1)
 with open(sys.argv[1]) as f:
     items = json.load(f)
 
