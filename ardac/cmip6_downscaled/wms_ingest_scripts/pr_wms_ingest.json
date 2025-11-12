@@ -1,0 +1,87 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "blocking": true,
+    "mock": false,
+    "automated": true,
+    "track_files": false
+  },
+  "input": {
+    "coverage_id": "cmip6_downscaled_pr_wms",
+    "paths": [
+      "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wms/pr_*.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "wms_import": true,
+      "import_order": "ascending",
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*] tile size 16777216",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"year\"@EPSG/0/3338",
+        "metadata": {
+          "type": "xml",
+          "global": {
+            "Title": "Downscaled CMIP6 pr WMS",
+            "Abstract": "6ModelAvg is an equal-weighted mean of: KACE-1-0-G, MIROC6, MPI-ESM1-2-HR, MRI-ESM2-0, NorESM2-MM, TaiESM1",
+            "Encoding": "{\"model\":{\"0\":\"6ModelAvg\",\"1\":\"CNRM-CM6-1-HR\"},\"scenario\":{\"0\":\"historical\",\"1\":\"ssp585\"},\"year\":{\"0\":\"2000\",\"1\":\"2100\"}}"
+          }
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "pr",
+              "identifier": "pr",
+              "nilValue": "-9999.0"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('wms_luts', os.getenv('LUTS_PATH')); regex_str = 'pr_(.*)_(.*)_(.*)-08.nc';",
+	      "min": "luts.models[regex_extract('${file:name}', regex_str, 1)]",
+              "irregular": true,
+	      "dataBound": false,
+              "gridOrder": 0
+            },
+            "scenario": {
+	      "min": "luts.scenarios[regex_extract('${file:name}', regex_str, 2)]",
+              "irregular": true,
+	      "dataBound": false,
+              "gridOrder": 1
+            },
+            "year": {
+	      "min": "luts.years[regex_extract('${file:name}', regex_str, 3)]",
+              "irregular": true,
+	      "dataBound": false,
+              "gridOrder": 2
+            },
+            "Y": {
+              "min": "${netcdf:variable:y:min}",
+              "max": "${netcdf:variable:y:max}",
+              "resolution": "${netcdf:variable:y:resolution}",
+              "gridOrder": 4
+            },
+	    "X": {
+              "min": "${netcdf:variable:x:min}",
+              "max": "${netcdf:variable:x:max}",
+              "resolution": "${netcdf:variable:x:resolution}",
+              "gridOrder": 3
+            }
+          }
+        }
+      }
+    }
+  },
+  "hooks": [
+    {
+      "description": "Create Precipitation style for ARDAC",
+      "when": "after_import",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_downscaled_pr_wms&STYLEID=ardac_pr&ABSTRACT=Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.2\\\":[233,240,242,255],\\\"50\\\":[192,225,226,255],\\\"100\\\":[141,203,181,255],\\\"150\\\":[106,179,133,255],\\\"200\\\":[84,143,98,255]}}\"",
+      "abort_on_error": true
+    }
+  ]
+}
