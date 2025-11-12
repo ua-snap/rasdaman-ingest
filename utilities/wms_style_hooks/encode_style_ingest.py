@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import sys
+from urllib.parse import quote
 
 if len(sys.argv) < 2:
     print('Usage: encode_style_ingest.py <json-file>')
@@ -12,21 +13,9 @@ for item in items:
     encoded = {}
     for key, value in item.items():
         if key == "wcps":
-            encoded[key] = (
-                value.replace(" ", "%20")
-                .replace("$", "%24")
-                .replace("(", "%28")
-                .replace(")", "%29")
-                .replace("+", "%2B")
-                .replace(",", "%2C")
-                .replace("/", "%2F")
-                .replace(":", "%3A")
-                .replace("[", "%5B")
-                .replace("]", "%5D")
-                .replace('"', "%22")
-            )
+            encoded[key] = quote(value, safe='')
         elif key == "abstract":
-            encoded[key] = value.replace(" ", "%20")
+            encoded[key] = quote(value, safe='')
         elif key == "colormap":
             encoded[key] = value.replace(" ", "").replace('"', '\\\\\\"')
         else:
