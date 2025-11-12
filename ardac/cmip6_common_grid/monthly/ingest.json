@@ -144,13 +144,13 @@
               "min": "${netcdf:variable:lat:min}",
               "max": "${netcdf:variable:lat:max}",
               "resolution": "${netcdf:variable:lat:resolution}",
-              "gridOrder": 3
+              "gridOrder": 4
             },
             "lon": {
               "min": "${netcdf:variable:lon:min}",
               "max": "${netcdf:variable:lon:max}",
               "resolution": "${netcdf:variable:lon:resolution}",
-              "gridOrder": 4
+              "gridOrder": 3
             }
           }
         }
