@@ -32,7 +32,7 @@ for item in items:
     cmd_string = """{{
       \"description\": \"{cmd_description}\",
       \"when\": \"after_import\",
-      \"cmd\": \". /etc/default/rasdaman; curl --user $RASCURL \\"https://localhost/rasdaman/admin/layer/style/add?COVERAGEID={coverage}&STYLEID={name}&ABSTRACT={abstract}&WCPSQUERYFRAGMENT={wcps}&COLORTABLETYPE=ColorMap&\\" --data-urlencode \\"COLORTABLEDEFINITION={colormap}\\"",
+      \"cmd\": \". /etc/default/rasdaman; curl --user $RASCURL \\"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID={coverage}&STYLEID={name}&ABSTRACT={abstract}&WCPSQUERYFRAGMENT={wcps}&COLORTABLETYPE=ColorMap&\\" --data-urlencode \\"COLORTABLEDEFINITION={colormap}\\"",
       \"abort_on_error\": true
 }},"""
     print(cmd_string.format(**encoded))
