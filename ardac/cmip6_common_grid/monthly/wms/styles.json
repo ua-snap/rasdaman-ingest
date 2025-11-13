@@ -69,7 +69,7 @@
         "name": "ardac_siconc",
         "abstract": "Sea Ice Concentration (ARDAC)",
         "wcps": "$c.siconc",
-        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[4,90,141,255],\"70\":[43,140,190,255],\"80\":[116,169,207,255],\"90\":[189,201,225,255],\"100\":[241,238,246,255],\"101\":[0,0,0,0]}}"
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-9999\":[0,0,0,0],\"0\":[4,90,141,255],\"70\":[43,140,190,255],\"80\":[116,169,207,255],\"90\":[189,201,225,255],\"100\":[241,238,246,255]}}"
     },
     {
         "cmd_description": "Create Snow Water Equivalent style for ARDAC",
