@@ -1,7 +1,7 @@
 [
     {
         "cmd_description": "Create Cloud Area Fraction style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_clt",
         "abstract": "Cloud Area Fraction (ARDAC)",
         "wcps": "$c.clt",
@@ -9,7 +9,7 @@
     },
     {
         "cmd_description": "Create Evaporation style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_evspsbl",
         "abstract": "Evaporation (ARDAC)",
         "wcps": "$c.evspsbl",
@@ -17,7 +17,7 @@
     },
     {
         "cmd_description": "Create Precipitation style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_pr",
         "abstract": "Precipitation (ARDAC)",
         "wcps": "$c.pr",
@@ -25,7 +25,7 @@
     },
     {
         "cmd_description": "Create Snowfall style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_prsn",
         "abstract": "Snowfall (ARDAC)",
         "wcps": "$c.prsn",
@@ -33,7 +33,7 @@
     },
     {
         "cmd_description": "Create Sea Level Pressure style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_psl",
         "abstract": "Sea Level Pressure (ARDAC)",
         "wcps": "$c.psl",
@@ -41,7 +41,7 @@
     },
     {
         "cmd_description": "Create Downward Longwave Radiation at Surface style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_rlds",
         "abstract": "Downward Longwave Radiation at Surface (ARDAC)",
         "wcps": "$c.rlds",
@@ -49,7 +49,7 @@
     },
     {
         "cmd_description": "Create Downward Shortwave Radiation at Surface style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_rsds",
         "abstract": "Downward Shortwave Radiation at Surface (ARDAC)",
         "wcps": "$c.rsds",
@@ -57,7 +57,7 @@
     },
     {
         "cmd_description": "Create Surface Wind Speed style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_sfcWind",
         "abstract": "Surface Wind Speed (ARDAC)",
         "wcps": "$c.sfcWind",
@@ -65,7 +65,7 @@
     },
     {
         "cmd_description": "Create Sea Ice Concentration style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_siconc",
         "abstract": "Sea Ice Concentration (ARDAC)",
         "wcps": "$c.siconc",
@@ -73,7 +73,7 @@
     },
     {
         "cmd_description": "Create Snow Water Equivalent style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_snw",
         "abstract": "Snow Water Equivalent (ARDAC)",
         "wcps": "$c.snw",
@@ -81,7 +81,7 @@
     },
     {
         "cmd_description": "Create Near-Surface Air Temperature style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_tas",
         "abstract": "Near-Surface Air Temperature (ARDAC)",
         "wcps": "$c.tas",
@@ -89,7 +89,7 @@
     },
     {
         "cmd_description": "Create Maximum Near-Surface Air Temperature style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_tasmax",
         "abstract": "Maximum Near-Surface Air Temperature (ARDAC)",
         "wcps": "$c.tasmax",
@@ -97,7 +97,7 @@
     },
     {
         "cmd_description": "Create Minimum Near-Surface Air Temperature style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_tasmin",
         "abstract": "Minimum Near-Surface Air Temperature (ARDAC)",
         "wcps": "$c.tasmin",
@@ -105,7 +105,7 @@
     },
     {
         "cmd_description": "Create Surface Temperature style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_ts",
         "abstract": "Surface Temperature (ARDAC)",
         "wcps": "$c.ts",
@@ -113,7 +113,7 @@
     },
     {
         "cmd_description": "Create Eastward Near-Surface Wind style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_uas",
         "abstract": "Eastward Near-Surface Wind (ARDAC)",
         "wcps": "$c.uas",
@@ -121,7 +121,7 @@
     },
     {
         "cmd_description": "Create Northward Near-Surface Wind style for ARDAC",
-        "coverage": "cmip6_monthly_cf",
+        "coverage": "cmip6_monthly_cf_wms",
         "name": "ardac_vas",
         "abstract": "Northward Near-Surface Wind (ARDAC)",
         "wcps": "$c.vas",
