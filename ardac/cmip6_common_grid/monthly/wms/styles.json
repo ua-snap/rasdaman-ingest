@@ -1,0 +1,130 @@
+[
+    {
+        "cmd_description": "Create Cloud Area Fraction style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_clt",
+        "abstract": "Cloud Area Fraction (ARDAC)",
+        "wcps": "$c.clt",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[80,130,165,255],\"60\":[103,164,199,255],\"70\":[148,185,212,255],\"80\":[199,207,224,255],\"90\":[235,233,240,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Evaporation style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_evspsbl",
+        "abstract": "Evaporation (ARDAC)",
+        "wcps": "$c.evspsbl",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-0.1\":[83,139,105,255],\"0.00000\":[110,180,126,255],\"0.00001\":[152,205,151,255],\"0.00002\":[187,222,166,255],\"0.00003\":[219,235,181,255],\"0.00004\":[245,245,209,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Precipitation style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_pr",
+        "abstract": "Precipitation (ARDAC)",
+        "wcps": "$c.pr",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[233,240,242,255],\"50\":[192,225,226,255],\"100\":[141,203,181,255],\"150\":[106,179,133,255],\"200\":[84,143,98,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Snowfall style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_prsn",
+        "abstract": "Snowfall (ARDAC)",
+        "wcps": "$c.prsn",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[237,248,251,255],\"20\":[178,226,226,255],\"40\":[102,194,164,255],\"60\":[44,162,95,255],\"80\":[0,109,44,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Sea Level Pressure style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_psl",
+        "abstract": "Sea Level Pressure (ARDAC)",
+        "wcps": "$c.psl",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"100000\":[115,148,193,255],\"100250\":[168,200,219,255],\"100500\":[224,236,241,255],\"100750\":[244,224,169,255],\"101000\":[244,165,130,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Downward Longwave Radiation at Surface style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_rlds",
+        "abstract": "Downward Longwave Radiation at Surface (ARDAC)",
+        "wcps": "$c.rlds",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"100\":[245,245,200,255],\"175\":[244,224,169,255],\"250\":[244,188,136,255],\"325\":[239,144,115,255],\"400\":[220,105,97,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Downward Shortwave Radiation at Surface style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_rsds",
+        "abstract": "Downward Shortwave Radiation at Surface (ARDAC)",
+        "wcps": "$c.rsds",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[245,245,200,255],\"50\":[244,224,169,255],\"100\":[244,188,136,255],\"150\":[239,144,115,255],\"200\":[220,105,97,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Surface Wind Speed style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_sfcWind",
+        "abstract": "Surface Wind Speed (ARDAC)",
+        "wcps": "$c.sfcWind",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[92,92,92,255],\"1.5\":[135,135,135,255],\"3\":[171,171,171,255],\"4.5\":[209,209,209,255],\"6\":[239,239,239,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Sea Ice Concentration style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_siconc",
+        "abstract": "Sea Ice Concentration (ARDAC)",
+        "wcps": "$c.siconc",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-9999\":[0,0,0,0],\"0\":[4,90,141,255],\"70\":[43,140,190,255],\"80\":[116,169,207,255],\"90\":[189,201,225,255],\"100\":[241,238,246,255]}}"
+    },
+    {
+        "cmd_description": "Create Snow Water Equivalent style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_snw",
+        "abstract": "Snow Water Equivalent (ARDAC)",
+        "wcps": "$c.snw",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"0\":[237,248,251,255],\"75\":[178,226,226,255],\"150\":[102,194,164,255],\"225\":[44,162,95,255],\"300\":[0,109,44,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Near-Surface Air Temperature style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_tas",
+        "abstract": "Near-Surface Air Temperature (ARDAC)",
+        "wcps": "$c.tas",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-50\":[100,104,172,255],\"-20\":[115,148,193,255],\"-15\":[148,188,213,255],\"-10\":[186,218,229,255],\"-5\":[224,236,241,255],\"0\":[244,224,169,255],\"5\":[244,188,136,255],\"10\":[239,144,115,255],\"15\":[220,105,97,255],\"20\":[186,80,94,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Maximum Near-Surface Air Temperature style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_tasmax",
+        "abstract": "Maximum Near-Surface Air Temperature (ARDAC)",
+        "wcps": "$c.tasmax",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-50\":[100,104,172,255],\"-20\":[115,148,193,255],\"-15\":[148,188,213,255],\"-10\":[186,218,229,255],\"-5\":[224,236,241,255],\"0\":[244,224,169,255],\"5\":[244,188,136,255],\"10\":[239,144,115,255],\"15\":[220,105,97,255],\"20\":[186,80,94,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Minimum Near-Surface Air Temperature style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_tasmin",
+        "abstract": "Minimum Near-Surface Air Temperature (ARDAC)",
+        "wcps": "$c.tasmin",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-50\":[100,104,172,255],\"-20\":[115,148,193,255],\"-15\":[148,188,213,255],\"-10\":[186,218,229,255],\"-5\":[224,236,241,255],\"0\":[244,224,169,255],\"5\":[244,188,136,255],\"10\":[239,144,115,255],\"15\":[220,105,97,255],\"20\":[186,80,94,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Surface Temperature style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_ts",
+        "abstract": "Surface Temperature (ARDAC)",
+        "wcps": "$c.ts",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"223.15\":[100,104,172,255],\"253.15\":[115,148,193,255],\"258.15\":[148,188,213,255],\"263.15\":[186,218,229,255],\"268.15\":[224,236,241,255],\"273.15\":[244,224,169,255],\"278.15\":[244,188,136,255],\"283.15\":[239,144,115,255],\"288.15\":[220,105,97,255],\"293.15\":[186,80,94,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Eastward Near-Surface Wind style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_uas",
+        "abstract": "Eastward Near-Surface Wind (ARDAC)",
+        "wcps": "$c.uas",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-20\":[207,92,154,255],\"-3\":[224,150,189,255],\"-2\":[236,194,218,255],\"-1\":[243,223,234,255],\"0\":[227,238,213,255],\"1\":[196,223,161,255],\"2\":[156,198,116,255],\"3\":[122,169,95,255],\"9999\":[0,0,0,0]}}"
+    },
+    {
+        "cmd_description": "Create Northward Near-Surface Wind style for ARDAC",
+        "coverage": "cmip6_monthly_cf_wms",
+        "name": "ardac_vas",
+        "abstract": "Northward Near-Surface Wind (ARDAC)",
+        "wcps": "$c.vas",
+        "colormap": "{\"type\":\"intervals\",\"colorTable\":{\"-20\":[207,92,154,255],\"-3\":[224,150,189,255],\"-2\":[236,194,218,255],\"-1\":[243,223,234,255],\"0\":[227,238,213,255],\"1\":[196,223,161,255],\"2\":[156,198,116,255],\"3\":[122,169,95,255],\"9999\":[0,0,0,0]}}"
+    }
+]

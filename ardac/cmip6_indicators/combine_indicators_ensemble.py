@@ -308,10 +308,12 @@ def replace_lat_lon_attrs(ds):
 
 
 def transpose_dims(ds):
-    """Transpose the dataset dimensions to have the order: model, scenario, time, lat, lon.
-    This is necessary for CF conventions."""
+    """Transpose the dataset dimensions to have the order: model, scenario, time, lon, lat.
+    Lon, lat order is necessary Rasdaman WMS styles to work. Also sort latitude in descending order.
+    """
 
-    ds = ds.transpose("model", "scenario", "time", "lat", "lon")
+    ds = ds.transpose("model", "scenario", "time", "lon", "lat")
+    ds = ds.sortby(ds.lat, ascending=False)
 
     return ds
 

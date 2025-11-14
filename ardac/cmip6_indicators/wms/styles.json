@@ -1,0 +1,99 @@
+[
+    {
+        "cmd_description": "Create Historical Summer Days style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_su_historical_era",
+        "abstract": "Historical Summer Days (ARDAC)",
+        "wcps": "(condense + over $y time(30:59) using $c[time($y)]).su / 30",
+        "colormap": "{\"type\":\"intervals\", \"colorTable\": { \"0\":[244,212,180,255], \"5\":[244,188,143,255], \"10\":[245,165,112,255], \"20\":[229,128,87,255], \"40\":[184,105,77,255] } }"
+    },
+    {
+        "cmd_description": "Create Mid-Century Summer Days style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_su_midcentury_era",
+        "abstract": "Mid-Century Summer Days (ARDAC)",
+        "wcps": "(condense + over $y time(90:119) using $c[time($y)]).su / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[244,212,180,255], \"5\":[244,188,143,255], \"10\":[245,165,112,255], \"20\":[229,128,87,255], \"40\":[184,105,77,255] } }"
+    },
+    {
+        "cmd_description": "Create Late-Century Summer Days style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_su_latecentury_era",
+        "abstract": "Late-Century Summer Days (ARDAC)",
+        "wcps": "(condense + over $y time(120:149) using $c[time($y)]).su / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[244,212,180,255], \"5\":[244,188,143,255], \"10\":[245,165,112,255], \"20\":[229,128,87,255], \"40\":[184,105,77,255] } }"
+    },
+    {
+        "cmd_description": "Create Historical Deep Winter Days style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_dw_historical_era",
+        "abstract": "Historical Deep Winter Days (ARDAC)",
+        "wcps": "(condense + over $y time(30:59) using $c[time($y)]).dw / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[205,220,233,255], \"10\":[177,208,224,255], \"20\":[143,188,216,255], \"40\":[105,157,199,255], \"80\":[80,123,176,255] } }"
+    },
+    {
+        "cmd_description": "Create Mid-Century Deep Winter Days style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_dw_midcentury_era",
+        "abstract": "Mid-Century Deep Winter Days (ARDAC)",
+        "wcps": "(condense + over $y time(90:119) using $c[time($y)]).dw / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[205,220,233,255], \"10\":[177,208,224,255], \"20\":[143,188,216,255], \"40\":[105,157,199,255], \"80\":[80,123,176,255] } }"
+    },
+    {
+        "cmd_description": "Create Late-Century Deep Winter Days style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_dw_latecentury_era",
+        "abstract": "Late-Century Deep Winter Days (ARDAC)",
+        "wcps": "(condense + over $y time(120:149) using $c[time($y)]).dw / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[205,220,233,255], \"10\":[177,208,224,255], \"20\":[143,188,216,255], \"40\":[105,157,199,255], \"80\":[80,123,176,255] } }"
+    },
+    {
+        "cmd_description": "Create Historical Freeze/Thaw Cycles style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_ftc_historical_era",
+        "abstract": "Historical Freeze/Thaw Cycles (ARDAC)",
+        "wcps": "(condense + over $y time(30:59) using $c[time($y)]).ftc / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[239,239,239,255], \"20\":[221,221,221,255], \"40\":[171,171,171,255], \"60\":[135,135,135,255], \"80\":[92,92,92,255] } }"
+    },
+    {
+        "cmd_description": "Create Mid-Century Freeze/Thaw Cycles style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_ftc_midcentury_era",
+        "abstract": "Mid-Century Freeze/Thaw Cycles (ARDAC)",
+        "wcps": "(condense + over $y time(90:119) using $c[time($y)]).ftc / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[239,239,239,255], \"20\":[221,221,221,255], \"40\":[171,171,171,255], \"60\":[135,135,135,255], \"80\":[92,92,92,255] } }"
+    },
+    {
+        "cmd_description": "Create Late-Century Freeze/Thaw Cycles style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_ftc_latecentury_era",
+        "abstract": "Late-Century Freeze/Thaw Cycles (ARDAC)",
+        "wcps": "(condense + over $y time(120:149) using $c[time($y)]).ftc / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[239,239,239,255], \"20\":[221,221,221,255], \"40\":[171,171,171,255], \"60\":[135,135,135,255], \"80\":[92,92,92,255] } }"
+    },
+    {
+        "cmd_description": "Create Historical Max 1-day Precipitation style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_rx1day_historical_era",
+        "abstract": "Historical Max 1-day Precipitation (ARDAC)",
+        "wcps": "(condense + over $y time(30:59) using $c[time($y)]).rx1day / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[233,240,242,255], \"10\":[192,225,226,255], \"20\":[141,203,181,255], \"30\":[106,179,133,255], \"40\":[84,143,98,255] } }"
+    },
+    {
+        "cmd_description": "Create Mid-Century Max 1-day Precipitation style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_rx1day_midcentury_era",
+        "abstract": "Mid-Century Max 1-day Precipitation (ARDAC)",
+        "wcps": "(condense + over $y time(90:119) using $c[time($y)]).rx1day / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[233,240,242,255], \"10\":[192,225,226,255], \"20\":[141,203,181,255], \"30\":[106,179,133,255], \"40\":[84,143,98,255] } }"
+    },
+    {
+        "cmd_description": "Create Late-Century Max 1-day Precipitation style for ARDAC",
+        "coverage": "cmip6_indicators_cf_wms",
+        "name": "ardac_indicator_rx1day_latecentury_era",
+        "abstract": "Late-Century Max 1-day Precipitation (ARDAC)",
+        "wcps": "(condense + over $y time(120:149) using $c[time($y)]).rx1day / 30",
+        "colormap": "{ \"type\":\"intervals\", \"colorTable\": { \"0\":[233,240,242,255], \"10\":[192,225,226,255], \"20\":[141,203,181,255], \"30\":[106,179,133,255], \"40\":[84,143,98,255] } }"
+    }
+]
+    
