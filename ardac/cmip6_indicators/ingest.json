@@ -8,7 +8,7 @@
   "input": {
     "coverage_id": "cmip6_indicators_cf_wms",
     "paths": [
-      "/opt/rasdaman-storage/coverage_data/cmip6_indicators/cmip6_indicators_ensemble.nc"
+      "cmip6_indicators_ensemble.nc"
     ]
   },
   "recipe": {
