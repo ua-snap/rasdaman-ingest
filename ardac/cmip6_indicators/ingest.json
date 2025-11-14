@@ -6,7 +6,7 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "cmip6_indicators_cf",
+    "coverage_id": "cmip6_indicators_cf_wms",
     "paths": [
       "/opt/rasdaman-storage/coverage_data/cmip6_indicators/cmip6_indicators_ensemble.nc"
     ]
@@ -110,16 +110,16 @@
               "irregular": true,
               "gridOrder": 2
             },
-            "lat": {
-              "min": "${netcdf:variable:lat:min}",
-              "max": "${netcdf:variable:lat:max}",
-              "resolution": "${netcdf:variable:lat:resolution}",
-              "gridOrder": 3
-            },
             "lon": {
               "min": "${netcdf:variable:lon:min}",
               "max": "${netcdf:variable:lon:max}",
               "resolution": "${netcdf:variable:lon:resolution}",
+              "gridOrder": 3
+            },
+            "lat": {
+              "min": "${netcdf:variable:lat:min}",
+              "max": "${netcdf:variable:lat:max}",
+              "resolution": "${netcdf:variable:lat:resolution}",
               "gridOrder": 4
             }
           }
