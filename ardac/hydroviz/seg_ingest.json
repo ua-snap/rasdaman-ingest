@@ -1,0 +1,332 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "https://localhost/def/",
+    "default_null_values": [
+      "nan"
+    ],
+    "mock": false,
+    "automated": true,
+    "insitu": false
+  },
+  "input": {
+    "coverage_id": "conus_hydro_segments_stats",
+    "paths": [
+      "seg.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "REGULAR [0:1, 0:13, 0:4, 0:3, 0:0] tile size 4194304",
+      "wms_import": false,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"landcover\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"stream_id\"",
+        "metadata": {
+          "type": "xml",
+          "global": "auto"
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "dh1",
+              "identifier": "dh1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dh2",
+              "identifier": "dh2",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dh3",
+              "identifier": "dh3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dh4",
+              "identifier": "dh4",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dh5",
+              "identifier": "dh5",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dh15",
+              "identifier": "dh15",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dl1",
+              "identifier": "dl1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dl2",
+              "identifier": "dl2",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dl3",
+              "identifier": "dl3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dl4",
+              "identifier": "dl4",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dl5",
+              "identifier": "dl5",
+              "nilValue": "nan"
+            },
+            {
+              "name": "dl16",
+              "identifier": "dl16",
+              "nilValue": "nan"
+            },
+            {
+              "name": "lf1",
+              "identifier": "lf1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "spr_dur3",
+              "identifier": "spr_dur3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "spr_dur7",
+              "identifier": "spr_dur7",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sum_dur3",
+              "identifier": "sum_dur3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sum_dur7",
+              "identifier": "sum_dur7",
+              "nilValue": "nan"
+            },
+            {
+              "name": "fh1",
+              "identifier": "fh1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "fh5",
+              "identifier": "fh5",
+              "nilValue": "nan"
+            },
+            {
+              "name": "fh6",
+              "identifier": "fh6",
+              "nilValue": "nan"
+            },
+            {
+              "name": "fh7",
+              "identifier": "fh7",
+              "nilValue": "nan"
+            },
+            {
+              "name": "fl1",
+              "identifier": "fl1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "fl3",
+              "identifier": "fl3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "spr_freq",
+              "identifier": "spr_freq",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sum_freq",
+              "identifier": "sum_freq",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma3",
+              "identifier": "ma3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma4",
+              "identifier": "ma4",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma12",
+              "identifier": "ma12",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma13",
+              "identifier": "ma13",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma14",
+              "identifier": "ma14",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma15",
+              "identifier": "ma15",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma16",
+              "identifier": "ma16",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma17",
+              "identifier": "ma17",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma18",
+              "identifier": "ma18",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma19",
+              "identifier": "ma19",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma20",
+              "identifier": "ma20",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma21",
+              "identifier": "ma21",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma22",
+              "identifier": "ma22",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ma23",
+              "identifier": "ma23",
+              "nilValue": "nan"
+            },
+            {
+              "name": "mh14",
+              "identifier": "mh14",
+              "nilValue": "nan"
+            },
+            {
+              "name": "mh20",
+              "identifier": "mh20",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ml17",
+              "identifier": "ml17",
+              "nilValue": "nan"
+            },
+            {
+              "name": "spr_mag",
+              "identifier": "spr_mag",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sum_cv",
+              "identifier": "sum_cv",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sum_mag",
+              "identifier": "sum_mag",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ra1",
+              "identifier": "ra1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ra3",
+              "identifier": "ra3",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ra8",
+              "identifier": "ra8",
+              "nilValue": "nan"
+            },
+            {
+              "name": "spr_ord",
+              "identifier": "spr_ord",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sum_ord",
+              "identifier": "sum_ord",
+              "nilValue": "nan"
+            },
+            {
+              "name": "th1",
+              "identifier": "th1",
+              "nilValue": "nan"
+            },
+            {
+              "name": "tl1",
+              "identifier": "tl1",
+              "nilValue": "nan"
+            }
+          ],
+          "axes": {
+            "landcover": {
+              "min": "${netcdf:variable:landcover:min}",
+              "max": "${netcdf:variable:landcover:max}",
+              "gridOrder": 0,
+              "resolution": 1
+            },
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "gridOrder": 1,
+              "resolution": 1
+            },
+            "scenario": {
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "gridOrder": 2,
+              "resolution": 1
+            },
+            "era": {
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "gridOrder": 3,
+              "resolution": 1
+            },
+            "stream_id": {
+              "min": "${netcdf:variable:stream_id:min}",
+              "max": "${netcdf:variable:stream_id:max}",
+              "gridOrder": 4,
+              "resolution": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
