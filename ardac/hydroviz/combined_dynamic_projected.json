@@ -1,0 +1,93 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "https://localhost/def/",
+    "default_null_values": [
+      "nan"
+    ],
+    "mock": false,
+    "automated": true,
+    "insitu": false
+  },
+  "input": {
+    "coverage_id": "conus_hydro_segments_doy_climatology_dynamic_projected",
+    "paths": [
+      "combined_dynamic_projected.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "REGULAR [0:2, 0:365, 0:0, 0:13, 0:3, 0:0] tile size 4194304",
+      "wms_import": false,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"doy\"@OGC/0/Index1D?axis-label=\"landcover\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"stream_id\"",
+        "metadata": {
+          "type": "xml",
+          "global": "auto"
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "doy_min",
+              "identifier": "doy_min",
+              "nilValue": "nan"
+            },
+            {
+              "name": "doy_mean",
+              "identifier": "doy_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "doy_max",
+              "identifier": "doy_max",
+              "nilValue": "nan"
+            }
+          ],
+          "axes": {
+            "era": {
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "gridOrder": 0,
+              "resolution": 1
+	    },
+            "doy": {
+              "min": "${netcdf:variable:doy:min}",
+              "max": "${netcdf:variable:doy:max}",
+              "gridOrder": 1,
+              "resolution": 1
+	    },
+            "landcover": {
+              "min": "${netcdf:variable:landcover:min}",
+              "max": "${netcdf:variable:landcover:max}",
+              "gridOrder": 2,
+              "resolution": 1
+	    },
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "gridOrder": 3,
+              "resolution": 1
+	    },
+	        "scenario": {
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "gridOrder": 4,
+              "resolution": 1
+	    },
+            "stream_id": {
+              "min": "${netcdf:variable:stream_id:min}",
+              "max": "${netcdf:variable:stream_id:max}",
+              "gridOrder": 5,
+              "resolution": 1
+	    }
+        }
+      }
+    }
+  }
+}
+}
