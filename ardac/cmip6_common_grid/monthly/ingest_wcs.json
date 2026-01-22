@@ -1,0 +1,160 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "cmip6_monthly_cf_wcs",
+    "paths": [
+      "/opt/rasdaman-storage/coverage_data/cmip6_regrid_mon_ensemble.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "ALIGNED [0:13, 0:4, 0:1811, 0:1, 0:1] tile size 4194304",
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"time\"@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": "auto"
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "clt",
+              "identifier": "clt",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "evspsbl",
+              "identifier": "evspsbl",
+              "nilValue": "nan"
+            },
+            {
+              "name": "hfls",
+              "identifier": "hfls",
+              "nilValue": "nan"
+            },
+            {
+              "name": "hfss",
+              "identifier": "hfss",
+              "nilValue": "nan"
+            },
+            {
+              "name": "pr",
+              "identifier": "pr",
+              "nilValue": "nan"
+            },
+            {
+              "name": "prsn",
+              "identifier": "prsn",
+              "nilValue": "nan"
+            },
+            {
+              "name": "psl",
+              "identifier": "psl",
+              "nilValue": "nan"
+            },
+            {
+              "name": "rlds",
+              "identifier": "rlds",
+              "nilValue": "nan"
+            },
+            {
+              "name": "rsds",
+              "identifier": "rsds",
+              "nilValue": "nan"
+            },
+            {
+              "name": "sfcWind",
+              "identifier": "sfcWind",
+              "nilValue": "nan"
+            },
+            {
+              "name": "siconc",
+              "identifier": "siconc",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "snw",
+              "identifier": "snw",
+              "nilValue": "nan"
+            },
+            {
+              "name": "tas",
+              "identifier": "tas",
+              "nilValue": "nan"
+            },
+            {
+              "name": "tasmax",
+              "identifier": "tasmax",
+              "nilValue": "nan"
+            },
+            {
+              "name": "tasmin",
+              "identifier": "tasmin",
+              "nilValue": "nan"
+            },
+            {
+              "name": "ts",
+              "identifier": "ts",
+              "nilValue": "nan"
+            },
+            {
+              "name": "uas",
+              "identifier": "uas",
+              "nilValue": "nan"
+            },
+            {
+              "name": "vas",
+              "identifier": "vas",
+              "nilValue": "nan"
+            }
+          ],
+          "axes": {
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "directPositions": "${netcdf:variable:model}",
+              "irregular": true,
+              "gridOrder": 0
+            },
+            "scenario": {
+              "min": "${netcdf:variable:scenario:min}",
+              "max": "${netcdf:variable:scenario:max}",
+              "directPositions": "${netcdf:variable:scenario}",
+              "irregular": true,
+              "gridOrder": 1
+            },
+            "time": {
+              "min": "${netcdf:variable:time:min}",
+              "max": "${netcdf:variable:time:max}",
+              "directPositions": "${netcdf:variable:time}",
+              "irregular": true,
+              "gridOrder": 2
+            },
+            "lon": {
+              "min": "${netcdf:variable:lon:min}",
+              "max": "${netcdf:variable:lon:max}",
+              "resolution": "${netcdf:variable:lon:resolution}",
+              "gridOrder": 3
+            },
+            "lat": {
+              "min": "${netcdf:variable:lat:min}",
+              "max": "${netcdf:variable:lat:max}",
+              "resolution": "${netcdf:variable:lat:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  }
+}
