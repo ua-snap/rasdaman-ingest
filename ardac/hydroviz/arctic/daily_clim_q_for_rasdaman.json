@@ -1,0 +1,82 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "https://localhost/def/",
+    "default_null_values": [
+      "nan"
+    ],
+    "mock": false,
+    "automated": true,
+    "insitu": false
+  },
+  "input": {
+    "coverage_id": "ak_hydro_segments_doy_climatology",
+    "paths": [
+      "daily_clim_q_for_rasdaman.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "REGULAR [0:6, 0:0, 0:365, 0:1] tile size 1048576",
+      "wms_import": false,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"stream_id\"@OGC/0/Index1D?axis-label=\"doy\"@OGC/0/Index1D?axis-label=\"era\"",
+        "metadata": {
+          "type": "xml",
+          "global": "auto"
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "doy_min",
+              "identifier": "doy_min",
+              "nilValue": "nan"
+            },
+            {
+              "name": "doy_mean",
+              "identifier": "doy_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "doy_max",
+              "identifier": "doy_max",
+              "nilValue": "nan"
+            }
+          ],
+          "axes": {
+            "stream_id": {
+              "min": "${netcdf:variable:stream_id:min}",
+              "max": "${netcdf:variable:stream_id:max}",
+              "gridOrder": 1,
+              "irregular": true,
+	      "directPositions": "${netcdf:variable:stream_id}"
+	    },
+            "doy": {
+              "min": "${netcdf:variable:doy:min}",
+              "max": "${netcdf:variable:doy:max}",
+              "gridOrder": 2,
+              "resolution": 1
+	    },
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "gridOrder": 0,
+              "resolution": 1
+	    },
+            "era": {
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "gridOrder": 3,
+              "resolution": 1
+	    }
+        }
+      }
+    }
+  }
+}
+}
