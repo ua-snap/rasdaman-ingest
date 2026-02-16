@@ -5,3 +5,5 @@ iem/gipl2_4km/input_data/
 **/__pycache__/
 
 .DS_STORE
+
+jmeter.log
