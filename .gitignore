@@ -6,4 +6,6 @@ iem/gipl2_4km/input_data/
 
 .DS_STORE
 
+# JMeter benchmarking stuff
 jmeter.log
+*.jtl
