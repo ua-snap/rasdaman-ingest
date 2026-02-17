@@ -83,11 +83,26 @@ def main() -> int:
     args = ap.parse_args()
 
     df = pd.read_csv(args.in_csv)
+    # first compare the coverageId values because because in some cases there are "twins" where one has a suffix "_wcs' that indicates it is WCS optimized
+    # we want to only retain the version with the wcs suffix in that case
+
+    s = df["coverageId"].astype(str)
+
+    # base id = strip trailing "_wcs" if present
+    base = s.str.replace(r"_wcs$", "", regex=True)
+
+    # keep all "_wcs" rows; for non-_wcs rows, drop if a twin "_wcs" exists
+    has_wcs_twin = base.map((s.str.endswith("_wcs")).groupby(base).any())
+    keep = s.str.endswith("_wcs") | ~has_wcs_twin
+
+    df_filtered = df.loc[keep].copy()
+
     out_rows = []
-    for _, r in df.iterrows():
+    for _, r in df_filtered.iterrows():
         # skip wms coverages because this script is just for WCS benchmarking
         if "wms" in r["coverageId"]:
             continue
+
         subsets = centroid_subsets_from_row(r)
 
         if subsets:
