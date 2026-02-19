@@ -6,6 +6,7 @@ Most of this script is ugly XML parsing. The best way to verify the behavior of 
 
 import argparse
 import csv
+import json
 import re
 import sys
 from typing import Dict, List, Optional, Tuple
@@ -36,6 +37,7 @@ CSV_HEADERS = [
     "wgs84_upper",
     "wgs84_centroid_lon",
     "wgs84_centroid_lat",
+    "non_spatial_lower_bounds",
 ]
 
 EPSG_RE = re.compile(r"/crs/EPSG/0/(\d{4})(?:\b|$)")
@@ -126,6 +128,22 @@ def get_spatial_indices(axis_list: List[str]) -> Optional[Tuple[int, int]]:
     return None
 
 
+def non_spatial_lower_bounds(axis_list: List[str], lower_bounds: List[str]) -> str:
+    """
+    Return a JSON string of non-spatial axis lower bounds keyed by axis name.
+    Uses axisList ordering and skips spatial axes.
+    """
+    idx = get_spatial_indices(axis_list)
+    spatial = set(idx) if idx else set()
+    out: Dict[str, str] = {}
+    for i, axis in enumerate(axis_list):
+        if i in spatial:
+            continue
+        if i < len(lower_bounds):
+            out[axis] = lower_bounds[i]
+    return json.dumps(out, ensure_ascii=False) if out else ""
+
+
 def xy_and_centroid(
     axis_list: List[str], lower_bounds: List[str], upper_bounds: List[str]
 ) -> Tuple[str, str, str, str]:
@@ -194,6 +212,7 @@ def iter_rows(caps_root: ET.Element):
 
         # xy bounds and centroid
         xy_lower, xy_upper, xy_cx, xy_cy = xy_and_centroid(axis_list, n_lo, n_hi)
+        non_spatial_lower = non_spatial_lower_bounds(axis_list, n_lo)
 
         # some heuristics to simplify things
         if epsg == "NOT_FOUND":
@@ -201,6 +220,7 @@ def iter_rows(caps_root: ET.Element):
             # not a common case, but hydroviz and such are in this category
             xy_lower = xy_upper = xy_cx = xy_cy = "NOT_FOUND"
             w_lower = w_upper = w_clon = w_clat = "NOT_FOUND"
+            non_spatial_lower = "NOT_FOUND"
         elif epsg == "4326":
             # if the CRS is 4326, we don't need to consider projected XY coordinates
             # less common for data to be unprojected 4326
@@ -240,6 +260,7 @@ def iter_rows(caps_root: ET.Element):
             w_upper,
             w_clon,
             w_clat,
+            non_spatial_lower,
         ]
 
 
