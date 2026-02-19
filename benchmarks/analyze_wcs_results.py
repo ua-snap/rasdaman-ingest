@@ -56,8 +56,8 @@ def main() -> int:
     )
     ap.add_argument(
         "--results",
-        default="results.csv",
-        help="JMeter CSV results (default: results.csv)",
+        default="wcs_benchmark_results.csv",
+        help="JMeter CSV results (default: wcs_benchmark_results.csv)",
     )
     ap.add_argument(
         "--coverages",
