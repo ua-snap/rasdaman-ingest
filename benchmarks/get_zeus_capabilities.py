@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 
 ZEUS_CAPABILITIES_URL = "https://zeus.snap.uaf.edu/rasdaman/ows?SERVICE=WCS&ACCEPTVERSIONS=2.1.0&REQUEST=GetCapabilities"
 
-# just some shorthand for jumping around the XML namepsace
+# just some shorthand for jumping around the XML namespace
 NS: Dict[str, str] = {
     "wcs": "http://www.opengis.net/wcs/2.0",
     "ows": "http://www.opengis.net/ows/2.0",
