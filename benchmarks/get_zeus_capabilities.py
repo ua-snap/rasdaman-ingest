@@ -229,7 +229,7 @@ def iter_rows(caps_root: ET.Element):
             # most common: projected data, and here we don't need the geographic lat-lon bounds for benchmarking
             w_lower = w_upper = w_clon = w_clat = ""
 
-        # skip coverages without some type or orthodoz spatial axes (i.e. thos with stream segments, etc.)
+        # skip coverages without some type or orthodox spatial axes (i.e. thos with stream segments, etc.)
 
         if all(
             val == "NOT_FOUND"
