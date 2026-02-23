@@ -29,7 +29,7 @@
           <boolProp name="recycle">false</boolProp>
           <stringProp name="shareMode">shareMode.all</stringProp>
           <boolProp name="stopThread">true</boolProp>
-          <stringProp name="variableNames">coverageId,wcs_query</stringProp>
+          <stringProp name="variableNames">coverageId,wms_query</stringProp>
         </CSVDataSet>
         <hashTree/>
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
@@ -45,7 +45,7 @@
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request">
-          <stringProp name="HTTPSampler.path">/rasdaman/ows?${wcs_query}</stringProp>
+          <stringProp name="HTTPSampler.path">/rasdaman/ows?${wms_query}</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
