@@ -17,7 +17,7 @@ COVERAGE_ID_RE = re.compile(r"[?&]COVERAGEID=([^&]+)", re.IGNORECASE)
 
 
 def extract_coverage_id(url: str) -> Optional[str]:
-    """Extract COVERAGEID from a JMeter URL field. Harder to antcipate exactly what Jmeter will output in a results file, so there are some failsafes."""
+    """Extract COVERAGEID from a JMeter URL field. Harder to anticipate exactly what Jmeter will output in a results file, so there are some failsafes."""
     if not url:
         return None
     s = str(url)
