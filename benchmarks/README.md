@@ -52,7 +52,7 @@ This directory includes scripts to build request lists for WCS and WMS benchmark
   - Uses `FORMAT=image/png`, `TRANSPARENT=true`, `STYLES=`.
 
 ## Usage
-You can use JMeter from the terminal (headless) or via the JMeter GUI. The GUI is helpful for developing experiemnts, but the terminal is nice for running them and piping in different parameters.
+You can use JMeter from the terminal (headless) or via the JMeter GUI. The GUI is helpful for developing experiments, but the terminal is nice for running them and piping in different parameters.
 The atomic "thing" of JMeter is a "Test Plan" and these are written to a `.jmx` file. This seems to basically be a markup format.
 Results are by default written to a `.jtl` file.
 
