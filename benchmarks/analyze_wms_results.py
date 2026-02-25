@@ -45,6 +45,26 @@ def to_num(series: pd.Series) -> pd.Series:
     return pd.to_numeric(series, errors="coerce")
 
 
+def to_bool_success(series: pd.Series) -> pd.Series:
+    """Normalize JMeter success values to booleans (e.g., 'true'/'false')."""
+
+    def parse_value(value: object) -> bool:
+        if pd.isna(value):
+            return False
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return value != 0
+        s = str(value).strip().lower()
+        if s in {"true", "1"}:
+            return True
+        if s in {"false", "0", ""}:
+            return False
+        return False
+
+    return series.map(parse_value).astype(bool)
+
+
 def p95(series: pd.Series) -> float:
     """Compute 95th percentile for a numeric series."""
     return series.quantile(0.95)
@@ -69,11 +89,6 @@ def main() -> int:
         default="wms_results_summary.csv",
         help="Output CSV for per-coverage summary",
     )
-    ap.add_argument(
-        "--include-failures",
-        action="store_true",
-        help="Include failed requests in latency/throughput metrics",
-    )
     args = ap.parse_args()
 
     # Load JMeter results and ensure required columns are present.
@@ -94,9 +109,9 @@ def main() -> int:
         print("[ERROR] No coverage IDs could be parsed from results.", file=sys.stderr)
         return 2
 
-    # Normalize success flags (missing column means everything succeeded).
+    # Normalize success flags
     if "success" in df.columns:
-        df["success"] = df["success"].astype(bool)
+        df["success"] = to_bool_success(df["success"])
     else:
         df["success"] = True
 
@@ -115,11 +130,8 @@ def main() -> int:
         axis=1,
     )
 
-    # Keep counts based on all requests; optionally filter to successes for metrics.
+    # Keep counts based on all requests
     df_all = df.copy()
-
-    if not args.include_failures:
-        df = df[df["success"]].copy()
 
     if df.empty:
         print("[ERROR] No rows to analyze after filtering.", file=sys.stderr)
@@ -136,7 +148,7 @@ def main() -> int:
         .reset_index()
     )
 
-    # Per-coverage latency and throughput summaries (success-only if filtered).
+    # Per-coverage latency and throughput summaries
     summary = (
         df.groupby("coverageId")
         .agg(
@@ -173,8 +185,7 @@ def main() -> int:
     for col in ["latency_mean_ms", "latency_p95_ms", "throughput_mean_bps"]:
         if col in summary.columns:
             summary[col] = summary[col].round(0).astype("Int64")
-    if "success_rate" in summary.columns:
-        summary["success_rate"] = summary["success_rate"].round(3)
+    summary["success_rate"] = summary["success_rate"].round(1)
 
     summary.to_csv(args.out_summary, index=False)
 
