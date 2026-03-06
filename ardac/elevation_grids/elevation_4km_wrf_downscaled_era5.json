@@ -14,7 +14,7 @@
     {
       "description": "Create WMS terrain-style elevation colormap",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_elevation&STYLEID=terrain_elevation_ak&ABSTRACT=Terrain%20elevation%20(Alaska-tuned)%20%3C0.01%20transparent&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.01\\\":[0,0,0,0],\\\"50\\\":[20,90,40,255],\\\"200\\\":[60,140,60,255],\\\"500\\\":[160,170,80,255],\\\"1000\\\":[200,180,120,255],\\\"1500\\\":[190,160,120,255],\\\"2000\\\":[170,130,90,255],\\\"2750\\\":[140,110,80,255],\\\"3500\\\":[120,90,70,255],\\\"4250\\\":[210,210,210,255],\\\"5000\\\":[255,255,255,255]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=era5_4km_elevation&STYLEID=terrain_elevation_ak&ABSTRACT=4km_grid_elevation&WCPSQUERYFRAGMENT=%24c&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.01\\\":[10,10,10,255],\\\"50\\\":[20,90,40,255],\\\"200\\\":[60,140,60,255],\\\"500\\\":[160,170,80,255],\\\"1000\\\":[200,180,120,255],\\\"1500\\\":[190,160,120,255],\\\"2000\\\":[170,130,90,255],\\\"2750\\\":[140,110,80,255],\\\"3500\\\":[120,90,70,255],\\\"4250\\\":[210,210,210,255],\\\"5000\\\":[255,255,255,255]}}\"",
       "abort_on_error": true
     }
   ],
@@ -29,12 +29,13 @@
     "options": {
       "wms_import": true,
       "tiling": "ALIGNED [0:127, 0:127] tile size 65536",
+      "import_order": "ascending",
       "coverage": {
         "crs": "http://www.opengis.net/def/crs/EPSG/0/3338",
         "metadata": {
           "type": "xml",
           "global": {
-            "Title": "'Elevation (Meters Above Sea Level) 4km WRF-ERA5 Grid'"
+            "Title": "'Elevation, Meters Above Sea Level, 4km WRF-ERA5 Grid'"
           }
         },
         "slicer": {
