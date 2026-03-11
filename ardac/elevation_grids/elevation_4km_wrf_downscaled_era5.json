@@ -21,7 +21,7 @@
   "input": {
     "coverage_id": "era5_4km_elevation",
     "paths": [
-      "elevation_grid_4km.nc"
+      "/opt/rasdaman-storage/coverage_data/wrf_downscaled_era5_elevation_grids/elevation_grid_4km.nc"
     ]
   },
   "recipe": {
