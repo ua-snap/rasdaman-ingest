@@ -14,6 +14,7 @@ varnames = ["tasmax", "tasmin", "pr"]
 # scenarios present so comparisons between *ModelAvg scenarios is
 # apples-to-apples (the mean of the same set of models).
 models = [
+    "GFDL-ESM4",
     "KACE-1-0-G",
     "MIROC6",
     "MPI-ESM1-2-HR",
