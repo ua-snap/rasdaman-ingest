@@ -2,7 +2,7 @@
 import json
 import os
 
-netcdf_dir = "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wcs"
+netcdf_dir = "/opt/rasdaman-storage/coverage_data/cmip6_downscaled_v2/wcs"
 output_dir = "wcs_ingest_scripts"
 
 ensemble_models = [

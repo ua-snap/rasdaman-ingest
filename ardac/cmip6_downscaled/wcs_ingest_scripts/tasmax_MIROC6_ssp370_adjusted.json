@@ -8,9 +8,9 @@
         "track_files": false
     },
     "input": {
-        "coverage_id": "cmip6_downscaled_tasmax_MIROC6_ssp370_wcs_v2",
+        "coverage_id": "cmip6_downscaled_tasmax_MIROC6_ssp370_v2_wcs",
         "paths": [
-            "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wcs/tasmax_MIROC6_ssp370_adjusted.nc"
+            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled_v2/wcs/tasmax_MIROC6_ssp370_adjusted.nc"
         ]
     },
     "recipe": {
