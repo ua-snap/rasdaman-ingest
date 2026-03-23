@@ -8,9 +8,9 @@
         "track_files": false
     },
     "input": {
-        "coverage_id": "cmip6_downscaled_pr_6ModelAvg_historical_wcs",
+        "coverage_id": "cmip6_downscaled_pr_GFDL_ESM4_historical_wcs_v2",
         "paths": [
-            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_6ModelAvg_historical_adjusted.nc"
+            "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wcs/pr_GFDL-ESM4_historical_adjusted.nc"
         ]
     },
     "recipe": {
@@ -24,8 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "Downscaled CMIP6 pr (6ModelAvg, historical)",
-                        "Abstract": "6ModelAvg is an equal-weighted mean of: KACE-1-0-G, MIROC6, MPI-ESM1-2-HR, MRI-ESM2-0, NorESM2-MM, TaiESM1"
+                        "Title": "Downscaled CMIP6 pr (GFDL-ESM4, historical)"
                     }
                 },
                 "slicer": {

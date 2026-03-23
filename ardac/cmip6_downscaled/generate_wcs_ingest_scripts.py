@@ -2,10 +2,11 @@
 import json
 import os
 
-netcdf_dir = "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs"
+netcdf_dir = "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wcs"
 output_dir = "wcs_ingest_scripts"
 
 ensemble_models = [
+    "GFDL-ESM4",
     "KACE-1-0-G",
     "MIROC6",
     "MPI-ESM1-2-HR",
@@ -38,8 +39,8 @@ def generate_script(varname, model, scenario):
     title = data["recipe"]["options"]["coverage"]["metadata"]["global"]["Title"].format(**kwargs)
     data["recipe"]["options"]["coverage"]["metadata"]["global"]["Title"] = title
 
-    if model == "6ModelAvg":
-        abstract = "6ModelAvg is an equal-weighted mean of: "
+    if model == "7ModelAvg":
+        abstract = "7ModelAvg is an equal-weighted mean of: "
         abstract += ", ".join(ensemble_models)
         data["recipe"]["options"]["coverage"]["metadata"]["global"]["Abstract"] = abstract
 
@@ -58,11 +59,12 @@ varnames = [
 ]
 
 models = [
-    "6ModelAvg",
+    "7ModelAvg",
     "CESM2",
     "CNRM-CM6-1-HR",
     "E3SM-2-0",
     "EC-Earth3-Veg",
+    "GFDL-ESM4",
     "HadGEM3-GC31-LL",
     "HadGEM3-GC31-MM",
     "KACE-1-0-G",

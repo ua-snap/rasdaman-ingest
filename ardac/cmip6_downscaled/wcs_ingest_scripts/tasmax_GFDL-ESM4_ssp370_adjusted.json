@@ -8,9 +8,9 @@
         "track_files": false
     },
     "input": {
-        "coverage_id": "cmip6_downscaled_pr_6ModelAvg_ssp370_wcs",
+        "coverage_id": "cmip6_downscaled_tasmax_GFDL_ESM4_ssp370_wcs_v2",
         "paths": [
-            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_6ModelAvg_ssp370_adjusted.nc"
+            "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wcs/tasmax_GFDL-ESM4_ssp370_adjusted.nc"
         ]
     },
     "recipe": {
@@ -24,8 +24,7 @@
                 "metadata": {
                     "type": "xml",
                     "global": {
-                        "Title": "Downscaled CMIP6 pr (6ModelAvg, ssp370)",
-                        "Abstract": "6ModelAvg is an equal-weighted mean of: KACE-1-0-G, MIROC6, MPI-ESM1-2-HR, MRI-ESM2-0, NorESM2-MM, TaiESM1"
+                        "Title": "Downscaled CMIP6 tasmax (GFDL-ESM4, ssp370)"
                     }
                 },
                 "slicer": {
@@ -33,8 +32,8 @@
                     "pixelIsPoint": true,
                     "bands": [
                         {
-                            "name": "pr",
-                            "identifier": "pr",
+                            "name": "tasmax",
+                            "identifier": "tasmax",
                             "nilValue": "-9999.0"
                         }
                     ],

@@ -8,9 +8,9 @@
     "track_files": false
   },
   "input": {
-    "coverage_id": "cmip6_downscaled_pr_wms",
+    "coverage_id": "cmip6_downscaled_pr_wms_v2",
     "paths": [
-      "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wms/pr_*.nc"
+      "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wms/pr_*.nc"
     ]
   },
   "recipe": {
@@ -25,8 +25,8 @@
           "type": "xml",
           "global": {
             "Title": "Downscaled CMIP6 pr WMS",
-            "Abstract": "6ModelAvg is an equal-weighted mean of: KACE-1-0-G, MIROC6, MPI-ESM1-2-HR, MRI-ESM2-0, NorESM2-MM, TaiESM1",
-            "Encoding": "{\"model\":{\"0\":\"6ModelAvg\",\"1\":\"CNRM-CM6-1-HR\"},\"scenario\":{\"0\":\"historical\",\"1\":\"ssp585\"},\"year\":{\"0\":\"2000\",\"1\":\"2100\"}}"
+            "Abstract": "7ModelAvg is an equal-weighted mean of: GFDL-ESM4, KACE-1-0-G, MIROC6, MPI-ESM1-2-HR, MRI-ESM2-0, NorESM2-MM, TaiESM1",
+            "Encoding": "{\"model\":{\"0\":\"7ModelAvg\",\"1\":\"CNRM-CM6-1-HR\"},\"scenario\":{\"0\":\"historical\",\"1\":\"ssp585\"},\"year\":{\"0\":\"2000\",\"1\":\"2100\"}}"
           }
         },
         "slicer": {
@@ -80,7 +80,7 @@
     {
       "description": "Create Precipitation style for ARDAC",
       "when": "after_import",
-      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_downscaled_pr_wms&STYLEID=ardac_pr&ABSTRACT=Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.2\\\":[233,240,242,255],\\\"50\\\":[192,225,226,255],\\\"100\\\":[141,203,181,255],\\\"150\\\":[106,179,133,255],\\\"200\\\":[84,143,98,255]}}\"",
+      "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=cmip6_downscaled_pr_wms_v2&STYLEID=ardac_pr&ABSTRACT=Precipitation%20(ARDAC)&WCPSQUERYFRAGMENT=&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-9999\\\":[0,0,0,0],\\\"0.2\\\":[233,240,242,255],\\\"50\\\":[192,225,226,255],\\\"100\\\":[141,203,181,255],\\\"150\\\":[106,179,133,255],\\\"200\\\":[84,143,98,255]}}\"",
       "abort_on_error": true
     }
   ]

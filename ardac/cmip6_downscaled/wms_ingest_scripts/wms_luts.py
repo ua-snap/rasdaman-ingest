@@ -1,5 +1,5 @@
 models = {
-    "6ModelAvg": 0,
+    "7ModelAvg": 0,
     "CNRM-CM6-1-HR": 1
 }
 

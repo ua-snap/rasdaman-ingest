@@ -8,9 +8,9 @@
         "track_files": false
     },
     "input": {
-        "coverage_id": "cmip6_downscaled_pr_MPI_ESM1_2_HR_ssp585_wcs",
+        "coverage_id": "cmip6_downscaled_pr_MPI_ESM1_2_HR_ssp585_wcs_v2",
         "paths": [
-            "/opt/rasdaman-storage/coverage_data/cmip6_downscaled/wcs/pr_MPI-ESM1-2-HR_ssp585_adjusted.nc"
+            "/opt/rasdaman/user_data/crstephenson/cmip6_downscaled_v2/wcs/pr_MPI-ESM1-2-HR_ssp585_adjusted.nc"
         ]
     },
     "recipe": {
