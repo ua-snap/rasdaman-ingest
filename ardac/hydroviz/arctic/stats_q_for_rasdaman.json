@@ -11,19 +11,19 @@
     "insitu": false
   },
   "input": {
-    "coverage_id": "ak_hydro_segments_stats",
+    "coverage_id": "ak_hydro_segments_stats_combined",
     "paths": [
-      "stats_q_for_rasdaman.nc"
+      "stats_q_diff_for_rasdaman.nc"
     ]
   },
   "recipe": {
     "name": "general_coverage",
     "options": {
-      "tiling": "REGULAR [0:6, 0:0, 0:1] tile size 1048576",
+      "tiling": "REGULAR [0:6, 0:2, 0:0, 0:1] tile size 1048576",
       "wms_import": false,
       "import_order": "ascending",
       "coverage": {
-        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"stream_id\"@OGC/0/Index1D?axis-label=\"era\"",
+        "crs": "OGC/0/Index1D?axis-label=\"source\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"stream_id\"",
         "metadata": {
           "type": "xml",
           "global": "auto"
@@ -102,21 +102,27 @@
             "model": {
               "min": "${netcdf:variable:model:min}",
               "max": "${netcdf:variable:model:max}",
-              "gridOrder": 0,
+              "gridOrder": 2,
               "resolution": 1
             },
-            "era": {
-              "min": "${netcdf:variable:era:min}",
-              "max": "${netcdf:variable:era:max}",
-              "gridOrder": 2,
+            "source": {
+              "min": "${netcdf:variable:source:min}",
+              "max": "${netcdf:variable:source:max}",
+              "gridOrder": 0,
               "resolution": 1
             },
             "stream_id": {
               "min": "${netcdf:variable:stream_id:min}",
               "max": "${netcdf:variable:stream_id:max}",
-              "gridOrder": 1,
+              "gridOrder": 3,
               "irregular": true,
-	      "directPositions": "${netcdf:variable:stream_id}"
+	            "directPositions": "${netcdf:variable:stream_id}"
+            },
+            "era": {
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "gridOrder": 1,
+              "resolution": 1
             }
           }
         }
