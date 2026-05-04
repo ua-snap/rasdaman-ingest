@@ -91,6 +91,11 @@
               "name": "ma23",
               "identifier": "ma23",
               "nilValue": "nan"
+            },
+            {
+              "name": "ma99",
+              "identifier": "ma99",
+              "nilValue": "nan"
             }
           ],
           "axes": {
