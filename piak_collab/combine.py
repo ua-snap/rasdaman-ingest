@@ -156,11 +156,11 @@ def combine_netcdf_files(input_dir, output_file):
             "Lat": y_coords,
             "Lon": x_coords,
         },
-        name="data",
+        name="mean",
     )
 
     # Create Dataset
-    ds = xr.Dataset({"data": data_array})
+    ds = xr.Dataset({"mean": data_array})
 
     # Add CRS as attribute if available
     if crs:
