@@ -98,9 +98,12 @@ def combine_netcdf_files(input_dir, output_file):
     print(f"Scenarios: {scenarios}")
     print(f"Seasons: {seasons}")
 
-    # Read first file to get spatial dimensions and band count
+    # Read first file to get spatial dimensions
     first_data, x_coords, y_coords, crs = read_netcdf_with_rasterio(str(nc_files[0]))
-    n_bands, n_y, n_x = first_data.shape
+    # Take only the first band if multiple bands exist
+    if first_data.ndim == 3:
+        first_data = first_data[0]
+    n_y, n_x = first_data.shape
 
     # Create empty array for combined data
     combined_shape = (
@@ -108,7 +111,6 @@ def combine_netcdf_files(input_dir, output_file):
         len(positions),
         len(scenarios),
         len(seasons),
-        n_bands,
         n_y,
         n_x,
     )
@@ -127,6 +129,9 @@ def combine_netcdf_files(input_dir, output_file):
 
         # Read data
         data, _, _, _ = read_netcdf_with_rasterio(str(nc_file))
+        # Take only the first band if multiple bands exist
+        if data.ndim == 3:
+            data = data[0]
 
         # Debug: print data statistics
         print(
@@ -134,24 +139,20 @@ def combine_netcdf_files(input_dir, output_file):
         )
 
         # Store in combined array
-        combined_data[model_idx, position_idx, scenario_idx, season_idx, :, :, :] = data
+        combined_data[model_idx, position_idx, scenario_idx, season_idx, :, :] = data
 
     # Create xarray Dataset
     print("Creating xarray Dataset...")
 
-    # Create band dimension (if there are multiple bands)
-    band_coords = np.arange(1, n_bands + 1)
-
     # Create the DataArray
     data_array = xr.DataArray(
         combined_data,
-        dims=["model", "position", "scenario", "season", "band", "Lat", "Lon"],
+        dims=["model", "position", "scenario", "season", "Lat", "Lon"],
         coords={
             "model": models,
             "position": positions,
             "scenario": scenarios,
             "season": seasons,
-            "band": band_coords,
             "Lat": y_coords,
             "Lon": x_coords,
         },
@@ -173,7 +174,7 @@ def combine_netcdf_files(input_dir, output_file):
     print(
         f"Dimensions: model({len(models)}), position({len(positions)}), "
         f"scenario({len(scenarios)}), season({len(seasons)}), "
-        f"band({n_bands}), y({n_y}), x({n_x})"
+        f"y({n_y}), x({n_x})"
     )
 
 
