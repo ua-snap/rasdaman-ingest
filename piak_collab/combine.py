@@ -145,15 +145,15 @@ def combine_netcdf_files(input_dir, output_file):
     # Create the DataArray
     data_array = xr.DataArray(
         combined_data,
-        dims=["model", "position", "scenario", "season", "band", "y", "x"],
+        dims=["model", "position", "scenario", "season", "band", "Lat", "Lon"],
         coords={
             "model": models,
             "position": positions,
             "scenario": scenarios,
             "season": seasons,
             "band": band_coords,
-            "y": y_coords,
-            "x": x_coords,
+            "Lat": y_coords,
+            "Lon": x_coords,
         },
         name="data",
     )
