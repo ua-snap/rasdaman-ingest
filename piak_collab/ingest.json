@@ -30,34 +30,35 @@
             {
               "name": "mean",
               "identifier": "mean",
-              "nilValue": "-9999"
+              "nilValue": "nan"
             }
           ],
           "axes": {
             "model": {
-              "min": "${netcdf:variable:model:min}",
-              "max": "${netcdf:variable:model:max}",
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['ACCESS-CM2']",
+              "max": "luts.models['ACCESS-CM2']",
               "directPositions": "${netcdf:variable:model}",
               "irregular": true,
               "gridOrder": 0
             },
             "scenario": {
-              "min": "${netcdf:variable:scenario:min}",
-              "max": "${netcdf:variable:scenario:max}",
+              "min": "luts.scenarios['ssp126']",
+              "max": "luts.scenarios['ssp585']",
               "directPositions": "${netcdf:variable:scenario}",
               "irregular": true,
               "gridOrder": 1
             },
             "position": {
-              "min": "${netcdf:variable:position:min}",
-              "max": "${netcdf:variable:position:max}",
+              "min": "luts.positions['MID']",
+              "max": "luts.positions['END']",
               "directPositions": "${netcdf:variable:position}",
               "irregular": true,
               "gridOrder": 2
             },
             "season": {
-              "min": "${netcdf:variable:season:min}",
-              "max": "${netcdf:variable:season:max}",
+              "min": "luts.seasons['ANNUAL']",
+              "max": "luts.seasons['WET']",
               "directPositions": "${netcdf:variable:season}",
               "irregular": true,
               "gridOrder": 3
