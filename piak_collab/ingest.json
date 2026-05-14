@@ -6,9 +6,9 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "piak_collab_deltas",
+    "coverage_id": "piak_collab",
     "paths": [
-      "combined_deltas.nc"
+      "combined_mean_and_delta.nc"
     ]
   },
   "recipe": {
@@ -27,6 +27,11 @@
           "type": "netcdf",
           "pixelIsPoint": true,
           "bands": [
+            {
+              "name": "mean",
+              "identifier": "mean",
+              "nilValue": "-9999"
+            },
             {
               "name": "delta",
               "identifier": "delta",
