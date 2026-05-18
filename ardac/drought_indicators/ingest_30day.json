@@ -1,0 +1,130 @@
+{
+    "config": {
+        "service_url": "https://localhost/rasdaman/ows",
+        "tmp_directory": "/tmp/",
+        "crs_resolver": "http://localhost:8080/def/",
+        "default_null_values": ["nan"],
+        "blocking": true,
+        "mock": false,
+        "automated": true,
+        "track_files": true
+    },
+    "input": {
+        "coverage_id": "drought_indicators_30day",
+        "paths": [
+            "/opt/rasdaman-storage/coverage_data/drought_indicators/30day/*.nc"
+        ]
+    },
+    "recipe": {
+        "name": "general_coverage",
+        "options": {
+            "wms_import": true,
+            "import_order": "ascending",
+            "coverage": {
+                "crs": "OGC/0/AnsiDate@EPSG/0/4326",
+                "metadata": {
+                    "type": "xml",
+                    "global": {
+                        "title": "30-day drought indices",
+                        "summary": "Thirty-day drought indicators on a regular elatitude-longitude grid. Each time slice represents drought indicators computed over the 30-day lookback period ending on the reference date.",
+                        "source": "Drought indicator processing workflow ua-snap/nws-drought",
+                        "summary_interval_days": "30",
+                        "coverage_type": "ReferenceableGridCoverage",
+                        "variables": "tp, pntp, swe, pnswe, spi, spei, smd"
+                    },
+                    "local": {
+                        "reference_date": "${netcdf:metadata:reference_date}",
+                        "summary_interval_days": "30",
+                        "ensemble_number": "${netcdf:variable:number:first}"
+                    },
+                    "bands": "auto",
+                    "axes": "auto"
+                },
+                "slicer": {
+                    "type": "netcdf",
+                    "pixelIsPoint": true,
+                    "bands": [
+                        {
+                            "identifier": "tp",
+                            "name": "tp",
+                            "label": "Total precipitation",
+                            "description": "Thirty-day total precipitation ending on the reference date.",
+                            "uom_code": "cm",
+                            "nil_value": "nan"
+                        },
+                        {
+                            "identifier": "pntp",
+                            "name": "pntp",
+                            "label": "Percent normal total precipitation",
+                            "description": "Thirty-day total precipitation expressed as percent of normal.",
+                            "uom_code": "percent",
+                            "nil_value": "nan"
+                        },
+                        {
+                            "identifier": "swe",
+                            "name": "swe",
+                            "label": "Snow water equivalent",
+                            "description": "Snow water equivalent ending on the reference date.",
+                            "uom_code": "cm",
+                            "nil_value": "nan"
+                        },
+                        {
+                            "identifier": "pnswe",
+                            "name": "pnswe",
+                            "label": "Percent normal snow water equivalent",
+                            "description": "Snow water equivalent expressed as percent of normal.",
+                            "uom_code": "percent",
+                            "nil_value": "nan"
+                        },
+                        {
+                            "identifier": "spi",
+                            "name": "spi",
+                            "label": "Standardized Precipitation Index",
+                            "description": "Thirty-day Standardized Precipitation Index.",
+                            "uom_code": "1",
+                            "nil_value": "nan"
+                        },
+                        {
+                            "identifier": "spei",
+                            "name": "spei",
+                            "label": "Standardized Precipitation Evapotranspiration Index",
+                            "description": "Thirty-day Standardized Precipitation Evapotranspiration Index.",
+                            "uom_code": "1",
+                            "nil_value": "nan"
+                        },
+                        {
+                            "identifier": "smd",
+                            "name": "smd",
+                            "label": "Soil moisture deficit",
+                            "description": "Soil moisture deficit expressed as percent.",
+                            "uom_code": "percent",
+                            "nil_value": "nan"
+                        }
+                    ],
+                    "axes": {
+                        "ansi": {
+                            "min": "datetime('${netcdf:metadata:reference_date}', 'YYYY-MM-DD')",
+                            "gridOrder": 0,
+                            "type": "ansidate",
+                            "irregular": true,
+                            "dataBound": false
+                        },
+                        "Lat": {
+                            "min": "${netcdf:variable:latitude:min}",
+                            "max": "${netcdf:variable:latitude:max}",
+                            "resolution": "${netcdf:variable:latitude:resolution}",
+                            "gridOrder": 1
+                        },
+                        "Long": {
+                            "min": "${netcdf:variable:longitude:min}",
+                            "max": "${netcdf:variable:longitude:max}",
+                            "resolution": "${netcdf:variable:longitude:resolution}",
+                            "grid_order": 2
+                        }
+                    }
+                }
+            },
+            "tiling": "ALIGNED [0:0, 0:*, 0:*] TILE SIZE 4194304"
+        }
+    }
+}
