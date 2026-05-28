@@ -13,7 +13,7 @@
   "input": {
     "coverage_id": "ak_hydro_segments_mhit_stats_combined",
     "paths": [
-      "mhit_indices_combined_for_rasdaman.nc"
+      "/opt/rasdaman-storage/coverage_data/ak_hydro_segments_mhit_stats_combined/mhit_indices_combined_for_rasdaman.nc"
     ]
   },
   "recipe": {
