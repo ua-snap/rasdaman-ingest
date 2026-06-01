@@ -10,9 +10,9 @@
     "track_files": true
   },
   "input": {
-    "coverage_id": "drought_indicators_30day",
+    "coverage_id": "drought_indicators_90day",
     "paths": [
-      "/opt/rasdaman-storage/coverage_data/drought_indicators/30day/*.nc"
+      "/opt/rasdaman-storage/coverage_data/drought_indicators/90day/*.nc"
     ]
   },
   "recipe": {
@@ -25,13 +25,13 @@
         "metadata": {
           "type": "xml",
           "global": {
-            "title": "30-day drought indicators",
+            "title": "90-day drought indicators",
             "coverage_type": "ReferenceableGridCoverage",
             "variables": "tp, pntp, swe, pnswe, spi, spei, smd"
           },
           "local": {
             "reference_date": "${netcdf:metadata:reference_date}",
-            "summary_interval_days": "30",
+            "summary_interval_days": "90",
             "ensemble_number": "${netcdf:variable:number:first}"
           },
           "bands": "auto",
