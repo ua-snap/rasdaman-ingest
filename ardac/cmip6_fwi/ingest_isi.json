@@ -6,7 +6,7 @@
     "automated": true
   },
   "input": {
-    "coverage_id": "cmip6_isi",
+    "coverage_id": "cmip6_isi_test",
     "paths": [
       "/opt/rasdaman-storage/coverage_data/cmip6_isi/cmip6_isi_combined.nc"
     ]
