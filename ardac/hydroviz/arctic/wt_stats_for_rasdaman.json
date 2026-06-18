@@ -1,0 +1,287 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "crs_resolver": "https://localhost/def/",
+    "default_null_values": [
+      "nan"
+    ],
+    "mock": false,
+    "automated": true,
+    "insitu": false
+  },
+  "input": {
+    "coverage_id": "ak_hydro_segments_wt_stats",
+    "paths": [
+      "/opt/rasdaman-storage/coverage_data/ak_hydro_segments_wt_stats/wt_stats_for_rasdaman.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "REGULAR [0:6, 0:2, 0:0, 0:1] tile size 1048576",
+      "wms_import": false,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"source\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"stream_id\"",
+        "metadata": {
+          "type": "xml",
+          "global": "auto"
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "wt_days_gt13_mean",
+              "identifier": "wt_days_gt13_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_days_gt18_mean",
+              "identifier": "wt_days_gt18_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_days_gt20_mean",
+              "identifier": "wt_days_gt20_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_jan",
+              "identifier": "wt_mean_jan",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_feb",
+              "identifier": "wt_mean_feb",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_mar",
+              "identifier": "wt_mean_mar",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_apr",
+              "identifier": "wt_mean_apr",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_may",
+              "identifier": "wt_mean_may",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_jun",
+              "identifier": "wt_mean_jun",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_jul",
+              "identifier": "wt_mean_jul",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_aug",
+              "identifier": "wt_mean_aug",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_sep",
+              "identifier": "wt_mean_sep",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_oct",
+              "identifier": "wt_mean_oct",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_nov",
+              "identifier": "wt_mean_nov",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_mean_dec",
+              "identifier": "wt_mean_dec",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_jan",
+              "identifier": "wt_min_jan",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_feb",
+              "identifier": "wt_min_feb",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_mar",
+              "identifier": "wt_min_mar",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_apr",
+              "identifier": "wt_min_apr",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_may",
+              "identifier": "wt_min_may",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_jun",
+              "identifier": "wt_min_jun",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_jul",
+              "identifier": "wt_min_jul",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_aug",
+              "identifier": "wt_min_aug",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_sep",
+              "identifier": "wt_min_sep",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_oct",
+              "identifier": "wt_min_oct",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_nov",
+              "identifier": "wt_min_nov",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_min_dec",
+              "identifier": "wt_min_dec",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_jan",
+              "identifier": "wt_max_jan",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_feb",
+              "identifier": "wt_max_feb",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_mar",
+              "identifier": "wt_max_mar",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_apr",
+              "identifier": "wt_max_apr",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_may",
+              "identifier": "wt_max_may",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_jun",
+              "identifier": "wt_max_jun",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_jul",
+              "identifier": "wt_max_jul",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_aug",
+              "identifier": "wt_max_aug",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_sep",
+              "identifier": "wt_max_sep",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_oct",
+              "identifier": "wt_max_oct",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_nov",
+              "identifier": "wt_max_nov",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_max_dec",
+              "identifier": "wt_max_dec",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_ann_max_temp_mean",
+              "identifier": "wt_ann_max_temp_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_ann_max_temp_doy_mean",
+              "identifier": "wt_ann_max_temp_doy_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_7d_max_temp_mean",
+              "identifier": "wt_7d_max_temp_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_7d_max_temp_doy_mean",
+              "identifier": "wt_7d_max_temp_doy_mean",
+              "nilValue": "nan"
+            },
+            {
+              "name": "wt_cdd_may_sept_mean",
+              "identifier": "wt_cdd_may_sept_mean",
+              "nilValue": "nan"
+            }
+          ],
+          "axes": {
+            "model": {
+              "min": "${netcdf:variable:model:min}",
+              "max": "${netcdf:variable:model:max}",
+              "gridOrder": 2,
+              "resolution": 1
+            },
+            "source": {
+              "min": "${netcdf:variable:source:min}",
+              "max": "${netcdf:variable:source:max}",
+              "gridOrder": 0,
+              "resolution": 1
+            },
+            "stream_id": {
+              "min": "${netcdf:variable:stream_id:min}",
+              "max": "${netcdf:variable:stream_id:max}",
+              "gridOrder": 3,
+              "irregular": true,
+	            "directPositions": "${netcdf:variable:stream_id}"
+            },
+            "era": {
+              "min": "${netcdf:variable:era:min}",
+              "max": "${netcdf:variable:era:max}",
+              "gridOrder": 1,
+              "resolution": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
