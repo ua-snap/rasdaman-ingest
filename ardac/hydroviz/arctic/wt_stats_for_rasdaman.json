@@ -13,7 +13,7 @@
   "input": {
     "coverage_id": "ak_hydro_segments_wt_stats",
     "paths": [
-      "wt_stats_for_rasdaman_05282026.nc"
+      "/opt/rasdaman-storage/coverage_data/ak_hydro_segments_wt_stats/wt_stats_for_rasdaman.nc"
     ]
   },
   "recipe": {
