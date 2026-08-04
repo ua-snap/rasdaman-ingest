@@ -48,14 +48,14 @@
               "gridOrder": 0
             },
             "scenario": {
-              "min": "luts.scenarios['ssp126']",
+              "min": "luts.scenarios['HIST']",
               "max": "luts.scenarios['ssp585']",
               "directPositions": "list(luts.scenarios.values())",
               "irregular": true,
-              "gridOrder": 3
+              "gridOrder": 1
             },
             "position": {
-              "min": "luts.positions['MID']",
+              "min": "luts.positions['HIST']",
               "max": "luts.positions['END']",
               "directPositions": "list(luts.positions.values())",
               "irregular": true,
