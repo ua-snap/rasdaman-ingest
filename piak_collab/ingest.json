@@ -8,7 +8,7 @@
   "input": {
     "coverage_id": "piak_collab",
     "paths": [
-      "combined_mean_and_delta.nc"
+      "combined_mean_and_deltas.nc"
     ]
   },
   "recipe": {
@@ -33,8 +33,13 @@
               "nilValue": "-9999"
             },
             {
-              "name": "delta",
-              "identifier": "delta",
+              "name": "delta_pct",
+              "identifier": "delta_pct",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "delta_abs",
+              "identifier": "delta_abs",
               "nilValue": "-9999"
             }
           ],
@@ -42,7 +47,7 @@
             "model": {
               "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
               "min": "luts.models['ACCESS-CM2']",
-              "max": "luts.models['ACCESS-CM2']",
+              "max": "luts.models['UKESM1-0-LL']",
               "directPositions": "list(luts.models.values())",
               "irregular": true,
               "gridOrder": 0
@@ -52,14 +57,14 @@
               "max": "luts.scenarios['ssp585']",
               "directPositions": "list(luts.scenarios.values())",
               "irregular": true,
-              "gridOrder": 1
+              "gridOrder": 2
             },
             "position": {
               "min": "luts.positions['HIST']",
               "max": "luts.positions['END']",
               "directPositions": "list(luts.positions.values())",
               "irregular": true,
-              "gridOrder": 2
+              "gridOrder": 1
             },
             "season": {
               "min": "luts.seasons['ANNUAL']",
