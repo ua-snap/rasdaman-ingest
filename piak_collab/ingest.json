@@ -8,7 +8,7 @@
   "input": {
     "coverage_id": "piak_collab",
     "paths": [
-      "combined_mean_and_deltas.nc"
+      "/opt/rasdaman-storage/coverage_data/piak_collab/combined_mean_and_deltas.nc"
     ]
   },
   "recipe": {
