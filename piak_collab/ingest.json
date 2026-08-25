@@ -89,5 +89,61 @@
         }
       }
     }
-  }
+  },
+  "hooks": [
+    {
+          "description": "Create mean style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=mean&ABSTRACT=mean&WCPSQUERYFRAGMENT=%24c.mean&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,233,255],\\\"2\\\":[186,228,179,255],\\\"4\\\":[116,196,118,255],\\\"6\\\":[49,163,84,255],\\\"8\\\":[0,109,44,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_pct style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_pct&ABSTRACT=delta_pct&WCPSQUERYFRAGMENT=%24c.delta_pct&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-100\\\":[237,248,233,255],\\\"0\\\":[186,228,179,255],\\\"10\\\":[116,196,118,255],\\\"20\\\":[49,163,84,255],\\\"30\\\":[0,109,44,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_abs style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs&ABSTRACT=delta_abs&WCPSQUERYFRAGMENT=%24c.delta_abs&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-5\\\":[237,248,233,255],\\\"0\\\":[186,228,179,255],\\\"0.5\\\":[116,196,118,255],\\\"1\\\":[49,163,84,255],\\\"1.5\\\":[0,109,44,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create mean_range style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=mean_range&ABSTRACT=mean_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"2\\\":[204,204,204,255],\\\"4\\\":[150,150,150,255],\\\"6\\\":[99,99,99,255],\\\"8\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_pct_range style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_pct_range&ABSTRACT=delta_pct_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"15\\\":[204,204,204,255],\\\"30\\\":[150,150,150,255],\\\"45\\\":[99,99,99,255],\\\"60\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_abs_range style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs_range&ABSTRACT=delta_abs_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"1\\\":[204,204,204,255],\\\"2\\\":[150,150,150,255],\\\"3\\\":[99,99,99,255],\\\"4\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create mean_range_8models style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=mean_range_8models&ABSTRACT=mean_range_8models&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"2\\\":[204,204,204,255],\\\"4\\\":[150,150,150,255],\\\"6\\\":[99,99,99,255],\\\"8\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_pct_range_8models style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_pct_range_8models&ABSTRACT=delta_pct_range_8models&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"15\\\":[204,204,204,255],\\\"30\\\":[150,150,150,255],\\\"45\\\":[99,99,99,255],\\\"60\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_abs_range_8models style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs_range_8models&ABSTRACT=delta_abs_range_8models&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"1\\\":[204,204,204,255],\\\"2\\\":[150,150,150,255],\\\"3\\\":[99,99,99,255],\\\"4\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    }
+  ]
 }
