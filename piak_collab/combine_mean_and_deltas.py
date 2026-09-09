@@ -370,8 +370,8 @@ def combine_netcdf_files(deltas_dir, means_dir):
 
 if __name__ == "__main__":
     # Set paths
-    deltas_dir = "deltas"
-    means_dir = "means"
+    deltas_dir = "source_files/deltas"
+    means_dir = "source_files/means"
 
     # Combine files
     combine_netcdf_files(deltas_dir, means_dir)
