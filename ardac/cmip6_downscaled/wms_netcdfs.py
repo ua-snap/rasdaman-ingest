@@ -9,14 +9,14 @@ os.makedirs(output_dir, exist_ok=True)
 layers = {
     "tasmax": [
         {
-            "model": "6ModelAvg",
+            "model": "7ModelAvg",
             "scenario": "historical",
             "start_date": "2000-07-01",
             "end_date": "2000-07-31",
             "method": "mean",
         },
         {
-            "model": "6ModelAvg",
+            "model": "7ModelAvg",
             "scenario": "ssp585",
             "start_date": "2100-07-01",
             "end_date": "2100-07-31",
@@ -39,14 +39,14 @@ layers = {
     ],
     "tasmin": [
         {
-            "model": "6ModelAvg",
+            "model": "7ModelAvg",
             "scenario": "historical",
             "start_date": "2000-01-01",
             "end_date": "2000-01-31",
             "method": "mean",
         },
         {
-            "model": "6ModelAvg",
+            "model": "7ModelAvg",
             "scenario": "ssp585",
             "start_date": "2100-01-01",
             "end_date": "2100-01-31",
@@ -69,14 +69,14 @@ layers = {
     ],
     "pr": [
         {
-            "model": "6ModelAvg",
+            "model": "7ModelAvg",
             "scenario": "historical",
             "start_date": "2000-08-01",
             "end_date": "2000-08-31",
             "method": "sum",
         },
         {
-            "model": "6ModelAvg",
+            "model": "7ModelAvg",
             "scenario": "ssp585",
             "start_date": "2100-08-01",
             "end_date": "2100-08-31",
