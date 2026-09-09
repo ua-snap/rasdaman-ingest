@@ -126,24 +126,6 @@
           "when": "after_import",
           "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs_range&ABSTRACT=delta_abs_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"1\\\":[204,204,204,255],\\\"2\\\":[150,150,150,255],\\\"3\\\":[99,99,99,255],\\\"4\\\":[37,37,37,255]}}\"",
           "abort_on_error": true
-    },
-    {
-          "description": "Create mean_range_8models style for PI-AK Collaboration webapp",
-          "when": "after_import",
-          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=mean_range_8models&ABSTRACT=mean_range_8models&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"2\\\":[204,204,204,255],\\\"4\\\":[150,150,150,255],\\\"6\\\":[99,99,99,255],\\\"8\\\":[37,37,37,255]}}\"",
-          "abort_on_error": true
-    },
-    {
-          "description": "Create delta_pct_range_8models style for PI-AK Collaboration webapp",
-          "when": "after_import",
-          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_pct_range_8models&ABSTRACT=delta_pct_range_8models&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"15\\\":[204,204,204,255],\\\"30\\\":[150,150,150,255],\\\"45\\\":[99,99,99,255],\\\"60\\\":[37,37,37,255]}}\"",
-          "abort_on_error": true
-    },
-    {
-          "description": "Create delta_abs_range_8models style for PI-AK Collaboration webapp",
-          "when": "after_import",
-          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs_range_8models&ABSTRACT=delta_abs_range_8models&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20where%20%24m%20%3D%200%20or%20%24m%20%3D%204%20or%20%24m%20%3D%209%20or%20%24m%20%3D%2013%20or%20%24m%20%3D%2017%20or%20%24m%20%3D%2021%20or%20%24m%20%3D%2025%20or%20%24m%20%3D%2029%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"1\\\":[204,204,204,255],\\\"2\\\":[150,150,150,255],\\\"3\\\":[99,99,99,255],\\\"4\\\":[37,37,37,255]}}\"",
-          "abort_on_error": true
     }
   ]
 }
