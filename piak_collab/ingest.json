@@ -1,0 +1,131 @@
+{
+  "config": {
+    "service_url": "https://localhost/rasdaman/ows",
+    "tmp_directory": "/tmp/",
+    "mock": false,
+    "automated": true
+  },
+  "input": {
+    "coverage_id": "piak_collab",
+    "paths": [
+      "/opt/rasdaman-storage/coverage_data/piak_collab/combined_mean_and_deltas.nc"
+    ]
+  },
+  "recipe": {
+    "name": "general_coverage",
+    "options": {
+      "tiling": "ALIGNED [0:*, 0:*, 0:*, 0:*, 0:*, 0:*] tile size 4194304",
+      "wms_import": true,
+      "import_order": "ascending",
+      "coverage": {
+        "crs": "OGC/0/Index1D?axis-label=\"model\"@OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"position\"@OGC/0/Index1D?axis-label=\"season\"@EPSG/0/4326",
+        "metadata": {
+          "type": "xml",
+          "global": "auto"
+        },
+        "slicer": {
+          "type": "netcdf",
+          "pixelIsPoint": true,
+          "bands": [
+            {
+              "name": "mean",
+              "identifier": "mean",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "delta_pct",
+              "identifier": "delta_pct",
+              "nilValue": "-9999"
+            },
+            {
+              "name": "delta_abs",
+              "identifier": "delta_abs",
+              "nilValue": "-9999"
+            }
+          ],
+          "axes": {
+            "model": {
+              "statements": "import imp, os; luts = imp.load_source('luts', os.getenv('LUTS_PATH'));",
+              "min": "luts.models['ACCESS-CM2']",
+              "max": "luts.models['UKESM1-0-LL']",
+              "directPositions": "list(luts.models.values())",
+              "irregular": true,
+              "gridOrder": 0
+            },
+            "scenario": {
+              "min": "luts.scenarios['HIST']",
+              "max": "luts.scenarios['ssp585']",
+              "directPositions": "list(luts.scenarios.values())",
+              "irregular": true,
+              "gridOrder": 2
+            },
+            "position": {
+              "min": "luts.positions['HIST']",
+              "max": "luts.positions['END']",
+              "directPositions": "list(luts.positions.values())",
+              "irregular": true,
+              "gridOrder": 1
+            },
+            "season": {
+              "min": "luts.seasons['ANNUAL']",
+              "max": "luts.seasons['WET']",
+              "directPositions": "list(luts.seasons.values())",
+              "irregular": true,
+              "gridOrder": 3
+            },
+            "Lon": {
+              "min": "${netcdf:variable:Lon:min}",
+              "max": "${netcdf:variable:Lon:max}",
+              "resolution": "${netcdf:variable:Lon:resolution}",
+              "gridOrder": 5
+            },
+            "Lat": {
+              "min": "${netcdf:variable:Lat:min}",
+              "max": "${netcdf:variable:Lat:max}",
+              "resolution": "${netcdf:variable:Lat:resolution}",
+              "gridOrder": 4
+            }
+          }
+        }
+      }
+    }
+  },
+  "hooks": [
+    {
+          "description": "Create mean style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=mean&ABSTRACT=mean&WCPSQUERYFRAGMENT=%24c.mean&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[237,248,233,255],\\\"2\\\":[186,228,179,255],\\\"4\\\":[116,196,118,255],\\\"6\\\":[49,163,84,255],\\\"8\\\":[0,109,44,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_pct style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_pct&ABSTRACT=delta_pct&WCPSQUERYFRAGMENT=%24c.delta_pct&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-100\\\":[237,248,233,255],\\\"0\\\":[186,228,179,255],\\\"10\\\":[116,196,118,255],\\\"20\\\":[49,163,84,255],\\\"30\\\":[0,109,44,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_abs style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs&ABSTRACT=delta_abs&WCPSQUERYFRAGMENT=%24c.delta_abs&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"-5\\\":[237,248,233,255],\\\"0\\\":[186,228,179,255],\\\"0.5\\\":[116,196,118,255],\\\"1\\\":[49,163,84,255],\\\"1.5\\\":[0,109,44,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create mean_range style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=mean_range&ABSTRACT=mean_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.mean%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"2\\\":[204,204,204,255],\\\"4\\\":[150,150,150,255],\\\"6\\\":[99,99,99,255],\\\"8\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_pct_range style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_pct_range&ABSTRACT=delta_pct_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_pct%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"15\\\":[204,204,204,255],\\\"30\\\":[150,150,150,255],\\\"45\\\":[99,99,99,255],\\\"60\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    },
+    {
+          "description": "Create delta_abs_range style for PI-AK Collaboration webapp",
+          "when": "after_import",
+          "cmd": ". /etc/default/rasdaman; curl --user $RASCURL \"https://datacubes.earthmaps.io/rasdaman/admin/layer/style/add?COVERAGEID=piak_collab&STYLEID=delta_abs_range&ABSTRACT=delta_abs_range&WCPSQUERYFRAGMENT=%28condense%20max%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29%20-%20%28condense%20min%20over%20%24m%20model%280%3A29%29%20using%20%24c.delta_abs%5Bmodel%28%24m%29%5D%29&COLORTABLETYPE=ColorMap&\" --data-urlencode \"COLORTABLEDEFINITION={\\\"type\\\":\\\"intervals\\\",\\\"colorTable\\\":{\\\"0\\\":[247,247,247,255],\\\"1\\\":[204,204,204,255],\\\"2\\\":[150,150,150,255],\\\"3\\\":[99,99,99,255],\\\"4\\\":[37,37,37,255]}}\"",
+          "abort_on_error": true
+    }
+  ]
+}

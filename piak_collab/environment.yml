@@ -1,0 +1,8 @@
+name: piak-collab
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - xarray
+  - numpy
+  - netcdf4
