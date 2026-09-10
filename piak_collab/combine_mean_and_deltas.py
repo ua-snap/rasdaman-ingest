@@ -14,7 +14,7 @@ def parse_delta_filename(filename):
     # Split by underscore
     parts = name.split("_")
 
-    if len(parts) >= 5:
+    if len(parts) > 5:
         model = parts[0]
         season = parts[1]
         # Skip parts[2] which is "delta"
