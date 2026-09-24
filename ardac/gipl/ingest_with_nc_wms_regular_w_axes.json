@@ -103,7 +103,8 @@
               "max": "netCDF4.num2date(${netcdf:variable:time:max}, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\")",
               "directPositions": "[netCDF4.num2date(x, '${netcdf:variable:time:units}', calendar='standard').strftime(\"%Y-%m-%dT%H:%M\") for x in ${netcdf:variable:time}]",
               "gridOrder": 0,
-              "type": "ansidate"
+              "type": "ansidate",
+              "irregular": true
             },
             "X": {
               "min": "${netcdf:variable:x:min}",
