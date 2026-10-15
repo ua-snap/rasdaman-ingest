@@ -1,7 +1,7 @@
 """Lookup tables for encoding the string dimensions of the CMIP6/WRF climatologies
 NetCDF as integers for Rasdaman. wcst_import can only build numeric Index1D axes,
 so each string coordinate is replaced with the integer below and the reverse
-mapping is stored in the coordinate's `encoding` attribute (see make_rasdaman_netcdf.py).
+mapping is stored in the coordinate's `encoding` attribute (see make_rasdaman_netcdfs.py).
 
 Integer values are permanent: never renumber an existing entry, only append.
 """

@@ -12,7 +12,7 @@
   "input": {
     "coverage_id": "cmip6_wrf_climatologies_tmax_daily_wcs_crstephenson",
     "paths": [
-      "split/cmip6_wrf_climatologies_tmax_daily_rasdaman_y*.nc"
+      "split/cmip6_wrf_climatologies_tmax_daily_wcs_y*.nc"
     ]
   },
   "recipe": {
