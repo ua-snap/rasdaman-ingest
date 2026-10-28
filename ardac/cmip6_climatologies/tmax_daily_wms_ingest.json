@@ -20,7 +20,7 @@
     "options": {
       "wms_import": true,
       "import_order": "ascending",
-      "tiling": "ALIGNED [0:0, 0:0, 0:364, 0:52, 0:52] tile size 4194304",
+      "tiling": "ALIGNED [0:0, 0:0, 0:*, 0:*, 0:*] tile size 4194304",
       "coverage": {
         "crs": "OGC/0/Index1D?axis-label=\"scenario\"@OGC/0/Index1D?axis-label=\"era\"@OGC/0/Index1D?axis-label=\"dayofyear\"@EPSG/0/3338",
         "metadata": {
